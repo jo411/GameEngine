@@ -1,10 +1,8 @@
 #include "SimpleString.h"
 #include <malloc.h>
 
-
-
 SimpleString::SimpleString()
-{
+{	
 	length = 1;
 	string =(char*) malloc(sizeof(char) * length);
 	nullTerminate();
@@ -22,12 +20,20 @@ SimpleString& SimpleString::operator=(const SimpleString& rightSide)
 
 SimpleString::SimpleString(const SimpleString& other)
 {
-	copyString(other);
+	copyString(other);	
 }
 
 SimpleString::SimpleString(const char* string)
 {
-	
+	int len = 0;
+	int i = 0;
+	while (string[i] != '\0')
+	{
+		len++;
+	} 
+	len++;
+	string = (char*)malloc(sizeof(char)*len);
+
 }
 
 SimpleString::~SimpleString()
@@ -45,7 +51,7 @@ void SimpleString::copyString(const SimpleString& other)
 {
 	free(string);
 	string = NULL;
-	length = other.getLength + 1;
+	length = other.getLength() + 1;
 	string = (char*)malloc(sizeof(char) * length);
 
 	for (int i = 0; i < length; i++)
@@ -54,7 +60,7 @@ void SimpleString::copyString(const SimpleString& other)
 	}
 }
 
-int SimpleString::getLength()
+int SimpleString::getLength() const
 {
 	return length-1;//ignore null terminator
 }

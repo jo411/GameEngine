@@ -16,6 +16,6 @@ public:
 	SimpleString(const char* string);
 	SimpleString& operator=(const SimpleString& other);
 	
-	int getLength();
+	int getLength() const;
 };
 
