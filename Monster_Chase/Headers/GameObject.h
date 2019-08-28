@@ -7,12 +7,12 @@ class GameObject
 {
 	ListPointer* components;
 public:
-	SimpleString name;
+	SimpleString* name;
 	Vector2 position;
 	void addComponent(Component* newComponent);
 	void RemoveComponent(GameObject* go);
 	bool enabled = true;
-	void update();
+	void update(UpdateParams* params);
 	GameObject();
 	~GameObject();
 };

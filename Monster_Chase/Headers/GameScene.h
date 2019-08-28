@@ -9,6 +9,6 @@ public:
 	~GameScene();
 	GameObject* CreateGameObject();
 	void RemoveGameObject(GameObject* go);
-	void update();
+	void update(UpdateParams* params);
 };
 

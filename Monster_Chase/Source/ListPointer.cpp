@@ -70,7 +70,7 @@ ListPointer::~ListPointer()
 {
 	for (int i = 0; i < objectCount; i++)
 	{
-		free(objects[i]);
+		delete objects[i];
 	}
 
 	free(objects);

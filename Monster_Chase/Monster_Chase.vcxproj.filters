@@ -33,6 +33,15 @@
     <ClInclude Include="Headers\ListPointer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Components\Talker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\UpdateParams.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\PlayerController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Monster_Chase.cpp">
@@ -56,7 +65,13 @@
     <ClCompile Include="Source\ListPointer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\LeakTest.cpp">
+    <ClCompile Include="Components\Talker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UpdateParams.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\PlayerController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -16,7 +16,7 @@ GameScene::~GameScene()
 
 GameObject* GameScene::CreateGameObject()
 {
-	GameObject* newGameObject =(GameObject*) malloc(sizeof(GameObject));
+	GameObject* newGameObject =new GameObject();
 	
 	scene->add(newGameObject);
 
@@ -30,14 +30,14 @@ void GameScene::RemoveGameObject(GameObject * gameObject)
 	
 }
 
-void GameScene::update()
+void GameScene::update(UpdateParams* params)
 {
-	for (int i = 0; i < scene->count(); i++)
+	for (int i = 0; i <= scene->count(); i++)
 	{
 		GameObject* obj =((GameObject*)(scene->getAt(i)));
 		if (obj->enabled)
 		{
-			obj->update();
+			obj->update(params);
 		}
 	}
 }

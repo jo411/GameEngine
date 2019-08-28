@@ -14,10 +14,12 @@ public:
 
 	SimpleString();
 	~SimpleString();
+	char* getCharArray();
 	SimpleString(const SimpleString& other);
 	SimpleString(const char* string);
 	SimpleString& operator=(const SimpleString& other);
 	friend std::ostream& operator<<(std::ostream& os, const SimpleString ss);
+	void fromCharArray(const char* newString);
 	
 	int getLength() const;
 };

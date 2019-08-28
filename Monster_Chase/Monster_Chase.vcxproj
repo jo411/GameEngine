@@ -161,9 +161,12 @@
     <ClInclude Include="Headers\SimpleString.h" />
     <ClInclude Include="Headers\Vector2.h" />
     <ClInclude Include="Headers\ListPointer.h" />
+    <ClInclude Include="Components\Talker.h" />
+    <ClInclude Include="Headers\UpdateParams.h" />
+    <ClInclude Include="Components\PlayerController.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\LeakTest.cpp" />
+    <ClCompile Include="Components\PlayerController.cpp" />
     <ClCompile Include="Source\ListPointer.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
@@ -171,6 +174,8 @@
     <ClCompile Include="Monster_Chase.cpp" />
     <ClCompile Include="Source\SimpleString.cpp" />
     <ClCompile Include="Source\Vector2.cpp" />
+    <ClCompile Include="Components\Talker.cpp" />
+    <ClCompile Include="Source\UpdateParams.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -18,34 +18,44 @@ SimpleString& SimpleString::operator=(const SimpleString& rightSide)
 	return *this;
 }
 
+void SimpleString::fromCharArray(const char * newString)
+{
+	int len = 0;
+	int i = 0;
+	while (newString[i] != '\0')
+	{
+		len++;
+		i++;
+	}
+	len++;
+	string = (char*)malloc(sizeof(char)*len);
+
+	for (int j = 0; j < len; j++)
+	{
+		string[j] = newString[j];
+	}
+	length = len;
+}
+
 SimpleString::SimpleString(const SimpleString& other)
 {
 	string = NULL;
 	copyString(other);	
 }
 
-SimpleString::SimpleString(const char* stringNew)
+SimpleString::SimpleString(const char* newString)
 {
-	int len = 0;
-	int i = 0;
-	while (stringNew[i] != '\0')
-	{
-		len++;
-		i++;
-	} 
-	len++;
-	string = (char*)malloc(sizeof(char)*len);
-
-	for (int j = 0; j < len; j++)
-	{
-		string[j] = stringNew[j];
-	}
-	length = len;
+	fromCharArray(newString);
 }
 
 SimpleString::~SimpleString()
 {
 	free(string);
+}
+
+char * SimpleString::getCharArray()
+{
+	return string;
 }
 
 void SimpleString::nullTerminate()
