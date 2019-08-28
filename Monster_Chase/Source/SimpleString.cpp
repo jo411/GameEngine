@@ -1,6 +1,6 @@
 #include "SimpleString.h"
 #include <malloc.h>
-
+#include <iostream>
 SimpleString::SimpleString()
 {	
 	length = 1;
@@ -20,20 +20,27 @@ SimpleString& SimpleString::operator=(const SimpleString& rightSide)
 
 SimpleString::SimpleString(const SimpleString& other)
 {
+	string = NULL;
 	copyString(other);	
 }
 
-SimpleString::SimpleString(const char* string)
+SimpleString::SimpleString(const char* stringNew)
 {
 	int len = 0;
 	int i = 0;
-	while (string[i] != '\0')
+	while (stringNew[i] != '\0')
 	{
 		len++;
+		i++;
 	} 
 	len++;
 	string = (char*)malloc(sizeof(char)*len);
 
+	for (int j = 0; j < len; j++)
+	{
+		string[j] = stringNew[j];
+	}
+	length = len;
 }
 
 SimpleString::~SimpleString()
@@ -68,7 +75,7 @@ int SimpleString::getLength() const
 
 void SimpleString::append(char newChar)
 {
-	realloc(string, sizeof(char) * length + 1);
+	string =(char*)realloc(string, sizeof(char) * length + 1);
 	string[length-1] = newChar;
 	length++;
 	nullTerminate();
@@ -86,3 +93,8 @@ char SimpleString::charAt(int index) const
 	}
 }
 
+std::ostream & operator<<(std::ostream & os, const SimpleString ss)
+{
+	os << ss.string;
+	return os;
+}

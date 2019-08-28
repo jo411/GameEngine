@@ -158,7 +158,6 @@
     <ClInclude Include="Headers\Component.h" />
     <ClInclude Include="Headers\GameObject.h" />
     <ClInclude Include="Headers\GameScene.h" />
-    <ClInclude Include="pch.h" />
     <ClInclude Include="Headers\SimpleString.h" />
     <ClInclude Include="Headers\Vector2.h" />
   </ItemGroup>
@@ -167,12 +166,6 @@
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\GameScene.cpp" />
     <ClCompile Include="Monster_Chase.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="Source\SimpleString.cpp" />
     <ClCompile Include="Source\Vector2.cpp" />
   </ItemGroup>

@@ -1,8 +1,8 @@
 #include <iostream>
 #include "conio.h"
+#include "SimpleString.h"
 int main()
 {
-    std::cout << "Hello World!\n";
 	_getch();
 }
  
