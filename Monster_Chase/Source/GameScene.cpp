@@ -1,70 +1,43 @@
 #include "GameScene.h"
 #include "malloc.h"
+#include "ListPointer.h"
 
+//TODO: actually use the rule of three
 
 GameScene::GameScene()
 {	
-	objects = (GameObject**)malloc(sizeof(GameObject*));
-	objects[0] = nullptr;	 
-	objectPointer = 0;
-	objectCount = 1;
+	scene = new ListPointer();
 }
 
 GameScene::~GameScene()
 {
-	//Free each gameobject
-	for (int i = 0; i < objectCount; i++)
-	{
-		free (objects[i]);
-	}
-
-	free(objects);
+	delete scene;
 }
 
-GameObject* GameScene::CreateGameObject(Vector2 position)
+GameObject* GameScene::CreateGameObject()
 {
 	GameObject* newGameObject =(GameObject*) malloc(sizeof(GameObject));
-	objects[objectPointer] = newGameObject;	
-	objectPointer++;
-	if (objectPointer >= objectCount)
-	{
-		growScene();
-	}
+	
+	scene->add(newGameObject);
+
 	return newGameObject;
+
 }
 
-void GameScene::RemoveGameObject(GameObject * go)
+void GameScene::RemoveGameObject(GameObject * gameObject)
 {
-
-	for (int i = 0; i < objectCount; i++)
-	{
-		if (objects[i] == go)
-		{
-			free(objects[i]);			
-			objects[i] = objects[objectPointer - 1];
-			objects[objectPointer - 1] = nullptr;			
-			objectPointer--;
-			break;
-		}
-	}
+	scene->remove(gameObject);
+	
 }
 
 void GameScene::update()
 {
-	for (int i = 0; i < objectPointer; i++)
+	for (int i = 0; i < scene->count(); i++)
 	{
-		(*(objects[i])).update();
-	}
-}
-
-
-void GameScene::growScene()
-{
-	objectCount += GROWTH_COUNT;
-	objects = (GameObject**)realloc(objects, sizeof(GameObject*)*objectCount);
-
-	for (int i = objectPointer; i < objectCount; i++)
-	{
-		objects[i] = nullptr;
+		GameObject* obj =((GameObject*)(scene->getAt(i)));
+		if (obj->enabled)
+		{
+			obj->update();
+		}
 	}
 }

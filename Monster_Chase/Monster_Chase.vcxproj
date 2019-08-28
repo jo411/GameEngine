@@ -160,8 +160,11 @@
     <ClInclude Include="Headers\GameScene.h" />
     <ClInclude Include="Headers\SimpleString.h" />
     <ClInclude Include="Headers\Vector2.h" />
+    <ClInclude Include="Headers\ListPointer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\LeakTest.cpp" />
+    <ClCompile Include="Source\ListPointer.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\GameScene.cpp" />
