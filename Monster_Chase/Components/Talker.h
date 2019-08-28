@@ -6,6 +6,7 @@ public:
 	Talker();
 	~Talker();
 	void update(UpdateParams* params);
+	void draw(UpdateParams* params);
 	void onAddToObject();
 };
 

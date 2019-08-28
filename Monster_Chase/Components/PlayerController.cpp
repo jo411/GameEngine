@@ -28,6 +28,10 @@ void PlayerController::update(UpdateParams * params)
 	}
 }
 
+void PlayerController::draw(UpdateParams * params)
+{
+}
+
 void PlayerController::onAddToObject()
 {
 }

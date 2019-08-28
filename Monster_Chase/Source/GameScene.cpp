@@ -41,3 +41,15 @@ void GameScene::update(UpdateParams* params)
 		}
 	}
 }
+
+void GameScene::draw(UpdateParams* params)
+{
+	for (int i = 0; i <= scene->count(); i++)
+	{
+		GameObject* obj = ((GameObject*)(scene->getAt(i)));
+		if (obj->enabled)
+		{
+			obj->draw(params);
+		}
+	}
+}

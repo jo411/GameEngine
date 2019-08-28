@@ -13,6 +13,7 @@ public:
 	void RemoveComponent(GameObject* go);
 	bool enabled = true;
 	void update(UpdateParams* params);
+	void draw(UpdateParams* params);
 	GameObject();
 	~GameObject();
 };

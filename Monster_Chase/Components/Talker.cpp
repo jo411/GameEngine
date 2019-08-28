@@ -10,9 +10,12 @@ Talker::~Talker()
 {
 }
 
-void Talker::update(UpdateParams* params)
+void Talker::draw(UpdateParams * params)
 {
 	std::cout << ((SimpleString)(*gameObject->name)) << " is at " << gameObject->position.x << " , " << gameObject->position.y << "\n";
+}
+void Talker::update(UpdateParams* params)
+{	
 }
 
 void Talker::onAddToObject()

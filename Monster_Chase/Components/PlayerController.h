@@ -6,6 +6,7 @@ public:
 	PlayerController();
 	~PlayerController();
 	void update(UpdateParams* params);
+	void draw(UpdateParams* params);
 	void onAddToObject();
 };
 

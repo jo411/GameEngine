@@ -55,6 +55,7 @@ int main()
 	{
 		std::cout << "Use WASD keys to move. At any time press 'q' to quit.\n";
 		Scene.update(&params);
+		Scene.draw(&params);
 	} while ((params.keyPressed = _getch()) != 'q');
 }
  

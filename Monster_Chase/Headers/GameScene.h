@@ -10,5 +10,6 @@ public:
 	GameObject* CreateGameObject();
 	void RemoveGameObject(GameObject* go);
 	void update(UpdateParams* params);
+	void draw(UpdateParams* params);
 };
 
