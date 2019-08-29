@@ -4,6 +4,7 @@ void GameObject::addComponent(Component * newComponent)
 {
 	newComponent->registerGameObject(this);
 	components->add(newComponent);
+	newComponent->onAddToObject();
 }
 
 void GameObject::RemoveComponent(GameObject * go)
@@ -35,15 +36,17 @@ void GameObject::draw(UpdateParams * params)
 	}
 }
 
-GameObject::GameObject()
+GameObject::GameObject(GameScene* scene)
 {
 	position.x=0;
 	position.y = 0;
-	components = new ListPointer();
+	components = new ListPointer(0);
 	name = new SimpleString();
+	this->scene = scene;
 }
 
 GameObject::~GameObject()
 {
 	delete components;
+	delete name;
 }

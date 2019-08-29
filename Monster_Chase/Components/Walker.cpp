@@ -1,0 +1,42 @@
+#include "Walker.h"
+#include "GameObject.h"
+Walker::Walker(int speed)
+{
+	this->speed = speed;
+}
+
+
+Walker::~Walker()
+{
+}
+
+void Walker::update(UpdateParams * params)
+{
+	if (rand() % 101 >= 50)
+	{
+		gameObject->position.x += getWalkDistance();
+	}
+	else
+	{
+		gameObject->position.y += getWalkDistance();
+	}	
+	
+}
+
+void Walker::draw(UpdateParams * params)
+{
+}
+
+void Walker::onAddToObject()
+{
+}
+
+int Walker::getWalkDistance()
+{
+	int multiply = 1;
+	if (rand() % 100 + 1 >= 50)
+	{
+		multiply = -1;
+	}
+	return speed * multiply;
+}

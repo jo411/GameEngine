@@ -1,6 +1,8 @@
 #include "ListPointer.h"
 #include "malloc.h"
-
+#include "Component.h"
+#include "GameObject.h"
+#include <iostream>
 
 
 void ListPointer::grow()
@@ -12,6 +14,29 @@ void ListPointer::grow()
 	{
 		objects[i] = nullptr;
 	}
+}
+
+void ListPointer::deletePointer(void * ptr)
+{
+	if (pointerType == 0)
+	{
+		delete (Component*)(ptr);
+	}
+	else
+	{
+		delete (GameObject*)(ptr);
+	}
+}
+
+//clear the list WITHOUT freeing any memory
+void ListPointer::clearNonDestructive()
+{
+	for (int i = 0; i < objectCount; i++)
+	{
+		objects[i] = nullptr;
+	}
+	objectPointer = 0;
+
 }
 
 int ListPointer::count()
@@ -35,8 +60,8 @@ void ListPointer::remove(void * obj)
 	for (int i = 0; i < objectCount; i++)
 	{
 		if (objects[i] == obj)
-		{
-			free(objects[i]);
+		{				
+			deletePointer(objects[i]);
 			objects[i] = objects[objectPointer - 1];
 			objects[objectPointer - 1] = nullptr;
 			objectPointer--;
@@ -47,6 +72,7 @@ void ListPointer::remove(void * obj)
 
 void * ListPointer::getAt(int index)
 {
+	
 	if (index < objectPointer)
 	{
 		return objects[index];
@@ -57,8 +83,9 @@ void * ListPointer::getAt(int index)
 	}
 }
 
-ListPointer::ListPointer()
+ListPointer::ListPointer(int type)
 {
+	this->pointerType = type;
 	objects = (void**)malloc(sizeof(void*));
 	objects[0] = nullptr;
 	objectPointer = 0;
@@ -70,7 +97,7 @@ ListPointer::~ListPointer()
 {
 	for (int i = 0; i < objectCount; i++)
 	{
-		delete objects[i];
+		deletePointer(objects[i]);
 	}
 
 	free(objects);

@@ -42,6 +42,18 @@
     <ClInclude Include="Components\PlayerController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Components\randomPosition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Walker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Spawner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\RottingEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Monster_Chase.cpp">
@@ -72,6 +84,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Components\PlayerController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\randomPosition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\Walker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\Spawner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\RottingEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

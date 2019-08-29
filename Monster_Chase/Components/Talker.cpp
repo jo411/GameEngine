@@ -12,7 +12,7 @@ Talker::~Talker()
 
 void Talker::draw(UpdateParams * params)
 {
-	std::cout << ((SimpleString)(*gameObject->name)) << " is at " << gameObject->position.x << " , " << gameObject->position.y << "\n";
+	std::cout << ((SimpleString)(*gameObject->name)) << " is at " <<gameObject->position << "\n";
 }
 void Talker::update(UpdateParams* params)
 {	

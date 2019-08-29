@@ -3,10 +3,14 @@
 #include "Component.h"
 #include "Vector2.h"
 #include "SimpleString.h"
+
+class GameScene;
+
 class GameObject
 {
 	ListPointer* components;
 public:
+	GameScene* scene;
 	SimpleString* name;
 	Vector2 position;
 	void addComponent(Component* newComponent);
@@ -14,7 +18,7 @@ public:
 	bool enabled = true;
 	void update(UpdateParams* params);
 	void draw(UpdateParams* params);
-	GameObject();
+	GameObject(GameScene* scene);
 	~GameObject();
 };
 

@@ -4,6 +4,11 @@
 class GameScene
 {
 	ListPointer* scene;
+	ListPointer* addBuffer;
+	ListPointer* removeBuffer;
+	bool inUpdate=false;
+	void clearBuffers();
+	bool dirtyBuffer = false;
 public:
 	GameScene();
 	~GameScene();

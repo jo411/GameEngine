@@ -7,6 +7,10 @@ SimpleString::SimpleString()
 	string =(char*) malloc(sizeof(char) * length);
 	nullTerminate();
 }
+SimpleString::~SimpleString()
+{
+	free(string);
+}
 
 SimpleString& SimpleString::operator=(const SimpleString& rightSide)
 {	
@@ -20,6 +24,7 @@ SimpleString& SimpleString::operator=(const SimpleString& rightSide)
 
 void SimpleString::fromCharArray(const char * newString)
 {
+	free(string);
 	int len = 0;
 	int i = 0;
 	while (newString[i] != '\0')
@@ -48,10 +53,7 @@ SimpleString::SimpleString(const char* newString)
 	fromCharArray(newString);
 }
 
-SimpleString::~SimpleString()
-{
-	free(string);
-}
+
 
 char * SimpleString::getCharArray()
 {
