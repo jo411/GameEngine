@@ -49,8 +49,7 @@ void SimpleString::fromCharArray(const char * newString)
 
 //Copy constructor just calls the copy function
 SimpleString::SimpleString(const SimpleString& other)
-{
-	free(string);
+{	
 	string = NULL;
 	copyString(other);	
 }
