@@ -19,6 +19,7 @@ Spawner::~Spawner()
 void Spawner::update(UpdateParams * params)
 {
 	turnCounter++;
+	//If the timer has run out create a monster and spawn it into the attached gameobjects scene
 	if (turnCounter >= delay)
 	{
 		turnCounter = 0;
@@ -29,11 +30,11 @@ void Spawner::update(UpdateParams * params)
 		monster->addComponent(new RottingEntity(5));
 		monster->position.x = gameObject->position.x;
 		monster->position.y = gameObject->position.y;		
-		renderText->fromCharArray("~~~A hive just spawned a new monster!~~~\n");
+		renderText->fromCharArray("~~~A hive just spawned a new monster!~~~\n");//Set output for the next draw cycle
 	}
 	else
 	{
-		renderText->fromCharArray("");
+		renderText->fromCharArray("");//nothing to display this frame
 	}
 	
 
@@ -41,7 +42,7 @@ void Spawner::update(UpdateParams * params)
 
 void Spawner::draw(UpdateParams * params)
 {
-	if (delay - turnCounter == 1)
+	if (delay - turnCounter == 1)//If the spawner spawns next turn warn the player
 	{
 		std::cout << "~~~" << *(gameObject->name) << " is about to spawn a creature at: " << gameObject->position << "~~~\n";
 	}

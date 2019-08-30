@@ -1,5 +1,7 @@
 #include "GameObject.h"
 
+//Takes a new component and adds it to the internal list for this Object.
+//Currently cannot be called during an update like the GameScene addcomponent()
 void GameObject::addComponent(Component * newComponent)
 {
 	newComponent->registerGameObject(this);
@@ -7,11 +9,13 @@ void GameObject::addComponent(Component * newComponent)
 	newComponent->onAddToObject();
 }
 
+//Remove the given object from the list
 void GameObject::RemoveComponent(GameObject * go)
 {
 	components->remove(go);
 }
 
+//Updates all enabled components on this gameobject 
 void GameObject::update(UpdateParams* params)
 {
 	for (int i = 0; i <= components->count(); i++)
@@ -24,6 +28,7 @@ void GameObject::update(UpdateParams* params)
 	}
 }
 
+//Draws all components on this gameobject
 void GameObject::draw(UpdateParams * params)
 {
 	for (int i = 0; i <= components->count(); i++)
@@ -38,13 +43,16 @@ void GameObject::draw(UpdateParams * params)
 
 GameObject::GameObject(GameScene* scene)
 {
+	//Start at (0,0)
 	position.x=0;
 	position.y = 0;
-	components = new ListPointer(0);
+
+	components = new ListPointer(0);//Creates a list of component pointers (type 0)
 	name = new SimpleString();
 	this->scene = scene;
 }
 
+//removes dynamic memory 
 GameObject::~GameObject()
 {
 	delete components;

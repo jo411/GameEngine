@@ -5,19 +5,21 @@
 #include "SimpleString.h"
 
 class GameScene;
+//A Gameobject holds basic information about an entity in a scene. Position and name are stored here. 
+//Each GameObject holds a list of components.
 
 class GameObject
 {
-	ListPointer* components;
+	ListPointer* components;//List of this objects components
 public:
-	GameScene* scene;
-	SimpleString* name;
-	Vector2 position;
-	void addComponent(Component* newComponent);
-	void RemoveComponent(GameObject* go);
-	bool enabled = true;
-	void update(UpdateParams* params);
-	void draw(UpdateParams* params);
+	GameScene* scene; //What scene is this object in.
+	SimpleString* name;//The name of this object
+	Vector2 position;//the position of this object in the scene
+	void addComponent(Component* newComponent);//Adds the given component to this object
+	void RemoveComponent(GameObject* go);//Removes the given component from this object
+	bool enabled = true;//Whether this object recieves or ignores update() from the scene
+	void update(UpdateParams* params);//Called with the parent scene's update()
+	void draw(UpdateParams* params);//Called with the parent scene's draw()
 	GameObject(GameScene* scene);
 	~GameObject();
 };

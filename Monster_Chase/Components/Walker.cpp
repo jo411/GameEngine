@@ -12,6 +12,7 @@ Walker::~Walker()
 
 void Walker::update(UpdateParams * params)
 {
+	//50% to move in either axis 
 	if (rand() % 101 >= 50)
 	{
 		gameObject->position.x += getWalkDistance();
@@ -31,6 +32,7 @@ void Walker::onAddToObject()
 {
 }
 
+//returns + or - speed at random
 int Walker::getWalkDistance()
 {
 	int multiply = 1;

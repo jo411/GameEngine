@@ -10,6 +10,7 @@ Component::~Component()
 	delete renderText;
 }
 
+//Stores this components attached game object
 void Component::registerGameObject(GameObject * obj)
 {
 	gameObject = obj;

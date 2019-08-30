@@ -1,5 +1,6 @@
 #include "randomPosition.h"
 
+//Returns a random value between zero and max
 int randomPosition::randInRange(int max)
 {
 	int multiply = 1;
@@ -29,6 +30,7 @@ void randomPosition::draw(UpdateParams * params)
 {
 }
 
+//set the random position
 void randomPosition::onAddToObject()
 {
 	gameObject->position.x = (float)randInRange(xRange);

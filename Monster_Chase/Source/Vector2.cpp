@@ -12,7 +12,7 @@ Vector2::Vector2()
 	y = 0;
 }
 
-
+//<< overload writes this Vector2 in the form:  "(x,y)"
 std::ostream & operator<<(std::ostream & os, const Vector2 v2)
 {
 	os << "(" << v2.x << "," << v2.y<<")";

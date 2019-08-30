@@ -8,6 +8,7 @@ PlayerController::~PlayerController()
 {
 }
 
+//checks the input key and moves the player accordingly
 void PlayerController::update(UpdateParams * params)
 {
 	if (params->keyPressed == 'w')
