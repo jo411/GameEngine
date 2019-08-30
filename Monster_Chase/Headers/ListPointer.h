@@ -14,7 +14,7 @@ class ListPointer
 public:
 	int count();//How many elements are in this list
 	void add(void* pntr);//Adds the specified pointer to the list at the location pointed to by objectPointer 
-	void remove(void* obj);//Removes a pointer from this list and swaps the last element in the list to its location
+	void remove(void* obj);//Helper function - Removes a pointer from this list and swaps the last element in the list to its location to avoid fragmentation
 	void* getAt(int index);//Gets the pointer at index if possible
 	void clearNonDestructive();//Clears this list without freeing any memory
 	ListPointer(int type);

@@ -4,7 +4,7 @@
 
 //TODO: actually use the rule of three
 
-
+//Constructs the scene and allocates lists for all the dynamic memory needed
 GameScene::GameScene()
 {	
 	scene = new ListPointer(1);
@@ -12,6 +12,7 @@ GameScene::GameScene()
 	removeBuffer = new ListPointer(1);
 }
 
+//Clears any dynamic memory allocated
 GameScene::~GameScene()
 {
 	delete scene;
@@ -19,6 +20,7 @@ GameScene::~GameScene()
 	delete removeBuffer;
 }
 
+//Creates and returns a pointer to a new gameobject that is, or will be, in this scene
 GameObject* GameScene::CreateGameObject()
 {
 	GameObject* newGameObject = new GameObject(this);
@@ -26,29 +28,29 @@ GameObject* GameScene::CreateGameObject()
 	{		
 		scene->add(newGameObject);		
 	}
-	else
+	else//if this scene is currently updating the object is added to the buffer for later
 	{
 		addBuffer->add(newGameObject);
-		dirtyBuffer = true;
+		dirtyBuffer = true;//mark the buffers dirty
 	}	
 	return newGameObject;
-
 }
 
+//Removes the specified gameobject from the scene forever
 void GameScene::RemoveGameObject(GameObject * gameObject)
 {
 	if (!inUpdate)
 	{
 		scene->remove(gameObject);
 	}
-	else
+	else//if this scene is currently updating the object is added to the buffer for later
 	{
 		removeBuffer->add(gameObject);
-		dirtyBuffer = true;
+		dirtyBuffer = true;//mark the buffers dirty
 	}
 }
 
-
+//Add all objects in the addBuffer and removes all in removeBuffer
 void GameScene::clearBuffers()
 {
 	for (int i = 0; i <= addBuffer->count(); i++)
@@ -56,25 +58,27 @@ void GameScene::clearBuffers()
 		scene->add(addBuffer->getAt(i));	
 		
 	}
-	addBuffer->clearNonDestructive();
+	addBuffer->clearNonDestructive();//clear the objects from the list bur keep the memory for more objects later
 
 	for (int i = 0; i <= removeBuffer->count(); i++)
 	{
 		scene->remove(removeBuffer->getAt(i));
 	
 	}
-	removeBuffer->clearNonDestructive();
-	dirtyBuffer = false;
+	removeBuffer->clearNonDestructive();//clear the objects from the list bur keep the memory for more objects later
+	dirtyBuffer = false;//mark the buffers clean
 }
 
+//Updates all enabled the gameobjects in this scene
 void GameScene::update(UpdateParams* params)
 {
-	if (dirtyBuffer)
+	if (dirtyBuffer)//check for any objects in the buffers to process (probably should only use one of these at the end of update)
 	{
 		clearBuffers();
 	}
-	inUpdate = true;
-	for (int i = 0; i <= scene->count(); i++)
+
+	inUpdate = true;//lock the gameobject list
+	for (int i = 0; i <= scene->count(); i++)//update all enabled Gameobjects in the scene
 	{
 		GameObject* obj =((GameObject*)(scene->getAt(i)));
 		if (obj->enabled)
@@ -82,14 +86,15 @@ void GameScene::update(UpdateParams* params)
 			obj->update(params);
 		}
 	}
-	inUpdate = false;
+	inUpdate = false;//unlock the gameobject list
 
-	if (dirtyBuffer)
+	if (dirtyBuffer)//check for any objects in the buffers to process (probably should only use one of these at the end of update)
 	{
 		clearBuffers();
 	}
 }
 
+//Draws all the enabled gameobjects in this scene
 void GameScene::draw(UpdateParams* params)
 {
 	for (int i = 0; i <= scene->count(); i++)
