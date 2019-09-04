@@ -5,11 +5,14 @@
 class Vector2
 {
 public:
-	Vector2(float x, float y);
-	Vector2();
-	friend std::ostream& operator<<(std::ostream& os, const Vector2 v2);//cout operator
+	
 	float x; 
 	float y;
 
+	Vector2(float x, float y);
+	Vector2();
+	//Operators
+	friend std::ostream& operator<<(std::ostream& os, const Vector2 v2);//cout operator
+	Vector2& operator+(Vector2 rhs);
 };
 
