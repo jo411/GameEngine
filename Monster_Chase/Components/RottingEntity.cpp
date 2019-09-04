@@ -1,6 +1,6 @@
 #include <iostream>
 #include "RottingEntity.h"
-#include "../Headers/GameScene.h"
+#include "Engine\GameScene.h"
 
 RottingEntity::RottingEntity(int delay)
 {

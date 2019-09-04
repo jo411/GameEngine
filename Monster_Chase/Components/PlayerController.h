@@ -1,5 +1,5 @@
 #pragma once
-#include "../Headers/GameObject.h"
+#include "Engine\GameObject.h"
 //This component allows for keyboard input to move a Game Object
 class PlayerController: public Component
 {

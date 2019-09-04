@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "Engine\Component.h"
 //This component makes its attached gameobject dissapear after a set amount of time. 
 class RottingEntity: public Component
 {

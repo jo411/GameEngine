@@ -1,5 +1,5 @@
 #pragma once
-#include "../Headers/GameObject.h"
+#include "Engine\GameObject.h"
 //This component starts a GameObject at a random location 
 class randomPosition : public Component
 {

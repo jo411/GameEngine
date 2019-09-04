@@ -1,5 +1,5 @@
 #include "Walker.h"
-#include "GameObject.h"
+#include "Engine\GameObject.h"
 Walker::Walker(int speed)
 {
 	this->speed = speed;
