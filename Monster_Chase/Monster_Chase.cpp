@@ -1,9 +1,9 @@
 #include <iostream>
 #include "conio.h"
 #include "time.h"
-#include "Engine\SimpleString.h"
-#include "Engine\GameScene.h"
-#include "Engine\GameObject.h"
+#include "SimpleString.h"
+#include "GameScene.h"
+#include "GameObject.h"
 #include "Components\Talker.h"
 #include "Components\PlayerController.h"
 #include "Components\randomPosition.h"

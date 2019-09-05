@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine\Component.h"
+#include "Component.h"
 //This component makes a gameobject move randomly in the scene at a configurable speed
 class Walker: public Component
 {
