@@ -5,15 +5,25 @@
 #include <iostream>
 
 //Reallocates this list when it needs more room for elements
-void ListPointer::grow()
+bool ListPointer::grow()
 {
 	objectCount += GROWTH_COUNT;//increase the list size by GROWTH_COUNT
-	objects = (void**)realloc(objects, sizeof(void*)*objectCount);//reallocate the list with the larger size
-
-	for (int i = objectPointer; i < objectCount; i++)//null out any new elements in the array. Just to be safe
-	{
-		objects[i] = nullptr;
+	void** newObjects = (void**)realloc(objects, sizeof(void*)*objectCount);//reallocate the list with the larger size
+	if (newObjects == NULL)//bad stuff 
+	{	
+		
+		return false;
 	}
+	else
+	{
+		objects = newObjects;
+		for (int i = objectPointer; i < objectCount; i++)//null out any new elements in the array. Just to be safe
+		{
+			objects[i] = nullptr;
+		}
+	}
+	
+	return true;
 }
 
 //Removes the specified pointer, if present, from this list and frees its memory
@@ -94,6 +104,10 @@ ListPointer::ListPointer(int type)
 {
 	this->pointerType = type;
 	objects = (void**)malloc(sizeof(void*));
+	if (objects == NULL)//Memory failed somethings up. Should throw something
+	{
+		return;
+	}
 	objects[0] = nullptr;
 	objectPointer = 0;
 	objectCount = 1;

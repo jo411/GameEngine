@@ -7,7 +7,7 @@ class GameObject;
 	class Component
 	{
 	protected:
-		GameObject* gameObject;//What G.O. is this component attached to
+		GameObject* gameObject=NULL;//What G.O. is this component attached to
 		SimpleString* renderText;//A component may use this to set display text in draw() from its update() method. 
 	public:
 		virtual void update(UpdateParams* params) = 0;//defined in a derived class. Is called with its gameobject's update

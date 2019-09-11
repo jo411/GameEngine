@@ -40,6 +40,11 @@ void SimpleString::fromCharArray(const char * newString)
 	len++;//include nullterminator
 	string = (char*)malloc(sizeof(char)*len);//allocate enough memory 
 
+	if (string == NULL)
+	{
+		return;//malloc failed should throw in the future
+	}
+
 	for (int j = 0; j < len; j++)//copy chars from new to old
 	{
 		string[j] = newString[j];
@@ -79,10 +84,14 @@ void SimpleString::copyString(const SimpleString& other)
 	free(string);
 	string = NULL;
 	length = other.getLength() + 1;
-	string = (char*)malloc(sizeof(char) * length);//allocate enough new memory
-
+	string = (char*)malloc(length*sizeof(char));//allocate enough new memory
+	if (string == NULL)//if malloc fails need to do something better . Throw something
+	{
+		return;
+	}
 	for (int i = 0; i < length; i++)//copy chars
 	{
+#pragma warning(suppress: 6386)//seems to be a false positive
 		string[i] = other.charAt(i);
 	}
 }
@@ -96,7 +105,13 @@ int SimpleString::getLength() const
 //Appends the given char into this string
 void SimpleString::append(char newChar)
 {
-	string =(char*)realloc(string, sizeof(char) * length + 1);//realloc with one more char
+	char* newString =(char*)realloc(string, sizeof(char) * length + 1);//realloc with one more char
+	if (newString == NULL)//if malloc fails need to do something better . Throw something
+	{
+		return;
+	}
+	string = newString;
+
 	string[length-1] = newChar;
 	length++;
 	nullTerminate();

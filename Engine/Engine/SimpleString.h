@@ -4,8 +4,8 @@
 
 class SimpleString
 {
-	char* string;//The current string's pointer in memory
-	int length;//The length of the current string	
+	char* string=NULL;//The current string's pointer in memory
+	int length=-1;//The length of the current string	
 	void nullTerminate();//Ensures the current string is null terminated
 	void copyString(const SimpleString& other);//Copies the contents of one simplestring to another. (Called from the assignment operator and copy constructor)
 public:

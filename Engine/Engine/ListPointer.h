@@ -8,7 +8,7 @@ class ListPointer
 	int objectCount = 0;//How many objects this list can currently hold at max capacity
 	int objectPointer = -1;	//Index to the next open index in the list
 	void** objects; //Pointer array (Where all the data for this list is stored
-	void grow(); //Reallocates this list when it needs more room for elements
+	bool grow(); //Reallocates this list when it needs more room for elements
 	int pointerType = -1;//What kind of pointer does this list store. 0>GameObject 1>Component (I hate this but no option for generics without std)
 	void deletePointer(void* ptr);//Removes the specified pointer, if present, from this list and frees its memory
 public:

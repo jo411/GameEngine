@@ -175,7 +175,7 @@ namespace UnitTest1
 		TEST_METHOD(ScaleDEq)
 		{
 			Vector2 a = *new Vector2(1, -4);
-			a *=.5;
+			a *= .5;
 			Assert::AreEqual(float(.5), a.x);
 			Assert::AreEqual(float(-2), a.y);
 		}

@@ -3,7 +3,7 @@
 class UpdateParams
 {
 public:
-	char keyPressed;//the key pressed during the most recent frame
+	char keyPressed='\0';//the key pressed during the most recent frame
 	UpdateParams();
 	~UpdateParams();
 };
