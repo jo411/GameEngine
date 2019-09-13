@@ -179,5 +179,32 @@ namespace UnitTest1
 			Assert::AreEqual(float(.5), a.x);
 			Assert::AreEqual(float(-2), a.y);
 		}
+
+		TEST_METHOD(officialTests)
+		{
+			Vector2 P1(1.0f, 5.4f);
+			Vector2 P2(2.0f, 0.3f);
+
+			Vector2 P3 = P1 + P2;
+			P3 = P1 - P2;
+
+			Vector2 P4 = P1 * 0.5f;
+
+			Vector2 P5 = P1 / 2.0f;
+
+			Vector2 P6 = -P4;
+
+			P6 *= 2.0f;
+			P5 /= 4.0f;
+
+			P2 += P1;
+			P3 -= P1;
+
+			Vector2 P7 = (((P1 + P2) * 2.0f) - -P3) / 2.0f;
+
+			bool bArentEqual = P6 != P4;
+
+			Assert::IsTrue(bArentEqual);
+		}
 	};
 }

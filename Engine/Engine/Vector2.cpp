@@ -19,45 +19,61 @@ float Vector2::magnitude()const
 	return sqrt(x*x + y * y);
 }
 
-Vector2 & Vector2::operator+(Vector2 rhs)
+Vector2 Vector2::operator+(Vector2 rhs)
 {
-	return *(new Vector2(x + rhs.x, y + rhs.y));
+	return  Vector2(x + rhs.x, y + rhs.y);
 }
 
-Vector2 & Vector2::operator-(Vector2 rhs)
+Vector2 Vector2::operator-(Vector2 rhs)
 {
-	return *(new Vector2(x - rhs.x, y - rhs.y));
+	return Vector2(x - rhs.x, y - rhs.y);
 }
 
-Vector2 & Vector2::operator-()
+Vector2 Vector2::operator-()
 {
-	return *new Vector2(-x, -y);
+	return Vector2(-x, -y);
 }
 
-Vector2 & Vector2::operator*(Vector2 rhs)
+Vector2 Vector2::operator*(Vector2 rhs)
 {
-	return *(new Vector2(x * rhs.x, y * rhs.y));
+	return  Vector2(x * rhs.x, y * rhs.y);
 }
 
-Vector2 & Vector2::operator*(int scalar)
+Vector2 Vector2::operator*(int scalar)
 {
-	return *(new Vector2(x * scalar, y * scalar));
+	return Vector2(x * scalar, y * scalar);
 }
 
-Vector2 & Vector2::operator*(float scalar)
+Vector2 Vector2::operator*(float scalar)
 {
-	return *(new Vector2(x * scalar, y * scalar));
+	return Vector2(x * scalar, y * scalar);
 }
 
-Vector2 & Vector2::operator*(double scalar)
+Vector2 Vector2::operator*(double scalar)
 {
-	return *(new Vector2(x * (float)scalar, y * (float)scalar));
+	return  Vector2(x * (float)scalar, y * (float)scalar);
 }
 
-Vector2 & Vector2::operator/(Vector2 rhs)
+Vector2 Vector2::operator/(Vector2 rhs)
 {
-	return *(new Vector2(x / rhs.x, y / rhs.y));
+	return Vector2(x / rhs.x, y / rhs.y);
 }
+
+Vector2 Vector2::operator/(int scalar)
+{
+	return Vector2(x / (float)scalar, y / (float)scalar);
+}
+
+Vector2 Vector2::operator/(float scalar)
+{
+	return  Vector2(x / scalar, y / scalar);
+}
+
+Vector2 Vector2::operator/(double scalar)
+{
+	return Vector2(x / (float)scalar, y / (float)scalar);
+}
+
 
 bool Vector2::operator==(const Vector2 rhs) const
 {
@@ -139,6 +155,26 @@ Vector2 & Vector2::operator/=(Vector2 rhs)
 	return *this;
 }
 
+Vector2 & Vector2::operator/=(int scalar)
+{
+	x /= (float)scalar;
+	y /= (float)scalar;
+	return *this;
+}
+
+Vector2 & Vector2::operator/=(float scalar)
+{
+	x /= scalar;
+	y /= scalar;
+	return *this;
+}
+
+Vector2 & Vector2::operator/=(double scalar)
+{
+	x /= (float)scalar;
+	y /= (float)scalar;
+	return *this;
+}
 //<< overload writes this Vector2 in the form:  "(x,y)"
 std::ostream & operator<<(std::ostream & os, const Vector2 v2)
 {
