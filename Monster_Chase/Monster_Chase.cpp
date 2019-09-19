@@ -104,8 +104,10 @@ int main()
 
 		} while ((params.keyPressed = _getch()) != 'q');//Use 'q' to quit
 
+
+		//Walker* foo = new Walker(9); //force a memory leak for testing
 	}
-	//Walker* foo = new Walker(9); //force a memory leak for testing
+	
 	_CrtDumpMemoryLeaks();
 }
 
