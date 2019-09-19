@@ -16,6 +16,8 @@ class GameObject;
 		bool enabled = true; //will this component recieve or ignore updates. 
 		Component();
 		~Component();
+		Component(const Component &old);
+		Component& operator=(const Component& other);
 		void registerGameObject(GameObject* obj);//Stores this components attached game object
 	};
 
