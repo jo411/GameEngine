@@ -58,3 +58,14 @@ GameObject::~GameObject()
 	delete components;
 	delete name;
 }
+
+GameObject::GameObject(const GameObject & other)
+{
+	//Start at (0,0)
+	position.x = 0;
+	position.y = 0;
+
+	components = new ListPointer(0);//Creates a list of component pointers (type 0)
+	name = new SimpleString(*other.name);	
+	this->scene = other.scene;
+}

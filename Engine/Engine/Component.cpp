@@ -15,11 +15,11 @@ Component::Component(const Component & old)
 	renderText = new SimpleString();
 }
 
-Component & Component::operator=(const Component & other)
+Component& Component::operator=(const Component& other)
 {
 	 if (this != &other)
 	{
-		 renderText->fromCharArray(other.renderText->getCharArray);
+		 renderText->fromCharArray(other.renderText->getCharArray());
 	}
 	 return *this;
 }

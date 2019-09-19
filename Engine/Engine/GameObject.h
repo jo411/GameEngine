@@ -22,5 +22,7 @@ public:
 	void draw(UpdateParams* params);//Called with the parent scene's draw()
 	GameObject(GameScene* scene);
 	~GameObject();
+	GameObject(const GameObject &other);
+
 };
 
