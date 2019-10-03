@@ -15,7 +15,7 @@ void HeapManagerProxy::Destroy(HeapManager * i_pManager)
 
 void * HeapManagerProxy::alloc(HeapManager * i_pManager, size_t i_size)
 {
-	return nullptr;
+	((MyMalloc*)(i_pManager))->printFreeList();
 }
 
 void * HeapManagerProxy::alloc(HeapManager * i_pManager, size_t i_size, unsigned int i_alignment)
@@ -54,6 +54,7 @@ size_t HeapManagerProxy::GetTotalFreeMemory(const HeapManager * i_pManager)
 
 void HeapManagerProxy::ShowFreeBlocks(const HeapManager * i_pManager)
 {
+	((MyMalloc*)(i_pManager))->printFreeList();
 }
 
 void HeapManagerProxy::ShowOutstandingAllocations(const HeapManager * i_pManager)

@@ -1,4 +1,5 @@
 #include "MyMalloc.h"
+#include <cstdio>
 
 MyMalloc::MyMalloc()
 {
@@ -80,6 +81,8 @@ void * MyMalloc::extend(size_t asize, void* memory)
 	
 }
 
+//update connections and make the new free element the start of the list
+
 void MyMalloc::insert_into_free(void * bp)
 {
 	free_header* fh = (free_header*)bp;
@@ -87,5 +90,110 @@ void MyMalloc::insert_into_free(void * bp)
 	free_list_start->prev = fh;
 	fh->prev = nullptr;
 	free_list_start = fh;
+}
+
+/*
+ * Searches through the free list for blocks that can hold the requested (aligned) size
+ */
+void * MyMalloc::findFit(size_t size)
+{
+	return nullptr;
+}
+
+/*
+ * Mark a block as allocated and split if needed
+ */
+void MyMalloc::set_allocated(void * bp, size_t size)
+{
+	size_t blockSize = GET_SIZE(HDRP(bp));
+
+
+	size_t extra_size = GET_SIZE(HDRP(bp)) - size;//get overflow */
+
+	if (extra_size > ALIGN(MIN_BLOCK_SIZE))//if the leftover can hold a free list payload( by extension header+footer+16 bytes) then split it
+	{
+
+
+		//assign current block
+		PUT(HDRP(bp), PACK(size, 1));
+		PUT(FTRP(bp), PACK(size, 1));
+		remove_from_free(bp);//remove from free NOTE may proc a memory request, amortizing here could save time later
+		bp = NEXT_BLKP(bp);//get next block
+		PUT(HDRP(bp), PACK(extra_size, 0));//mark the leftover space as unallocated
+		PUT(FTRP(bp), PACK(extra_size, 0));
+		//Not using coalesce yet
+		//coalesce(bp);//add the new block to the free list
+
+
+
+
+	}
+	else//assign the whole block
+	{
+		PUT(HDRP(bp), PACK(blockSize, 1));
+		PUT(FTRP(bp), PACK(blockSize, 1));//LINE WHERE IT ALL BREAKS!!!
+		remove_from_free(bp);
+	}
+
+
+
+}
+
+
+
+/*
+ *Takes the requested size and finds a block for it
+ */
+void * MyMalloc::mm_malloc(size_t size)
+{
+	if (size == 0) { return NULL; }//don't use zero size
+
+	int newSize = ALIGN(MAX(MIN_BLOCK_SIZE, size + OVERHEAD));//always have room in the payload for a free list header and ensure if the size requested is bigger that the header overhead is added on
+
+
+	void* bp = findFit(newSize);
+	if (bp == NULL)//no block found
+	{
+		//bp = extend(newSize);//request more memory
+		return nullptr;//in this case return null for no memory left
+	}
+
+	//found  a block, allocate it
+	set_allocated(bp, newSize);
+
+
+	return bp;
+
+}
+void MyMalloc::printFreeList()
+{
+	printf("\n\nFree List: ");
+	free_header* current = free_list_start;
+	while (current != NULL)
+	{
+		printf("Free Block at: %p\n", current);
+
+		if (current->prev == NULL)
+		{
+			printf("No previous\n");
+		}
+		else
+		{
+			printf("prev at: %p\n", current->prev);
+		}
+
+		if (current->next == NULL)
+		{
+			printf("No next\n");
+		}
+		else
+		{
+			printf("next at: %p\n", current->next);
+		}
+
+		printf("Size: %zu\n", GET_SIZE(HDRP(current)));
+		printf("\n");
+		current = current->next;
+	}
 }
 

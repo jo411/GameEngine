@@ -100,10 +100,14 @@ public:
 	~MyMalloc();
 	//Internal methods
 	void init(void * memory, size_t sizeMemory);
+	void printFreeList();
+	void* mm_malloc(size_t size);
 
 private:
 	void* extend(size_t asize, void* memory);
 	void insert_into_free(void* bp);
+	void* findFit(size_t size);
+	void set_allocated(void* bp, size_t size);
 
 
 };
