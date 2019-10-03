@@ -14,6 +14,7 @@ void MyMalloc::init(void * memory, size_t sizeMemory)
 {		
 	free_list_start = nullptr;
 	first_page = nullptr;
+	extend(sizeMemory, memory);
 	//extend(mem_pagesize()*init_page_mult);//request an initial block based on the init var	
 }
 
@@ -97,7 +98,23 @@ void MyMalloc::insert_into_free(void * bp)
  */
 void * MyMalloc::findFit(size_t size)
 {
-	return nullptr;
+	free_header* fh;
+	fh = free_list_start;
+	if (fh == NULL) { return NULL; }
+	while ((fh->next) && (GET_SIZE(HDRP(fh)) < size))//loop while the current node has a next until a block of sufficient size is found
+	{
+		fh = fh->next;
+	}
+
+	if (GET_SIZE(HDRP(fh)) >= size)//if the block that ended the loop was of valid size
+	{
+		return fh;
+	}
+	else//hit the end of the list without finding anything
+	{
+
+		return NULL;
+	}
 }
 
 /*
@@ -122,6 +139,7 @@ void MyMalloc::set_allocated(void * bp, size_t size)
 		PUT(HDRP(bp), PACK(extra_size, 0));//mark the leftover space as unallocated
 		PUT(FTRP(bp), PACK(extra_size, 0));
 		//Not using coalesce yet
+		insert_into_free(bp);
 		//coalesce(bp);//add the new block to the free list
 
 
@@ -136,6 +154,43 @@ void MyMalloc::set_allocated(void * bp, size_t size)
 	}
 
 
+
+}
+
+/*
+ * remove a block from the free list
+ */
+void MyMalloc::remove_from_free(void * bp)
+{
+	free_header* fh = (free_header*)bp;
+
+	if (fh->prev)//if a previous exists
+	{
+		if (fh->next)//middle node
+		{
+			fh->prev->next = fh->next;//make the previous skip current
+			fh->next->prev = fh->prev;
+
+		}
+		else//tail node
+		{
+			fh->prev->next = NULL;
+		}
+	}
+	else//no prev means this is the first item
+	{
+		if (!fh->next)//if there is no next this is the only item in the list
+		{
+			free_list_start = NULL;//no more free space
+			//extend(1);// request a minimum sized page
+			return;
+		}
+
+		free_list_start = fh->next;
+		free_list_start->prev = NULL;//erase pointer back to fh
+	}
+
+	return;
 
 }
 
@@ -155,7 +210,7 @@ void * MyMalloc::mm_malloc(size_t size)
 	if (bp == NULL)//no block found
 	{
 		//bp = extend(newSize);//request more memory
-		return nullptr;//in this case return null for no memory left
+		return nullptr;//in this case return null: no memory left
 	}
 
 	//found  a block, allocate it
@@ -195,5 +250,62 @@ void MyMalloc::printFreeList()
 		printf("\n");
 		current = current->next;
 	}
+}
+
+void MyMalloc::printMemory()
+{
+	page_header* current = first_page;
+	while (current != NULL)
+	{
+		printf("Page header at: %p\n", current);
+
+		if (current->prev == NULL)
+		{
+			printf("No previous\n");
+		}
+		else
+		{
+			printf("prev at: %p\n", current->prev);
+		}
+
+		if (current->next == NULL)
+		{
+			printf("No next\n");
+		}
+		else
+		{
+			printf("next at: %p\n", current->next);
+		}
+
+		printf("Size of: %zu\n", current->size);
+
+		printPage((char*)current);
+
+		current = current->next;
+	}
+}
+
+void MyMalloc::printPage(char* ph)
+{
+	printf("\nPage Details: \n");
+	char* bp = FIRST_BLKP(ph);
+	printf("Block at: %p\n", bp);
+	printf("Size of: %zu\n", GET_SIZE(HDRP(bp)));
+	printf("Allocated: %s\n", (GET_ALLOC(HDRP(bp)) == 0) ? "NO" : "YES");
+	printf("\n");
+
+	bp = NEXT_BLKP(bp);
+
+	while (GET_SIZE(HDRP(bp)) > 0)
+	{
+		printf("Block at: %p\n", bp);
+		printf("Size of: %zu\n", GET_SIZE(HDRP(bp)));
+		printf("Allocated: %s\n", (GET_ALLOC(HDRP(bp)) == 0) ? "NO" : "YES");
+		printf("\n");
+
+		bp = NEXT_BLKP(bp);
+	}
+
+
 }
 

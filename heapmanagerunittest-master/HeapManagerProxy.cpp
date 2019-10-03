@@ -15,7 +15,7 @@ void HeapManagerProxy::Destroy(HeapManager * i_pManager)
 
 void * HeapManagerProxy::alloc(HeapManager * i_pManager, size_t i_size)
 {
-	((MyMalloc*)(i_pManager))->printFreeList();
+ 	return ((MyMalloc*)(i_pManager))->mm_malloc(i_size);
 }
 
 void * HeapManagerProxy::alloc(HeapManager * i_pManager, size_t i_size, unsigned int i_alignment)
@@ -25,7 +25,7 @@ void * HeapManagerProxy::alloc(HeapManager * i_pManager, size_t i_size, unsigned
 
 bool HeapManagerProxy::free(HeapManager * i_pManager, void * i_ptr)
 {
-	return false;
+	return true;
 }
 
 void HeapManagerProxy::Collect(HeapManager * i_pManager)
@@ -34,12 +34,12 @@ void HeapManagerProxy::Collect(HeapManager * i_pManager)
 
 bool HeapManagerProxy::Contains(const HeapManager * i_pManager, void * i_ptr)
 {
-	return false;
+	return true;
 }
 
 bool HeapManagerProxy::IsAllocated(const HeapManager * i_pManager, void * i_ptr)
 {
-	return false;
+	return true;
 }
 
 size_t HeapManagerProxy::GetLargestFreeBlock(const HeapManager * i_pManager)
@@ -59,4 +59,5 @@ void HeapManagerProxy::ShowFreeBlocks(const HeapManager * i_pManager)
 
 void HeapManagerProxy::ShowOutstandingAllocations(const HeapManager * i_pManager)
 {
+	((MyMalloc*)(i_pManager))->printMemory();
 }
