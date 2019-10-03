@@ -134,12 +134,13 @@ void MyMalloc::set_allocated(void * bp, size_t size)
 		//assign current block
 		PUT(HDRP(bp), PACK(size, 1));
 		PUT(FTRP(bp), PACK(size, 1));
-		remove_from_free(bp);//remove from free NOTE may proc a memory request, amortizing here could save time later
-		bp = NEXT_BLKP(bp);//get next block
-		PUT(HDRP(bp), PACK(extra_size, 0));//mark the leftover space as unallocated
-		PUT(FTRP(bp), PACK(extra_size, 0));
+		
+		void* bpNext = NEXT_BLKP(bp);//get next block
+		PUT(HDRP(bpNext), PACK(extra_size, 0));//mark the leftover space as unallocated
+		PUT(FTRP(bpNext), PACK(extra_size, 0));
 		//Not using coalesce yet
-		insert_into_free(bp);
+		insert_into_free(bpNext);
+		remove_from_free(bp);//remove from free NOTE may proc a memory request, amortizing here could save time later
 		//coalesce(bp);//add the new block to the free list
 
 

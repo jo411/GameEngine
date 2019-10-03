@@ -9,6 +9,9 @@
 #define SUPPORTS_SHOWFREEBLOCKS
 #define SUPPORTS_SHOWOUTSTANDINGALLOCATIONS
 
+#define customTest
+
+
 bool HeapManager_UnitTest()
 {
 	using namespace HeapManagerProxy;
@@ -87,7 +90,7 @@ bool HeapManager_UnitTest()
 
 	std::vector<void *> AllocatedAddresses;
 
-	long	numAllocs = 5;
+	long	numAllocs = 0;
 	long	numFrees = 0;
 	long	numCollects = 0;
 
