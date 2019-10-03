@@ -1,5 +1,5 @@
-#include "Externals/HeapManagerProxy.h"
-#include <windows.h>
+#include "HeapManagerProxy.h"
+#include <Windows.h>
 
 #include <assert.h>
 #include <algorithm>

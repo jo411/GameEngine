@@ -160,6 +160,11 @@
   <ItemGroup>
     <ClInclude Include="Externals\HeapManagerProxy.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine\Engine.vcxproj">
+      <Project>{c0df7bf8-56d6-473b-8708-2b5769f8679e}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
