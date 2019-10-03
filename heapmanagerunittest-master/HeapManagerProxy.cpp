@@ -17,3 +17,45 @@ void * HeapManagerProxy::alloc(HeapManager * i_pManager, size_t i_size)
 {
 	return nullptr;
 }
+
+void * HeapManagerProxy::alloc(HeapManager * i_pManager, size_t i_size, unsigned int i_alignment)
+{
+	return nullptr;
+}
+
+bool HeapManagerProxy::free(HeapManager * i_pManager, void * i_ptr)
+{
+	return false;
+}
+
+void HeapManagerProxy::Collect(HeapManager * i_pManager)
+{
+}
+
+bool HeapManagerProxy::Contains(const HeapManager * i_pManager, void * i_ptr)
+{
+	return false;
+}
+
+bool HeapManagerProxy::IsAllocated(const HeapManager * i_pManager, void * i_ptr)
+{
+	return false;
+}
+
+size_t HeapManagerProxy::GetLargestFreeBlock(const HeapManager * i_pManager)
+{
+	return size_t();
+}
+
+size_t HeapManagerProxy::GetTotalFreeMemory(const HeapManager * i_pManager)
+{
+	return size_t();
+}
+
+void HeapManagerProxy::ShowFreeBlocks(const HeapManager * i_pManager)
+{
+}
+
+void HeapManagerProxy::ShowOutstandingAllocations(const HeapManager * i_pManager)
+{
+}
