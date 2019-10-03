@@ -1,4 +1,4 @@
-#include "HeapManagerProxy.h"
+#include "Externals/HeapManagerProxy.h"
 #include <windows.h>
 
 HeapManager * HeapManagerProxy::CreateHeapManager(void * i_pMemory, size_t i_sizeMemory, unsigned int i_numDescriptors)

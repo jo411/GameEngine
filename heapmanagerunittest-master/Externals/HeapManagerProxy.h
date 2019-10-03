@@ -2,6 +2,7 @@
 #define __HEAP_MANAGER_PROXY_H
 
 #include <stdint.h>
+#include "Engine/MyMalloc.h"
 
 class HeapManager;
 
