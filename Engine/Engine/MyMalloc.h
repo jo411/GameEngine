@@ -99,17 +99,17 @@ public:
 	MyMalloc();
 	~MyMalloc();
 	//Internal methods
-	void init(void * memory, size_t sizeMemory);
-	void* mm_malloc(size_t size);
-	void printFreeList();
-	void printMemory();
+	void init(void * memory, size_t sizeMemory);//take in memory and create data structures 
+	void* mm_malloc(size_t size);//return a pointer to a block of memory of size bytes. Or nullptr if no memory
+	void printFreeList();//display all available blocks
+	void printMemory();//display the status of the heap including free and outstanding allocations
 
 private:
-	void* extend(size_t asize, void* memory);
-	void insert_into_free(void* bp);
-	void* findFit(size_t size);
-	void set_allocated(void* bp, size_t size);
-	void remove_from_free(void* bp);
-	void printPage(char * ph);
+	void* extend(size_t asize, void* memory);//Currently only gets called once to set up with initial memory. Can be used to ask for more memory from the OS
+	void insert_into_free(void* bp);//take a block pointer and insert it into the free list (Explicit free list)
+	void* findFit(size_t size);//find and return a pointer to the next open block >= size bytes (First fit)
+	void set_allocated(void* bp, size_t size); // mark a block descriptor and it's payload as allocated 
+	void remove_from_free(void* bp);//remove a block descriptor from the freelist
+	void printPage(char * ph);//print the status of a specific page of memory
 };
 

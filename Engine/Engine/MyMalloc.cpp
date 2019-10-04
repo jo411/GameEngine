@@ -15,8 +15,8 @@ void MyMalloc::init(void * memory, size_t sizeMemory)
 	free_list_start = nullptr;
 	first_page = nullptr;
 	extend(sizeMemory, memory);
-	//extend(mem_pagesize()*init_page_mult);//request an initial block based on the init var	
 }
+
 
 void * MyMalloc::extend(size_t asize, void* memory)
 {	
