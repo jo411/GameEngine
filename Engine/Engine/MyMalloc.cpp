@@ -140,8 +140,8 @@ void MyMalloc::set_allocated(void * bp, size_t size)
 		PUT(FTRP(bpNext), PACK(extra_size, 0));
 		//Not using coalesce yet
 		insert_into_free(bpNext);
-		remove_from_free(bp);//remove from free NOTE may proc a memory request, amortizing here could save time later
-		//coalesce(bp);//add the new block to the free list
+		remove_from_free(bp);//remove from free NOTE may proc a memory request (Not anymore without asking the OS for more), amortizing here could save time later
+		//coalesce(bp);//add the new block to the free list //TODO: uncomment 
 
 
 
@@ -193,6 +193,11 @@ void MyMalloc::remove_from_free(void * bp)
 
 	return;
 
+}
+
+void * MyMalloc::coalesce(void * bp)
+{
+	return nullptr;
 }
 
 

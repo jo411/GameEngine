@@ -110,6 +110,7 @@ private:
 	void* findFit(size_t size);//find and return a pointer to the next open block >= size bytes (First fit)
 	void set_allocated(void* bp, size_t size); // mark a block descriptor and it's payload as allocated 
 	void remove_from_free(void* bp);//remove a block descriptor from the freelist
+	void* coalesce(void* bp);//Collapse nearby free blocks into one large block
 	void printPage(char * ph);//print the status of a specific page of memory
 };
 
