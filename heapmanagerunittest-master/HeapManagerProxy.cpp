@@ -25,11 +25,13 @@ void * HeapManagerProxy::alloc(HeapManager * i_pManager, size_t i_size, unsigned
 
 bool HeapManagerProxy::free(HeapManager * i_pManager, void * i_ptr)
 {
-	return true;
+	return ((MyMalloc*)(i_pManager))->mm_free(i_ptr);
+	
 }
 
 void HeapManagerProxy::Collect(HeapManager * i_pManager)
 {
+	return;//Coalescing is done when freeing happens
 }
 
 bool HeapManagerProxy::Contains(const HeapManager * i_pManager, void * i_ptr)

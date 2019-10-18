@@ -1,5 +1,7 @@
 #include "MyMalloc.h"
 #include <cstdio>
+size_t usedMemory;
+size_t totalMemory;
 
 MyMalloc::MyMalloc()
 {
@@ -15,6 +17,7 @@ void MyMalloc::init(void * memory, size_t sizeMemory)
 	free_list_start = nullptr;
 	first_page = nullptr;
 	extend(sizeMemory, memory);
+	totalMemory = sizeMemory;
 }
 
 
@@ -86,11 +89,22 @@ void * MyMalloc::extend(size_t asize, void* memory)
 
 void MyMalloc::insert_into_free(void * bp)
 {
-	free_header* fh = (free_header*)bp;
-	fh->next = free_list_start;
-	free_list_start->prev = fh;
-	fh->prev = nullptr;
-	free_list_start = fh;
+	if (free_list_start == nullptr)//if there isn't a list start
+	{
+		//create first entry in free list
+		free_list_start = (free_header*)bp;
+		free_list_start->next = nullptr;
+		free_list_start->prev = nullptr;
+	}
+	else
+	{
+		free_header* fh = (free_header*)bp;
+		fh->next = free_list_start;
+		free_list_start->prev = fh;
+		fh->prev = nullptr;
+		free_list_start = fh;
+	}
+	
 }
 
 /*
@@ -129,28 +143,33 @@ void MyMalloc::set_allocated(void * bp, size_t size)
 
 	if (extra_size > ALIGN(MIN_BLOCK_SIZE))//if the leftover can hold a free list payload( by extension header+footer+16 bytes) then split it
 	{
-
-
 		//assign current block
 		PUT(HDRP(bp), PACK(size, 1));
 		PUT(FTRP(bp), PACK(size, 1));
-		
-		void* bpNext = NEXT_BLKP(bp);//get next block
-		PUT(HDRP(bpNext), PACK(extra_size, 0));//mark the leftover space as unallocated
-		PUT(FTRP(bpNext), PACK(extra_size, 0));
-		//Not using coalesce yet
-		insert_into_free(bpNext);
-		remove_from_free(bp);//remove from free NOTE may proc a memory request (Not anymore without asking the OS for more), amortizing here could save time later
-		coalesce(bp);//add the new block to the free list
+		remove_from_free(bp);//remove from free NOTE may proc a memory request, amortizing here could save time later
+		bp = NEXT_BLKP(bp);//get next block
+		PUT(HDRP(bp), PACK(extra_size, 0));//mark the leftover space as unallocated
+		PUT(FTRP(bp), PACK(extra_size, 0));
+		insert_into_free(bp);//add the new block to the free list
 
 
-
+		////assign current block
+		//PUT(HDRP(bp), PACK(size, 1));
+		//PUT(FTRP(bp), PACK(size, 1));
+		//
+		//void* bpNext = NEXT_BLKP(bp);//get next block
+		//PUT(HDRP(bpNext), PACK(extra_size, 0));//mark the leftover space as unallocated
+		//PUT(FTRP(bpNext), PACK(extra_size, 0));
+		////Not using coalesce yet
+		////insert_into_free(bpNext);
+		//remove_from_free(bp);//remove from free NOTE may proc a memory request (Not anymore without asking the OS for more), amortizing here could save time later
+		//coalesce(bp);//add the new block to the free list
 
 	}
 	else//assign the whole block
 	{
 		PUT(HDRP(bp), PACK(blockSize, 1));
-		PUT(FTRP(bp), PACK(blockSize, 1));//LINE WHERE IT ALL BREAKS!!!
+		PUT(FTRP(bp), PACK(blockSize, 1));
 		remove_from_free(bp);
 	}
 
@@ -258,6 +277,7 @@ void MyMalloc::coalesce(void * bp)
  */
 void * MyMalloc::mm_malloc(size_t size)
 {
+	//printf("Allocating");
 	if (size == 0) { return NULL; }//don't use zero size
 
 	int newSize = ALIGN(MAX(MIN_BLOCK_SIZE, size + OVERHEAD));//always have room in the payload for a free list header and ensure if the size requested is bigger that the header overhead is added on
@@ -272,20 +292,22 @@ void * MyMalloc::mm_malloc(size_t size)
 
 	//found  a block, allocate it
 	set_allocated(bp, newSize);
-
+	usedMemory += newSize;
 
 	return bp;
 
 }
-void MyMalloc::mm_free(void * bp)
-{
+bool MyMalloc::mm_free(void * bp)
+{	
+	//printf("Freeing");
 	size_t size;
-	if (bp == NULL) { return; }
+	if (bp == NULL) { return false; }
 	size = GET_SIZE(HDRP(bp));
 
 	PUT(HDRP(bp), PACK(size, 0));//mark header as unallocated
 	PUT(FTRP(bp), PACK(size, 0));//mark footer as unallocated	
 	coalesce(bp);
+	return true;
 }
 void MyMalloc::printFreeList()
 {

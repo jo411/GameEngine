@@ -9,9 +9,6 @@
 #define SUPPORTS_SHOWFREEBLOCKS
 #define SUPPORTS_SHOWOUTSTANDINGALLOCATIONS
 
-#define customTest
-
-
 bool HeapManager_UnitTest()
 {
 	using namespace HeapManagerProxy;

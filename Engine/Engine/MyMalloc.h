@@ -101,7 +101,7 @@ public:
 	//Internal methods
 	void init(void * memory, size_t sizeMemory);//take in memory and create data structures 
 	void* mm_malloc(size_t size);//return a pointer to a block of memory of size bytes. Or nullptr if no memory
-	void mm_free(void* bp);//release a pointer to a block of memory managed by this manager
+	bool mm_free(void* bp);//release a pointer to a block of memory managed by this manager
 	void printFreeList();//display all available blocks
 	void printMemory();//display the status of the heap including free and outstanding allocations
 
