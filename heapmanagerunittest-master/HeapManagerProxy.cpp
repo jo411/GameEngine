@@ -51,7 +51,7 @@ size_t HeapManagerProxy::GetLargestFreeBlock(const HeapManager * i_pManager)
 
 size_t HeapManagerProxy::GetTotalFreeMemory(const HeapManager * i_pManager)
 {
-	return size_t();
+	return ((MyMalloc*)(i_pManager))->GetTotalFreeMemory();
 }
 
 void HeapManagerProxy::ShowFreeBlocks(const HeapManager * i_pManager)

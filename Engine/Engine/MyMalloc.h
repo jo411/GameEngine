@@ -51,7 +51,7 @@ private:
 #define GET(p) (*(size_t*)(p))
 
 /*Tools for accessing header/footer fields*/
-#define GET_SIZE(p) (GET(p) & ~0xF)
+#define GET_SIZE(p) (GET(p) & ~0xF)//This assumes 16bit allignment can change for any other size
 #define GET_ALLOC(p) (GET(p) & 0x1)
 #define PUT(p,val)(*(size_t*)(p)=(val))//install data
 #define PACK(size,alloc)((size) | (alloc))//pack bits
@@ -102,6 +102,8 @@ public:
 	void init(void * memory, size_t sizeMemory);//take in memory and create data structures 
 	void* mm_malloc(size_t size);//return a pointer to a block of memory of size bytes. Or nullptr if no memory
 	bool mm_free(void* bp);//release a pointer to a block of memory managed by this manager
+	size_t GetTotalFreeMemory();
+	bool contains(void* pntr);
 	void printFreeList();//display all available blocks
 	void printMemory();//display the status of the heap including free and outstanding allocations
 

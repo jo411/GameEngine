@@ -280,6 +280,7 @@ void * MyMalloc::mm_malloc(size_t size)
 	//printf("Allocating");
 	if (size == 0) { return NULL; }//don't use zero size
 
+
 	int newSize = ALIGN(MAX(MIN_BLOCK_SIZE, size + OVERHEAD));//always have room in the payload for a free list header and ensure if the size requested is bigger that the header overhead is added on
 
 
@@ -309,6 +310,16 @@ bool MyMalloc::mm_free(void * bp)
 	coalesce(bp);
 	return true;
 }
+size_t MyMalloc::GetTotalFreeMemory()
+{
+	return (totalMemory - usedMemory);
+}
+
+bool MyMalloc::contains(void * bp)
+{
+	return false;
+}
+
 void MyMalloc::printFreeList()
 {
 	printf("\n\nFree List: ");
