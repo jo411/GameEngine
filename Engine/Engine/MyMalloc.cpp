@@ -316,22 +316,25 @@ size_t MyMalloc::GetTotalFreeMemory()
 
 bool MyMalloc::contains(void * ptr)
 {	
-	printf("Searching for block at: %p\n",ptr);
+	//printf("Searching for block at: %p\n",ptr);
 	page_header* ph = first_page;	
-	char* bp = FIRST_BLKP(ph);
-	bp = NEXT_BLKP(bp);
 
-	while (GET_SIZE(HDRP(bp)) > 0)
-	{
-		if (bp == ptr)
-		{
-			return true;//This block exists in the manager
-		}
+	return (ptr >= ph && ptr <= ph + totalMemory);
 
-		bp = NEXT_BLKP(bp);
-	}	
+	//char* bp = FIRST_BLKP(ph);
+	//bp = NEXT_BLKP(bp);
 
-	return false;//could not find block
+	//while (GET_SIZE(HDRP(bp)) > 0)
+	//{
+	//	if (bp == ptr)
+	//	{
+	//		return true;//This block exists in the manager
+	//	}
+
+	//	bp = NEXT_BLKP(bp);
+	//}	
+
+	//return false;//could not find block
 }
 
 void MyMalloc::printFreeList()
