@@ -105,6 +105,7 @@ public:
 	size_t GetTotalFreeMemory();
 	bool contains(void* ptr);
 	bool IsAllocated(void* ptr);
+	size_t GetLargestFreeBlock();
 	void printFreeList();//display all available blocks
 	void printMemory();//display the status of the heap including free and outstanding allocations
 

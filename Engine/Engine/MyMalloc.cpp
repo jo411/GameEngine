@@ -342,6 +342,23 @@ bool MyMalloc::IsAllocated(void * ptr)
 	return GET_ALLOC(HDRP(ptr));
 }
 
+size_t MyMalloc::GetLargestFreeBlock()
+{
+	size_t max = 0;
+	size_t currentSize = 0;
+	free_header* current = free_list_start;
+	while (current != NULL)
+	{
+		currentSize = GET_SIZE(HDRP(current));
+		if (currentSize > max)
+		{
+			max = currentSize;
+		}
+		current = current->next;
+	}
+	return max;
+}
+
 void MyMalloc::printFreeList()
 {
 	printf("\n\nFree List: ");

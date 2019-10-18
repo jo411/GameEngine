@@ -46,7 +46,7 @@ bool HeapManagerProxy::IsAllocated(const HeapManager * i_pManager, void * i_ptr)
 
 size_t HeapManagerProxy::GetLargestFreeBlock(const HeapManager * i_pManager)
 {
-	return size_t();
+	return ((MyMalloc*)(i_pManager))->GetLargestFreeBlock();
 }
 
 size_t HeapManagerProxy::GetTotalFreeMemory(const HeapManager * i_pManager)
