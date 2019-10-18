@@ -104,6 +104,7 @@ public:
 	bool mm_free(void* bp);//release a pointer to a block of memory managed by this manager
 	size_t GetTotalFreeMemory();
 	bool contains(void* ptr);
+	bool IsAllocated(void* ptr);
 	void printFreeList();//display all available blocks
 	void printMemory();//display the status of the heap including free and outstanding allocations
 

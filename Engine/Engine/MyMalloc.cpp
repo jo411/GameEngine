@@ -337,6 +337,11 @@ bool MyMalloc::contains(void * ptr)
 	//return false;//could not find block
 }
 
+bool MyMalloc::IsAllocated(void * ptr)
+{
+	return GET_ALLOC(HDRP(ptr));
+}
+
 void MyMalloc::printFreeList()
 {
 	printf("\n\nFree List: ");
