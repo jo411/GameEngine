@@ -185,6 +185,10 @@ bool HeapManager_UnitTest()
 			AllocatedAddresses.pop_back();
 
 			bool success = Contains(pHeapManager, pPtr) && IsAllocated(pHeapManager, pPtr);
+			if (!success)
+			{
+				*(int*)pPtr = 1;
+			}
 			assert(success);
 
 			success = free(pHeapManager, pPtr);

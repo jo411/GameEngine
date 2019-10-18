@@ -103,11 +103,13 @@ public:
 	void* mm_malloc(size_t size);//return a pointer to a block of memory of size bytes. Or nullptr if no memory
 	bool mm_free(void* bp);//release a pointer to a block of memory managed by this manager
 	size_t GetTotalFreeMemory();
-	bool contains(void* pntr);
+	bool contains(void* ptr);
 	void printFreeList();//display all available blocks
 	void printMemory();//display the status of the heap including free and outstanding allocations
 
 private:
+	size_t usedMemory;//how much memory is currently allocated
+	size_t totalMemory;//total memory given to the manager
 	void* extend(size_t asize, void* memory);//Currently only gets called once to set up with initial memory. Can be used to ask for more memory from the OS
 	void insert_into_free(void* bp);//take a block pointer and insert it into the free list (Explicit free list)
 	void* findFit(size_t size);//find and return a pointer to the next open block >= size bytes (First fit)

@@ -1,7 +1,5 @@
 #include "MyMalloc.h"
 #include <cstdio>
-size_t usedMemory;
-size_t totalMemory;
 
 MyMalloc::MyMalloc()
 {
@@ -308,6 +306,7 @@ bool MyMalloc::mm_free(void * bp)
 	PUT(HDRP(bp), PACK(size, 0));//mark header as unallocated
 	PUT(FTRP(bp), PACK(size, 0));//mark footer as unallocated	
 	coalesce(bp);
+	usedMemory -= size;
 	return true;
 }
 size_t MyMalloc::GetTotalFreeMemory()
@@ -315,9 +314,24 @@ size_t MyMalloc::GetTotalFreeMemory()
 	return (totalMemory - usedMemory);
 }
 
-bool MyMalloc::contains(void * bp)
-{
-	return false;
+bool MyMalloc::contains(void * ptr)
+{	
+	printf("Searching for block at: %p\n",ptr);
+	page_header* ph = first_page;	
+	char* bp = FIRST_BLKP(ph);
+	bp = NEXT_BLKP(bp);
+
+	while (GET_SIZE(HDRP(bp)) > 0)
+	{
+		if (bp == ptr)
+		{
+			return true;//This block exists in the manager
+		}
+
+		bp = NEXT_BLKP(bp);
+	}	
+
+	return false;//could not find block
 }
 
 void MyMalloc::printFreeList()
