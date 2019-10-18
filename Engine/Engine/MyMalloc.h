@@ -101,6 +101,7 @@ public:
 	//Internal methods
 	void init(void * memory, size_t sizeMemory);//take in memory and create data structures 
 	void* mm_malloc(size_t size);//return a pointer to a block of memory of size bytes. Or nullptr if no memory
+	void mm_free(void* bp);//release a pointer to a block of memory managed by this manager
 	void printFreeList();//display all available blocks
 	void printMemory();//display the status of the heap including free and outstanding allocations
 
@@ -110,7 +111,7 @@ private:
 	void* findFit(size_t size);//find and return a pointer to the next open block >= size bytes (First fit)
 	void set_allocated(void* bp, size_t size); // mark a block descriptor and it's payload as allocated 
 	void remove_from_free(void* bp);//remove a block descriptor from the freelist
-	void* coalesce(void* bp);//Collapse nearby free blocks into one large block
+	void coalesce(void* bp);//Collapse nearby free blocks into one large block
 	void printPage(char * ph);//print the status of a specific page of memory
 };
 

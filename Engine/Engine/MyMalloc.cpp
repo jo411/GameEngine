@@ -141,7 +141,7 @@ void MyMalloc::set_allocated(void * bp, size_t size)
 		//Not using coalesce yet
 		insert_into_free(bpNext);
 		remove_from_free(bp);//remove from free NOTE may proc a memory request (Not anymore without asking the OS for more), amortizing here could save time later
-		//coalesce(bp);//add the new block to the free list //TODO: uncomment 
+		coalesce(bp);//add the new block to the free list
 
 
 
@@ -195,9 +195,60 @@ void MyMalloc::remove_from_free(void * bp)
 
 }
 
-void * MyMalloc::coalesce(void * bp)
+void MyMalloc::coalesce(void * bp)
 {
-	return nullptr;
+	size_t alloc_next = GET_ALLOC(HDRP(NEXT_BLKP(bp)));//get the allocation bit of the next block off of bp, may be epilogue
+	size_t alloc_prev = GET_ALLOC(HDRP(PREV_BLKP(bp))); //get the allocation bit of the previous block off of bp, may be prologue
+	size_t size = GET_SIZE(HDRP(bp));
+	//cases for coalescing
+
+  //Case 1: only next block is free
+	if (alloc_prev && !alloc_next)
+	{
+
+		size += GET_SIZE(HDRP(NEXT_BLKP(bp)));//increment by the size of the next block
+		remove_from_free(NEXT_BLKP(bp));//remove the next
+		PUT(HDRP(bp), PACK(size, 0));//update the header with the new size and mark free
+		PUT(FTRP(bp), PACK(size, 0));//same for footer
+
+	}//case 2: Only previous block is free
+	else if (!alloc_prev && alloc_next)
+	{
+
+		size += GET_SIZE(HDRP(PREV_BLKP(bp)));
+		bp = PREV_BLKP(bp);//move to previous
+		remove_from_free(bp);//remove the previous
+		PUT(HDRP(bp), PACK(size, 0));//update the old header with the new size and mark free
+		PUT(FTRP(bp), PACK(size, 0));//same for footer
+
+	}//case 3: Both blocks are free
+	else if (!alloc_prev && !alloc_next)
+	{
+
+		size += GET_SIZE(HDRP(PREV_BLKP(bp))) + GET_SIZE(HDRP(NEXT_BLKP(bp)));//update size for both blocks
+		remove_from_free(PREV_BLKP(bp));//remove both blocks from the free list
+		remove_from_free(NEXT_BLKP(bp));
+		bp = PREV_BLKP(bp);//move back to previous
+		PUT(HDRP(bp), PACK(size, 0));//update header and footer with new size
+		PUT(FTRP(bp), PACK(size, 0));
+	}
+
+	insert_into_free(bp);
+	//	No need to release memory to the OS yet 
+
+	//if ((GET_SIZE(HDRP(PREV_BLKP(bp))) == 2 * WORD_SIZE) && GET_SIZE(HDRP(NEXT_BLKP(bp))) == 0)//if the new block occupies the entire page(prev and next are sentinels)
+	//{
+	
+
+	//	page_header* pp = bp - 2 * WORD_SIZE - sizeof(page_header) - sizeof(block_header);//move the pointer back to the start of the page
+
+	//	if (pp->size >= min_page_unmap_mult * mem_pagesize())//if the page is at least the minimum threshold
+	//	{
+	//		removePage(pp);//release it
+	//		return;
+	//	}
+	//}
+	
 }
 
 
@@ -225,6 +276,16 @@ void * MyMalloc::mm_malloc(size_t size)
 
 	return bp;
 
+}
+void MyMalloc::mm_free(void * bp)
+{
+	size_t size;
+	if (bp == NULL) { return; }
+	size = GET_SIZE(HDRP(bp));
+
+	PUT(HDRP(bp), PACK(size, 0));//mark header as unallocated
+	PUT(FTRP(bp), PACK(size, 0));//mark footer as unallocated	
+	coalesce(bp);
 }
 void MyMalloc::printFreeList()
 {
