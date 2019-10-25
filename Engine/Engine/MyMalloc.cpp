@@ -24,7 +24,7 @@ void * MyMalloc::extend(size_t asize, void* memory)
 		char* pp;//page pointer
 		char* bp;//new block pointer
 		
-		pp =(char*) memory;//process input memory
+		pp =reinterpret_cast<char*>(memory);//process input memory
 
 
 	  //give new page sentinals
@@ -45,11 +45,11 @@ void * MyMalloc::extend(size_t asize, void* memory)
 
 
 		//Add new page to the start of the list of pages
-		page_header* ph = (page_header*)(pp);
+		page_header* ph = reinterpret_cast<page_header*>(pp);
 
 		if (first_page == nullptr)//first allocation set the list starters
 		{
-			first_page = (page_header*)pp;
+			first_page = reinterpret_cast<page_header*>(pp);
 			first_page->next = nullptr;
 			first_page->prev = nullptr;
 			first_page->size = asize;
@@ -69,7 +69,7 @@ void * MyMalloc::extend(size_t asize, void* memory)
 		if (free_list_start == nullptr)//if there isn't a list start
 		{
 			//create first entry in free list
-			free_list_start = (free_header*)bp;
+			free_list_start =reinterpret_cast<free_header*>(bp);
 			free_list_start->next = nullptr;
 			free_list_start->prev = nullptr;
 		}
