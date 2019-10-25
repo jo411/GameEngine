@@ -42,26 +42,32 @@ private:
 #define MIN_BLOCK_SIZE (OVERHEAD+sizeof(free_header))
 
 /*find header by payload pointer*/
-#define HDRP(bp) ((char*)(bp)-sizeof(block_header))
+#define HDRP(bp) (reinterpret_cast<char*>(bp)-sizeof(block_header))
+	//#define HDRP(bp) ((char*)(bp)-sizeof(block_header))
 
 /*find a footer by block pointer*/
-#define FTRP(bp) ((char*)(bp)+GET_SIZE(HDRP(bp))-OVERHEAD)
+#define FTRP(bp) (reinterpret_cast<char*>(bp)+GET_SIZE(HDRP(bp))-OVERHEAD)
+	//#define HDRP(bp) ((char*)(bp)-sizeof(block_header))
 
 /*Part of accessing a word*/
-#define GET(p) (*(size_t*)(p))
+#define GET(p) (*reinterpret_cast<size_t*>(p))
+	//#define GET(p) (*(size_t*)(p))
 
 /*Tools for accessing header/footer fields*/
 #define GET_SIZE(p) (GET(p) & ~0xF)//This assumes 16bit allignment can change for any other size
 #define GET_ALLOC(p) (GET(p) & 0x1)
-#define PUT(p,val)(*(size_t*)(p)=(val))//install data
+#define PUT(p,val)(*reinterpret_cast<size_t*>(p)=(val))//install data
+	//#define PUT(p,val)(*(size_t*)(p)=(val))//install data
 #define PACK(size,alloc)((size) | (alloc))//pack bits
 
 /*Gets the block pointer of the first block in a page*/
-#define FIRST_BLKP(pp) ((char*)(pp)+sizeof(page_header)+2*WORD_SIZE+sizeof(block_header))//get the first block header of a given pagePointer factoring in a page header and the two sentinals
-
+#define FIRST_BLKP(pp) (reinterpret_cast<char*>(pp)+sizeof(page_header)+2*WORD_SIZE+sizeof(block_header))//get the first block header of a given pagePointer factoring in a page header and the two sentinals
+	//#define FIRST_BLKP(pp) ((char*)(pp)+sizeof(page_header)+2*WORD_SIZE+sizeof(block_header))
 /*gets the next/previous header by a payload pointer*/
-#define NEXT_BLKP(bp)((char*)(bp)+GET_SIZE(HDRP(bp)))
-#define PREV_BLKP(bp)((char*)(bp)-GET_SIZE((char*)(bp)-OVERHEAD))
+#define NEXT_BLKP(bp)(reinterpret_cast<char*>(bp)+GET_SIZE(HDRP(bp)))
+	//#define NEXT_BLKP(bp)((char*)(bp)+GET_SIZE(HDRP(bp)))
+#define PREV_BLKP(bp)(reinterpret_cast<char*>(bp)-GET_SIZE((char*)(bp)-OVERHEAD))
+	//#define PREV_BLKP(bp)((char*)(bp)-GET_SIZE((char*)(bp)-OVERHEAD))
 
 /*free list struct*/	
 
