@@ -90,13 +90,13 @@ void MyMalloc::insert_into_free(void * bp)
 	if (free_list_start == nullptr)//if there isn't a list start
 	{
 		//create first entry in free list
-		free_list_start = (free_header*)bp;
+		free_list_start =reinterpret_cast<free_header*>(bp);
 		free_list_start->next = nullptr;
 		free_list_start->prev = nullptr;
 	}
 	else
 	{
-		free_header* fh = (free_header*)bp;
+		free_header* fh = reinterpret_cast<free_header*>(bp);
 		fh->next = free_list_start;
 		free_list_start->prev = fh;
 		fh->prev = nullptr;
