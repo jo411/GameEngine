@@ -24,7 +24,7 @@ void * MyMalloc::extend(size_t asize, void* memory)
 		char* pp;//page pointer
 		char* bp;//new block pointer
 		
-		pp =reinterpret_cast<char*>(memory);//process input memory
+		pp = static_cast<char*>(memory);//process input memory
 
 
 	  //give new page sentinals
@@ -90,13 +90,13 @@ void MyMalloc::insert_into_free(void * bp)
 	if (free_list_start == nullptr)//if there isn't a list start
 	{
 		//create first entry in free list
-		free_list_start =reinterpret_cast<free_header*>(bp);
+		free_list_start = static_cast<free_header*>(bp);
 		free_list_start->next = nullptr;
 		free_list_start->prev = nullptr;
 	}
 	else
 	{
-		free_header* fh = reinterpret_cast<free_header*>(bp);
+		free_header* fh = static_cast<free_header*>(bp);
 		fh->next = free_list_start;
 		free_list_start->prev = fh;
 		fh->prev = nullptr;
@@ -150,19 +150,6 @@ void MyMalloc::set_allocated(void * bp, size_t size)
 		PUT(FTRP(bp), PACK(extra_size, 0));
 		insert_into_free(bp);//add the new block to the free list
 
-
-		////assign current block
-		//PUT(HDRP(bp), PACK(size, 1));
-		//PUT(FTRP(bp), PACK(size, 1));
-		//
-		//void* bpNext = NEXT_BLKP(bp);//get next block
-		//PUT(HDRP(bpNext), PACK(extra_size, 0));//mark the leftover space as unallocated
-		//PUT(FTRP(bpNext), PACK(extra_size, 0));
-		////Not using coalesce yet
-		////insert_into_free(bpNext);
-		//remove_from_free(bp);//remove from free NOTE may proc a memory request (Not anymore without asking the OS for more), amortizing here could save time later
-		//coalesce(bp);//add the new block to the free list
-
 	}
 	else//assign the whole block
 	{
@@ -170,8 +157,6 @@ void MyMalloc::set_allocated(void * bp, size_t size)
 		PUT(FTRP(bp), PACK(blockSize, 1));
 		remove_from_free(bp);
 	}
-
-
 
 }
 
