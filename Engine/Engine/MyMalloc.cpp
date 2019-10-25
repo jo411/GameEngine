@@ -165,7 +165,7 @@ void MyMalloc::set_allocated(void * bp, size_t size)
  */
 void MyMalloc::remove_from_free(void * bp)
 {
-	free_header* fh = (free_header*)bp;
+	free_header* fh =static_cast<free_header*>(bp);
 
 	if (fh->prev)//if a previous exists
 	{
