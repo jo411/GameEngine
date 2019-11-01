@@ -17,38 +17,38 @@ public:
 
 	float magnitude()const;
 	//Operators
-	friend std::ostream& operator<<(std::ostream& os, const Vector2 v2);//cout operator
+	friend std::ostream& operator<<(std::ostream& os, const Vector2& v2);//cout operator
 
 	//Arithmatic
-	Vector2 operator+(const Vector2 rhs) const;//a+b
-	Vector2 operator-(const Vector2 rhs)const;//a-b
+	Vector2 operator+(const Vector2& rhs) const;//a+b
+	Vector2 operator-(const Vector2& rhs)const;//a-b
 	Vector2 operator-()const;//-a
-	Vector2 operator*(const Vector2 rhs)const;//a*b
+	Vector2 operator*(const Vector2& rhs)const;//a*b
 	Vector2 operator*(int scalar)const;//a*b
 	Vector2 operator*(float scalar)const;//a*b
 	Vector2 operator*(double scalar)const;//a*b
-	Vector2 operator/(const Vector2 rhs)const;//a/b
+	Vector2 operator/(const Vector2& rhs)const;//a/b
 	Vector2 operator/(int scalar)const;//a/b
 	Vector2 operator/(float scalar)const;//a/b
 	Vector2 operator/(double scalar)const;//a/b
 
 	//Comparison
-	bool operator ==(const Vector2 rhs)const; //a==b
-	bool operator !=(const Vector2 rhs)const; //a!=b
-	bool operator >(const Vector2 rhs)const; //a>b
-	bool operator <(const Vector2 rhs)const; //a<b
-	bool operator >=(const Vector2 rhs)const; //a>=b
-	bool operator <=(const Vector2 rhs)const; //a<=b
+	bool operator ==(const Vector2& rhs)const; //a==b
+	bool operator !=(const Vector2& rhs)const; //a!=b
+	bool operator >(const Vector2& rhs)const; //a>b
+	bool operator <(const Vector2& rhs)const; //a<b
+	bool operator >=(const Vector2& rhs)const; //a>=b
+	bool operator <=(const Vector2& rhs)const; //a<=b
 
 	//Compound assignment
-	Vector2& operator+=(const Vector2 rhs);//a=a+b
-	Vector2& operator-=(const Vector2 rhs);//a=a-b
-	Vector2& operator*=(const Vector2 rhs);//a=a*b
+	Vector2& operator+=(const Vector2& rhs);//a=a+b
+	Vector2& operator-=(const Vector2& rhs);//a=a-b
+	Vector2& operator*=(const Vector2& rhs);//a=a*b
 	Vector2& operator*=(int scalar);//a*b
 	Vector2& operator*=(float scalar);//a*b
 	Vector2& operator*=(double scalar);//a*b
 	Vector2& operator/=(int scalar);//a=a/b
-	Vector2& operator/=(const Vector2 rhs);//a=a/b
+	Vector2& operator/=(const Vector2& rhs);//a=a/b
 	Vector2& operator/=(float scalar);//a=a/b
 	Vector2& operator/=(double scalar);//a=a/b
 };
