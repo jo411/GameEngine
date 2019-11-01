@@ -41,14 +41,14 @@ public:
 	bool operator <=(const Vector2 rhs)const; //a<=b
 
 	//Compound assignment
-	Vector2& operator+=(Vector2 rhs);//a=a+b
-	Vector2& operator-=(Vector2 rhs);//a=a-b
-	Vector2& operator*=(Vector2 rhs);//a=a*b
+	Vector2& operator+=(const Vector2 rhs);//a=a+b
+	Vector2& operator-=(const Vector2 rhs);//a=a-b
+	Vector2& operator*=(const Vector2 rhs);//a=a*b
 	Vector2& operator*=(int scalar);//a*b
 	Vector2& operator*=(float scalar);//a*b
 	Vector2& operator*=(double scalar);//a*b
 	Vector2& operator/=(int scalar);//a=a/b
-	Vector2& operator/=(Vector2 rhs);//a=a/b
+	Vector2& operator/=(const Vector2 rhs);//a=a/b
 	Vector2& operator/=(float scalar);//a=a/b
 	Vector2& operator/=(double scalar);//a=a/b
 };

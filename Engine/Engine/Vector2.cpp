@@ -100,21 +100,21 @@ bool Vector2::operator<=(const Vector2 rhs) const
 	return ((*this == rhs) || (magnitude() < rhs.magnitude()));
 }
 
-Vector2 & Vector2::operator+=(Vector2 rhs)
+Vector2 & Vector2::operator+=(const Vector2 rhs)
 {
 	x += rhs.x;
 	y += rhs.y;
 	return *this;
 }
 
-Vector2 & Vector2::operator-=(Vector2 rhs)
+Vector2 & Vector2::operator-=(const Vector2 rhs)
 {
 	x -= rhs.x;
 	y -= rhs.y;
 	return *this;
 }
 
-Vector2 & Vector2::operator*=(Vector2 rhs)
+Vector2 & Vector2::operator*=(const Vector2 rhs)
 {
 	x *= rhs.x;
 	y *= rhs.y;
@@ -142,7 +142,7 @@ Vector2 & Vector2::operator*=(double scalar)
 	return *this;
 }
 
-Vector2 & Vector2::operator/=(Vector2 rhs)
+Vector2 & Vector2::operator/=(const Vector2 rhs)
 {
 	x /= rhs.x;
 	y /= rhs.y;
