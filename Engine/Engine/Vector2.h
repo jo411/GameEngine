@@ -10,8 +10,7 @@ public:
 	float y;
 
 	
-	Vector2(float x, float y);
-	Vector2();
+	Vector2(float i_x = 0, float i_y = 0);
 
 	float magnitude()const;
 	//Operators
