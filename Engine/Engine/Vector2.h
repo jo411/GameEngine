@@ -9,6 +9,9 @@ public:
 	float x; 
 	float y;
 
+	inline float getX()const { return x; }
+	inline float getY()const { return x; }
+
 	
 	Vector2(float i_x = 0, float i_y = 0);
 
@@ -17,7 +20,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const Vector2 v2);//cout operator
 
 	//Arithmatic
-	Vector2 operator+(Vector2 rhs);//a+b
+	Vector2 operator+(Vector2 const& rhs) const;//a+b
 	Vector2 operator-(Vector2 rhs);//a-b
 	Vector2 operator-();//-a
 	Vector2 operator*(Vector2 rhs);//a*b
