@@ -6,12 +6,12 @@ Vector2::Vector2(float i_x, float i_y):x(i_x), y(i_y)
 }
 
 
-float Vector2::magnitude()const
+inline float Vector2::magnitude()const
 {
 	return sqrt(x*x + y * y);
 }
 
-Vector2 Vector2::operator+(Vector2 rhs)
+Vector2 Vector2::operator+(Vector2 const& rhs) const
 {
 	return  Vector2(x + rhs.x, y + rhs.y);
 }
@@ -30,6 +30,8 @@ Vector2 Vector2::operator*(Vector2 rhs)
 {
 	return  Vector2(x * rhs.x, y * rhs.y);
 }
+
+
 
 Vector2 Vector2::operator*(int scalar)
 {
