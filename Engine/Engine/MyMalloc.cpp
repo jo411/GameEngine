@@ -294,12 +294,12 @@ bool MyMalloc::mm_free(void * bp)
 	usedMemory -= size;
 	return true;
 }
-size_t MyMalloc::GetTotalFreeMemory()
+size_t MyMalloc::GetTotalFreeMemory()const
 {
 	return (totalMemory - usedMemory);
 }
 
-bool MyMalloc::contains(void * ptr)
+bool MyMalloc::contains(const void * ptr)const
 {	
 	//printf("Searching for block at: %p\n",ptr);
 	page_header* ph = first_page;	
@@ -322,12 +322,12 @@ bool MyMalloc::contains(void * ptr)
 	//return false;//could not find block
 }
 
-bool MyMalloc::IsAllocated(void * ptr)
+bool MyMalloc::IsAllocated(void * ptr)const
 {
 	return GET_ALLOC(HDRP(ptr));
 }
 
-size_t MyMalloc::GetLargestFreeBlock()
+size_t MyMalloc::GetLargestFreeBlock()const
 {
 	size_t max = 0;
 	size_t currentSize = 0;
@@ -344,7 +344,7 @@ size_t MyMalloc::GetLargestFreeBlock()
 	return max;
 }
 
-void MyMalloc::printFreeList()
+void MyMalloc::printFreeList()const
 {
 	printf("\n\nFree List: ");
 	free_header* current = free_list_start;
@@ -376,7 +376,7 @@ void MyMalloc::printFreeList()
 	}
 }
 
-void MyMalloc::printMemory()
+void MyMalloc::printMemory()const
 {
 	page_header* current = first_page;
 	while (current != NULL)
@@ -409,7 +409,7 @@ void MyMalloc::printMemory()
 	}
 }
 
-void MyMalloc::printPage(char* ph)
+void MyMalloc::printPage(char* ph)const
 {
 	printf("\nPage Details: \n");
 	char* bp = FIRST_BLKP(ph);
