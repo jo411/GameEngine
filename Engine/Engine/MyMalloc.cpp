@@ -264,7 +264,7 @@ void * MyMalloc::mm_malloc(size_t size)
 	if (size == 0) { return NULL; }//don't use zero size
 
 
-	int newSize = ALIGN(MAX(MIN_BLOCK_SIZE, size + OVERHEAD));//always have room in the payload for a free list header and ensure if the size requested is bigger that the header overhead is added on
+	size_t newSize = ALIGN(MAX(MIN_BLOCK_SIZE, size + OVERHEAD));//always have room in the payload for a free list header and ensure if the size requested is bigger that the header overhead is added on
 
 
 	void* bp = findFit(newSize);

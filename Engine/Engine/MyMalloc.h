@@ -8,18 +8,6 @@ private:
 /* always use 16-byte alignment */
 #define ALIGNMENT 16
 
-/* rounds up to the nearest multiple of ALIGNMENT */
-#define ALIGN(size) (((size) + (ALIGNMENT-1)) & ~(ALIGNMENT-1))
-
-//rounds a size up to the nearest multiple of page size
-#define ALIGN_PAGE(size) (((size) + ((mem_pagesize())-1)) & ~((mem_pagesize())-1))
-
-/* rounds up to the nearest multiple of mem_pagesize() */
-#define PAGE_ALIGN(size) (((size) + (mem_pagesize()-1)) & ~(mem_pagesize()-1))
-
-/*Size of the overhead required to track a page*/
-#define PAGE_OVERHEAD ((sizeof(page_header)+3*WORD_SIZE+sizeof(block_header)))
-
 /*Size of a size_t*/
 #define SIZE_T_SIZE (ALIGN(sizeof(size_t)))
 
@@ -29,35 +17,54 @@ private:
 /*set a chunk to be 4 words*/
 #define CHUNK_SIZE (1<<14)
 
-/*Align a chunk*/
-#define CHUNK_ALIGN(size) (((size)+(CHUNK_SIZE-1))&~(CHUNK_SIZE-1))
-
-/*Max value of 2 values*/
-#define MAX(x, y) ((x) > (y) ? (x) : (y))
-
 /*Gets the extra size required to hold a payload*/
 #define OVERHEAD (sizeof(block_header)+sizeof(block_footer))
 
 /*Defines the smallest size that a block can be to make sure that a free header can always be placed in the payload*/
 #define MIN_BLOCK_SIZE (OVERHEAD+sizeof(free_header))
 
-/*find header by payload pointer*/
-#define HDRP(bp) (reinterpret_cast<char*>(bp)-sizeof(block_header))	
-
-/*find a footer by block pointer*/
-#define FTRP(bp) (reinterpret_cast<char*>(bp)+GET_SIZE(HDRP(bp))-OVERHEAD)
-
-/*Part of accessing a word*/
+	/*Part of accessing a word*/
 #define GET(p) (*reinterpret_cast<size_t*>(p))
 
-/*Tools for accessing header/footer fields*/
+	/*Tools for accessing header/footer fields*/
 #define GET_SIZE(p) (GET(p) & ~0xF)//This assumes 16bit allignment can change for any other size
 #define GET_ALLOC(p) (GET(p) & 0x1)
 #define PUT(p,val)(*reinterpret_cast<size_t*>(p)=(val))//install data
 #define PACK(size,alloc)((size) | (alloc))//pack bits
 
+
+
+	/*Program Inline Functions*/
+
+
+/* rounds up to the nearest multiple of ALIGNMENT */
+//#define ALIGN(size) (((size) + (ALIGNMENT-1)) & ~(ALIGNMENT-1))
+	inline size_t ALIGN(size_t size) { return (((size)+(ALIGNMENT - 1)) & ~(ALIGNMENT - 1)); }
+
+/*Size of the overhead required to track a page*/
+//#define PAGE_OVERHEAD ((sizeof(page_header)+3*WORD_SIZE+sizeof(block_header)))
+	inline size_t PAGE_OVERHEAD() { return ((sizeof(page_header) + 3 * WORD_SIZE + sizeof(block_header))); }
+
+
+/*Align a chunk*/
+//#define CHUNK_ALIGN(size) (((size)+(CHUNK_SIZE-1))&~(CHUNK_SIZE-1))
+	inline size_t CHUNK_ALIGN(size_t size) {return (((size)+(CHUNK_SIZE - 1))&~(CHUNK_SIZE - 1));}
+
+/*Max value of 2 values*/
+//#define MAX(x, y) ((x) > (y) ? (x) : (y))
+	inline size_t MAX(size_t x, size_t y) { return  ((x) > (y) ? (x) : (y)); }
+	
+/*find header by payload pointer*/
+//#define HDRP(bp) (reinterpret_cast<char*>(bp)-sizeof(block_header))	
+	inline char* HDRP(void* bp) { return (reinterpret_cast<char*>(bp) - sizeof(block_header)); }
+
+/*find a footer by block pointer*/
+//#define FTRP(bp) (reinterpret_cast<char*>(bp)+GET_SIZE(HDRP(bp))-OVERHEAD)
+	inline char* FTRP(void* bp) { return (reinterpret_cast<char*>(bp) + GET_SIZE(HDRP(bp)) - OVERHEAD); }
+
 /*Gets the block pointer of the first block in a page*/
-#define FIRST_BLKP(pp) (reinterpret_cast<char*>(pp)+sizeof(page_header)+2*WORD_SIZE+sizeof(block_header))//get the first block header of a given pagePointer factoring in a page header and the two sentinals
+//#define FIRST_BLKP(pp) (reinterpret_cast<char*>(pp)+sizeof(page_header)+2*WORD_SIZE+sizeof(block_header))//get the first block header of a given pagePointer factoring in a page header and the two sentinals
+	inline char* FIRST_BLKP(char* pp) { return (reinterpret_cast<char*>(pp) + sizeof(page_header) + 2 * WORD_SIZE + sizeof(block_header)); }
 
 /*gets the next/previous header by a payload pointer*/
 #define NEXT_BLKP(bp)(reinterpret_cast<char*>(bp)+GET_SIZE(HDRP(bp)))
