@@ -11,59 +11,59 @@ inline float Vector2::magnitude()const
 	return sqrt(x*x + y * y);
 }
 
-Vector2 Vector2::operator+(Vector2 const& rhs) const
+Vector2 Vector2::operator+(const Vector2 rhs) const
 {
 	return  Vector2(x + rhs.x, y + rhs.y);
 }
 
-Vector2 Vector2::operator-(Vector2 rhs)
+Vector2 Vector2::operator-(const Vector2 rhs)const
 {
 	return Vector2(x - rhs.x, y - rhs.y);
 }
 
-Vector2 Vector2::operator-()
+Vector2 Vector2::operator-()const
 {
 	return Vector2(-x, -y);
 }
 
-Vector2 Vector2::operator*(Vector2 rhs)
+Vector2 Vector2::operator*(const Vector2 rhs)const
 {
 	return  Vector2(x * rhs.x, y * rhs.y);
 }
 
 
 
-Vector2 Vector2::operator*(int scalar)
+Vector2 Vector2::operator*(int scalar)const
 {
 	return Vector2(x * scalar, y * scalar);
 }
 
-Vector2 Vector2::operator*(float scalar)
+Vector2 Vector2::operator*(float scalar)const
 {
 	return Vector2(x * scalar, y * scalar);
 }
 
-Vector2 Vector2::operator*(double scalar)
+Vector2 Vector2::operator*(double scalar)const
 {
 	return  Vector2(x * (float)scalar, y * (float)scalar);
 }
 
-Vector2 Vector2::operator/(Vector2 rhs)
+Vector2 Vector2::operator/(const Vector2 rhs)const
 {
 	return Vector2(x / rhs.x, y / rhs.y);
 }
 
-Vector2 Vector2::operator/(int scalar)
+Vector2 Vector2::operator/(int scalar)const
 {
 	return Vector2(x / (float)scalar, y / (float)scalar);
 }
 
-Vector2 Vector2::operator/(float scalar)
+Vector2 Vector2::operator/(float scalar)const
 {
 	return  Vector2(x / scalar, y / scalar);
 }
 
-Vector2 Vector2::operator/(double scalar)
+Vector2 Vector2::operator/(double scalar)const
 {
 	return Vector2(x / (float)scalar, y / (float)scalar);
 }
