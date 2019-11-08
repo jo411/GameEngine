@@ -9,9 +9,10 @@
 #include "Components\randomPosition.h"
 #include "Components\Walker.h"
 #include "Components\Spawner.h"
+#include "Components\TargetFollow.h"
 //Josh Nelson
 //u0936149
-//There are a lot of classes especially for components but they aren't large
+//
 //The basic structure I used to organize this assignment looks like this
 
 
@@ -23,6 +24,13 @@
 //                                |                 |
 //                                +-----------------+
 
+
+//Assignment 8 Notes
+
+// The three required components: 
+// PlayerController is a component that uses the user's input to move the player.
+// TargetFollow makes a game object follow a target (it has been given the player here).
+// Spawner makes a game object spawn more dumb enemies that do not follow.
 
 //Main Game logic
 
@@ -80,7 +88,8 @@ int main()
 			monster->name->fromCharArray(numberString);
 			monster->addComponent(new Talker());
 			monster->addComponent(new randomPosition(10, 10));
-			monster->addComponent(new Walker(1));
+			//monster->addComponent(new Walker(1));
+			monster->addComponent(new TargetFollow(1,player));
 		}
 
 		//Create a GameObject with a spawner component that adds monsters to the scene that will be removed over time

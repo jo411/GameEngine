@@ -9,5 +9,6 @@ public:
 	void update(UpdateParams* params);
 	void draw(UpdateParams* params);
 	void onAddToObject();
+
 };
 
