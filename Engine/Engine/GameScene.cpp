@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "malloc.h"
 #include "ListPointer.h"
+#include "Allocators.h"
 
 //TODO: actually use the rule of three
 

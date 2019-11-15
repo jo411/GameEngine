@@ -10,6 +10,8 @@
 #include "Components\Walker.h"
 #include "Components\Spawner.h"
 #include "Components\TargetFollow.h"
+#include "Allocators.h"
+
 //Josh Nelson
 //u0936149
 //
@@ -33,9 +35,18 @@
 // Spawner makes a game object spawn more dumb enemies that do not follow.
 
 //Main Game logic
+void testingNew()
+{
+	GameScene Scene;//Create the main scene.
 
+	size_t allocID = Allocators::Instance()->AddAllocator();
+	std::cout << "New allocator with ID: " << allocID << "\n";
+	GameObject* test = Scene.CreateGameObject();
+}
 int main()
 {
+	testingNew();
+	return 0;
 	{
 		srand((unsigned int)time(NULL));//seed the random function
 
