@@ -143,13 +143,13 @@ void* operator new[](std::size_t size)
 	tmp += sizeof(size_t);//incrememnt to the user space
 	return static_cast<void*>(tmp);
 }
-void operator delete[](void* p)
+void operator delete[](void* ptr)
 {
 #ifdef TRACING_ENABLED
-	std::cout << "Calling delete[] on"<<p<<"\n";
+	std::cout << "Calling delete[] on"<<ptr<<"\n";
 #endif // TRACING_ENABLED
 
-	size_t* tmp = reinterpret_cast<size_t*>(p);
+	size_t* tmp = reinterpret_cast<size_t*>(ptr);
 	size_t size = *tmp;
-	
+	Allocators::Instance()->GetAllocator()->mm_free(ptr);
 }
