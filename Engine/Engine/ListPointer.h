@@ -1,5 +1,6 @@
 #pragma once
 //The List<pointer> is simply a (semi)generic list that can hold pointers. It manages the memory needed.
+
 class ListPointer
 {
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <new>
 #include <vector>
+#include <map>
 #include "MyMalloc.h"
 class Allocators
 {
@@ -13,9 +14,11 @@ public:
 	MyMalloc* GetAllocator(size_t ID);
 	MyMalloc* GetAllocator();
 	size_t AddAllocator(size_t size=DEFAULT_HEAP_SIZE);		
-	
+	void mapAllocator(void* ptr, size_t allocatorID);
+	size_t getMappedAllocator(void* ptr);
 private:
-	std::vector<MyMalloc*> allAllocators;
+	std::vector<MyMalloc*> allAllocators;	
+	std::map<void*, size_t> mappedAllocators;
 	static void Initialize();
 	Allocators() {};// Private so that it can  not be called
 	Allocators(Allocators const&) {};// copy constructor is private

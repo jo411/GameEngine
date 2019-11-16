@@ -10,6 +10,7 @@ class GameScene
 	bool inUpdate=false;//Is this scene currently updating
 	void clearBuffers();//Add all objects in the addBuffer and removes all in removeBuffer after an update finishes
 	bool dirtyBuffer = false;//Have the buffers been modified during an update
+	size_t allocatorID;
 public:
 	GameScene();
 	~GameScene();

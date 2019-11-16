@@ -35,17 +35,15 @@
 // Spawner makes a game object spawn more dumb enemies that do not follow.
 
 //Main Game logic
-void testingNew()
+void testingNewAndDelete()
 {
-	GameScene Scene;//Create the main scene.
-
-	size_t allocID = Allocators::Instance()->AddAllocator();
-	std::cout << "New allocator with ID: " << allocID << "\n";
-	GameObject* test = Scene.CreateGameObject();
+	//GameScene Scene;//Create the main scene.	
+	//GameObject* test = Scene.CreateGameObject();
+	size_t allocatorID = Allocators::Instance()->AddAllocator();	
 }
 int main()
 {
-	testingNew();
+	testingNewAndDelete();
 	return 0;
 	{
 		srand((unsigned int)time(NULL));//seed the random function

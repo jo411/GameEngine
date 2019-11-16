@@ -8,7 +8,8 @@
 //Constructs the scene and allocates lists for all the dynamic memory needed
 GameScene::GameScene()
 {	
-	scene = new ListPointer(1);
+	allocatorID = Allocators::Instance()->AddAllocator();
+	scene = new(allocatorID) ListPointer(1);
 	addBuffer = new ListPointer(1);
 	removeBuffer = new ListPointer(1);
 }
