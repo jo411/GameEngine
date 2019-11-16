@@ -9,7 +9,7 @@
 GameScene::GameScene()
 {	
 	allocatorID = Allocators::Instance()->AddAllocator();
-	scene = new(allocatorID,true) ListPointer(1);
+	scene = new(allocatorID) ListPointer(1);
 	addBuffer = new ListPointer(1);
 	removeBuffer = new ListPointer(1);
 }

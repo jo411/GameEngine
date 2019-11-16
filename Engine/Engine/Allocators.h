@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include "MyMalloc.h"
+#include <string>
 class Allocators
 {
 
@@ -25,7 +26,9 @@ private:
 	Allocators& operator=(Allocators const&) {};// assignment operator is private
 	static Allocators* m_pInstance;
 	MyMalloc* internalMemory;
-	void* operator new(size_t size, size_t allocatorID);
+
 	
 };
+
+void* operator new(size_t size, size_t allocatorID);
 

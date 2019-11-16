@@ -67,14 +67,14 @@ void Allocators::Initialize()
 //}
 
 //New with specified ID
-void* operator new(size_t size, size_t allocatorID, bool random)
+void* operator new(size_t size, size_t allocatorID)
 {
 	std::cout << "Calling new on allocator: " << allocatorID << ".\n";
 	void* ptr = Allocators::Instance()->GetAllocator(allocatorID)->mm_malloc(size);
 	Allocators::Instance()->mapAllocator(ptr, allocatorID);
 	return ptr;
 }
-	
+
 //generic new
 void * operator new(size_t size)
 {
@@ -100,13 +100,13 @@ void operator delete(void* ptr)
 	
 }
 
-
-void *operator new[](std::size_t s)
-{
-	// TODO: implement
-	return NULL;
-}
-void operator delete[](void *p)
-{
-	// TODO: implement
-}
+//
+//void *operator new[](std::size_t s)
+//{
+//	// TODO: implement
+//	return NULL;
+//}
+//void operator delete[](void *p)
+//{
+//	// TODO: implement
+//}
