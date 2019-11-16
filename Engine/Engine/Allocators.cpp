@@ -109,7 +109,8 @@ void * operator new(size_t size)
 //generic delete
 void operator delete(void* ptr)
 {
-	
+
+
 	int allocatorUsed = Allocators::Instance()->getMappedAllocator(ptr);
 	if (allocatorUsed >= 0)
 	{
@@ -118,8 +119,7 @@ void operator delete(void* ptr)
 #endif // TRACING_ENABLED
 		
 		Allocators::Instance()->unmapAllocator(ptr);
-		Allocators::Instance()->GetAllocator(allocatorUsed)->mm_free(ptr);
-		
+		Allocators::Instance()->GetAllocator(allocatorUsed)->mm_free(ptr);		
 	}
 	else
 	{
@@ -128,8 +128,7 @@ void operator delete(void* ptr)
 #endif // TRACING_ENABLED
 		
 		Allocators::Instance()->GetAllocator()->mm_free(ptr);
-	}
-	
+	}	
 }
 
 
@@ -139,14 +138,18 @@ void* operator new[](std::size_t size)
 	std::cout << "Calling new[] with size "<<size<<"\n";
 #endif // TRACING_ENABLED
 	void* ptr = Allocators::Instance()->GetAllocator()->mm_malloc(size+sizeof(size_t));//get enough room for the number of objects
-	char* tmp = reinterpret_cast<char*>(ptr);
+	size_t* tmp = reinterpret_cast<size_t*>(ptr);
 	*tmp = size;//mark the size
-	return ptr;
+	tmp += sizeof(size_t);//incrememnt to the user space
+	return static_cast<void*>(tmp);
 }
 void operator delete[](void* p)
 {
 #ifdef TRACING_ENABLED
 	std::cout << "Calling delete[] on"<<p<<"\n";
 #endif // TRACING_ENABLED
-	// TODO: implement
+
+	size_t* tmp = reinterpret_cast<size_t*>(p);
+	size_t size = *tmp;
+	
 }

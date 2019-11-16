@@ -37,6 +37,13 @@
 //Main Game logic
 void testingNewAndDelete()
 {	
+	for (int i = 0; i < 4; i++)
+	{
+		GameScene* scene = new GameScene();
+		delete scene;
+	}
+
+
 	std::vector<GameScene*> scenes;
 	int numScenes = 1;
 
@@ -44,7 +51,11 @@ void testingNewAndDelete()
 		
 		scenes.push_back(new GameScene());
 	}
+	for (int i = 0; i < numScenes; i++) {
 
+		delete scenes[i];
+	}
+	
 	//GameScene* manyScenes = new GameScene[numScenes];
 	//delete[] manyScenes;
 
