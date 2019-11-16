@@ -36,14 +36,23 @@
 
 //Main Game logic
 void testingNewAndDelete()
-{
-	//GameScene Scene;//Create the main scene.	
-	//GameObject* test = Scene.CreateGameObject();
-	size_t allocatorID = Allocators::Instance()->AddAllocator();	
+{	
+	std::vector<GameScene*> scenes;
+	int numScenes = 1;
+
+	for (int i = 0; i < numScenes; i++)	{
+		
+		scenes.push_back(new GameScene());
+	}
+
+	//GameScene* manyScenes = new GameScene[numScenes];
+	//delete[] manyScenes;
+
 }
 int main()
 {
 	testingNewAndDelete();
+	//_CrtDumpMemoryLeaks();
 	return 0;
 	{
 		srand((unsigned int)time(NULL));//seed the random function
