@@ -67,7 +67,7 @@ void Allocators::Initialize()
 //}
 
 //New with specified ID
-void* operator new(size_t size, size_t allocatorID)
+void* operator new(size_t size, size_t allocatorID, bool random)
 {
 	std::cout << "Calling new on allocator: " << allocatorID << ".\n";
 	void* ptr = Allocators::Instance()->GetAllocator(allocatorID)->mm_malloc(size);

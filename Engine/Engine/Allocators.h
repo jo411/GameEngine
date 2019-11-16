@@ -20,10 +20,12 @@ private:
 	std::vector<MyMalloc*> allAllocators;	
 	std::map<void*, size_t> mappedAllocators;
 	static void Initialize();
-	Allocators() {};// Private so that it can  not be called
+	Allocators() {};// Private so that it can  not be called	
 	Allocators(Allocators const&) {};// copy constructor is private
 	Allocators& operator=(Allocators const&) {};// assignment operator is private
 	static Allocators* m_pInstance;
 	MyMalloc* internalMemory;
+	void* operator new(size_t size, size_t allocatorID);
+	
 };
 
