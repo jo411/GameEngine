@@ -1,5 +1,4 @@
 #pragma once
-
 // InitializeMemorySystem - initialize your memory system including your HeapManager and some FixedSizeAllocators
 bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors);
 
