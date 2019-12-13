@@ -164,7 +164,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Allocators.h" />
+    <ClInclude Include="BitArray.h" />
+    <ClInclude Include="CombinedAllocators.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="FixedSizeAllocator.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="ListPointer.h" />
@@ -176,7 +179,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Allocators.cpp" />
+    <ClCompile Include="BitArray.cpp" />
+    <ClCompile Include="CombinedAllocators.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="FixedSizeAllocator.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="ListPointer.cpp" />

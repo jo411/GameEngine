@@ -1,7 +1,9 @@
 #include "MemorySystem.h"
+#include "Engine/CombinedAllocators.h"
 
 bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors)
 {
+	CombinedAllocators::Init(i_pHeapMemory, i_sizeHeapMemory);
 	// create your HeapManager and FixedSizeAllocators
 	return true;
 }
@@ -14,6 +16,7 @@ void Collect()
 
 void DestroyMemorySystem()
 {
+	CombinedAllocators::;
 	// Destroy your HeapManager and FixedSizeAllocators
 }
 
