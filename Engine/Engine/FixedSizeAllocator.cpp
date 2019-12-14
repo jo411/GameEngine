@@ -5,11 +5,11 @@
 #include <iostream>
 void FixedSizeAllocator::Initialize(size_t i_alignment, size_t i_blockCount, BitArray * i_bitArray)
 {
-	alignment = i_alignment;
-	blockCount = i_blockCount;
+	m_alignment = i_alignment;
+	m_blockCount = i_blockCount;
 	m_bitArray = i_bitArray;
 
-	heapSize = blockCount * alignment + (blockCount*2 * sizeof(GuardBand));
+	heapSize = m_blockCount * m_alignment + (m_blockCount*2 * sizeof(GuardBand));
 
 	m_heap = VirtualAlloc(NULL, heapSize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 	assert(m_heap);
@@ -17,6 +17,18 @@ void FixedSizeAllocator::Initialize(size_t i_alignment, size_t i_blockCount, Bit
 
 void FixedSizeAllocator::Destroy()
 {
+
+#ifdef _DEBUG
+	size_t index = 0;
+	while (m_bitArray->GetFirstSetBit(index))
+	{
+		char* address = reinterpret_cast<char*>(m_heap) + (index * blocksize());
+		void* payload = payloadPointer(address);
+		std::cout << "Leaked memory from fixed allocator of size: " << m_alignment << " at address: " << payload;
+	}
+#endif // _DEBUG
+		
+	VirtualFree(m_heap,heapSize,MEM_RELEASE);//free the heap 
 }
 
 void * FixedSizeAllocator::alloc()
@@ -53,7 +65,7 @@ void FixedSizeAllocator::free(void * ptr)
 		GuardBand* lastGbPtr = lastGuard(ptr);
 		if (*gbPtr != guardPattern || *lastGbPtr != guardPattern)//Someone mangled the guard
 		{
-			std::cout << "Broken GuardBand detected. Memory was written out of bounds at address: " << &ptr<<"\n";
+			std::cout << "Broken GuardBand detected. Memory was written out of bounds at address: " << ptr<<"\n";
 		}		
 #endif // DEBUG//check guardbanding in debug release only to save performance
 

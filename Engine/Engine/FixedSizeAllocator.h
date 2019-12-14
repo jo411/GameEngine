@@ -11,8 +11,8 @@ public:
 	bool contains(void* ptr);
 private:
 
-	size_t alignment; 
-	size_t blockCount;
+	size_t m_alignment; 
+	size_t m_blockCount;
 	BitArray* m_bitArray;
 	void* m_heap;
 	size_t heapSize;
@@ -21,10 +21,10 @@ private:
 
 	GuardBand guardPattern = 0xCF;
 
-	inline size_t blocksize() { return alignment + 2 * sizeof(GuardBand); }
+	inline size_t blocksize() { return m_alignment + 2 * sizeof(GuardBand); }
 	inline void* payloadPointer(char* bp) { return bp + sizeof(GuardBand); }
 	inline GuardBand* firstGuard(void* bp) { return reinterpret_cast<GuardBand*>(reinterpret_cast<char*>(bp) - sizeof(GuardBand)); }
-	inline GuardBand* lastGuard(void* bp) { return reinterpret_cast<GuardBand*>(reinterpret_cast<char*>(bp) + alignment); }
+	inline GuardBand* lastGuard(void* bp) { return reinterpret_cast<GuardBand*>(reinterpret_cast<char*>(bp) + m_alignment); }
 	
 };
 
