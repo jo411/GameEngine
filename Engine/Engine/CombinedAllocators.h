@@ -20,11 +20,11 @@ private:
 
 
 	FixedSizeAllocator* Size16Allocator;
-	size_t num16ByteBlocks = 100;
+	static size_t num16ByteBlocks;
 	FixedSizeAllocator* Size32Allocator;
-	size_t num32ByteBlocks = 200;
+	static size_t num32ByteBlocks;
 	FixedSizeAllocator* Size96Allocator;
-	size_t num96ByteBlocks = 400;
+	static size_t num96ByteBlocks;
 
 	MyMalloc* defaultHeap;
 };
