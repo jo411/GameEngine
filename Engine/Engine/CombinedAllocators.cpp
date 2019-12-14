@@ -27,7 +27,13 @@ void CombinedAllocators::Init(void * i_pHeapMemory, size_t i_sizeHeapMemory)
 	Size16Allocator = static_cast<FixedSizeAllocator*>(defaultHeap->mm_malloc(sizeof(FixedSizeAllocator)));
 
 	Size16Allocator->Initialize(16, this->num16ByteBlocks, BitArray::Create(this->num16ByteBlocks, defaultHeap));
-	
+
+	char* ptr = (char*)Size16Allocator->alloc();
+	ptr -= sizeof(char);
+	*ptr = 0xf3;
+	//ptr += sizeof(char);
+	Size16Allocator->free(ptr);
+	char* ptr2 = (char*)Size16Allocator->alloc();
 }
 //BitArray* newBitArray = new (tmpPtr) BitArray(numBits, heapManager);
 

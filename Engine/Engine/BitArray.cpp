@@ -7,8 +7,7 @@ BitArray * BitArray::Create(size_t numBits, MyMalloc * heapManager)
 {
 	void* tmpPtr = heapManager->mm_malloc(sizeof(BitArray));
 		
-	BitArray* newBitArray = new (tmpPtr) BitArray(numBits, heapManager);
-
+	BitArray* newBitArray = new (tmpPtr) BitArray(numBits, heapManager);	
 	return newBitArray;
 }
 
@@ -18,28 +17,8 @@ BitArray::BitArray(size_t numBits, MyMalloc * i_heapManager)
 	heapManager = i_heapManager;
 
 	allignedWordCount = (size_t)ceil((double)numBits / WordSizeInBits());
-	
-	
-
-	bits = static_cast<size_t*>(heapManager->mm_malloc(allignedWordCount * sizeof(size_t)));
-	
-	ClearAll();
-
-	size_t index = 1;
-	SetBit(index);
-	
-	size_t o_index;
-	
-
-	if (GetFirstClearBit(o_index))
-	{
-		heapManager = nullptr;
-	}
-	else
-	{
-		heapManager = nullptr;
-	}
-	
+	bits = static_cast<size_t*>(heapManager->mm_malloc(allignedWordCount * sizeof(size_t)));	
+	ClearAll();	
 }
 
 BitArray::~BitArray()
@@ -62,7 +41,7 @@ void BitArray::SetAll()
 	}
 }
 
-inline bool BitArray::IsBitSet(size_t index) const
+bool BitArray::IsBitSet(size_t index) const
 {
 	size_t wordIndex = getWordIndex(index);
 	size_t leftover = index - (wordIndex * WordSizeInBits());
@@ -70,7 +49,7 @@ inline bool BitArray::IsBitSet(size_t index) const
 	
 }
 
-inline bool BitArray::isBitClear(size_t index) const
+bool BitArray::IsBitClear(size_t index) const
 {
 	return !IsBitSet(index);
 }

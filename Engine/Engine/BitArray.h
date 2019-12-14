@@ -10,8 +10,8 @@ public:
 	void ClearAll();
 	void SetAll();
 
-	inline bool IsBitSet(size_t index) const;
-	inline bool isBitClear(size_t index) const;
+	bool IsBitSet(size_t index) const;
+	bool IsBitClear(size_t index) const;
 
 	void SetBit(size_t index);
 	void ClearBit(size_t index);

@@ -95,7 +95,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>HeapManager-$(Configuration)-$(PlatformShortname).lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)heapmanagerunittest-master\Externals\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -115,7 +115,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)heapmanagerunittest-master\Externals\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -139,7 +139,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>HeapManager-$(Configuration)-$(PlatformShortname).lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)heapmanagerunittest-master\Externals\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -163,7 +163,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)heapmanagerunittest-master\Externals\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
