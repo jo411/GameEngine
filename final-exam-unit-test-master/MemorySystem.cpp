@@ -4,7 +4,7 @@
 
 bool InitializeMemorySystem(void* i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors)
 {
-	CombinedAllocators* test = CombinedAllocators::Instance();
+	CombinedAllocators::Instance()->Init(i_pHeapMemory, i_sizeHeapMemory);
 
 
 	// create your HeapManager and FixedSizeAllocators
