@@ -15,6 +15,7 @@ private:
 	size_t blockCount;
 	BitArray* m_bitArray;
 	void* m_heap;
+	size_t heapSize;
 
 	typedef unsigned char GuardBand;
 
@@ -24,5 +25,6 @@ private:
 	inline void* payloadPointer(char* bp) { return bp + sizeof(GuardBand); }
 	inline GuardBand* firstGuard(void* bp) { return reinterpret_cast<GuardBand*>(reinterpret_cast<char*>(bp) - sizeof(GuardBand)); }
 	inline GuardBand* lastGuard(void* bp) { return reinterpret_cast<GuardBand*>(reinterpret_cast<char*>(bp) + alignment); }
+	
 };
 

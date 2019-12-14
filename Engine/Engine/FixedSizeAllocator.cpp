@@ -9,9 +9,9 @@ void FixedSizeAllocator::Initialize(size_t i_alignment, size_t i_blockCount, Bit
 	blockCount = i_blockCount;
 	m_bitArray = i_bitArray;
 
-	size_t heapsize = blockCount * alignment + (blockCount*2 * sizeof(GuardBand));
+	heapSize = blockCount * alignment + (blockCount*2 * sizeof(GuardBand));
 
-	m_heap = VirtualAlloc(NULL, heapsize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+	m_heap = VirtualAlloc(NULL, heapSize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 	assert(m_heap);
 }
 
@@ -27,7 +27,6 @@ void * FixedSizeAllocator::alloc()
 		char* bp = reinterpret_cast<char*>(m_heap)+ (index*blocksize());
 		m_bitArray->SetBit(index);
 		return payloadPointer(bp);
-
 	}
 	else
 	{
@@ -67,5 +66,5 @@ void FixedSizeAllocator::free(void * ptr)
 
 bool FixedSizeAllocator::contains(void * ptr)
 {
-	return false;
+	return (ptr >= m_heap && ptr <= reinterpret_cast<char*>(m_heap) + heapSize);
 }
