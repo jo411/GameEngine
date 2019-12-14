@@ -4,6 +4,7 @@
 #include "BitArray.h"
 #include <iostream>
 #include <stdio.h>
+#include <inttypes.h>
 void FixedSizeAllocator::Initialize(size_t i_alignment, size_t i_blockCount, BitArray * i_bitArray)
 {
 	m_alignment = i_alignment;
@@ -25,7 +26,7 @@ void FixedSizeAllocator::Destroy()
 	{
 		char* address = reinterpret_cast<char*>(m_heap) + (index * blocksize());
 		void* payload = payloadPointer(address);
-		printf("Leaked memory from fixed allocator of size %zu at address: %p\n", m_alignment, payload);		
+		printf("Leaked memory from fixed allocator of size %zu at address: 0x%" PRIXPTR "\n", m_alignment, reinterpret_cast<uintptr_t>(payload));
 		m_bitArray->ClearBit(index);
 	}
 #endif // _DEBUG
@@ -51,12 +52,12 @@ void * FixedSizeAllocator::alloc()
 void FixedSizeAllocator::free(void * ptr)
 {
 	size_t index = 0; 
-	char* baseBlockPtr = reinterpret_cast<char*>(ptr);
-	ptrdiff_t address = baseBlockPtr - reinterpret_cast<char*>(m_heap);
-	index = address / blocksize();
-	void* base = baseBlockPtr - sizeof(GuardBand);
+	char* basePayloadPtr = reinterpret_cast<char*>(ptr);
+	ptrdiff_t addressOffset = basePayloadPtr - reinterpret_cast<char*>(m_heap);
+	index = addressOffset / blocksize();
+	size_t offset = addressOffset - sizeof(GuardBand);
 
-	bool isAligned = (((uintptr_t)base) % blocksize()==0);//is this pointer aligned within this allocator
+	bool isAligned = (((uintptr_t)offset) % blocksize()==0);//is this pointer aligned within this allocator
 	bool isOutstanding = m_bitArray->IsBitSet(index);//this is an outstanding allocation from this allocator
 
 	if (isAligned && isOutstanding)
@@ -67,7 +68,7 @@ void FixedSizeAllocator::free(void * ptr)
 		GuardBand* lastGbPtr = lastGuard(ptr);
 		if (*gbPtr != guardPattern || *lastGbPtr != guardPattern)//Someone mangled the guard
 		{
-			printf("Broken GuardBand detected. Memory was written out of bounds at address: %p\n",ptr);	
+			printf("Broken GuardBand detected. Memory was written out of bounds at address: 0x%" PRIXPTR "\n", reinterpret_cast<uintptr_t>(ptr));
 		}		
 #endif // DEBUG//check guardbanding in debug release only to save performance
 

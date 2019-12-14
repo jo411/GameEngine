@@ -19,7 +19,7 @@ void Collect()
 
 void DestroyMemorySystem()
 {
-	
+	CombinedAllocators::Instance()->Destroy();
 	// Destroy your HeapManager and FixedSizeAllocators
 }
 
