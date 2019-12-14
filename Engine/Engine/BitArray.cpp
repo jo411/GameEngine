@@ -146,7 +146,7 @@ bool BitArray::GetFirstSetBit(size_t & index) const
 
 bool BitArray::operator[](size_t index) const
 {
-	return false;
+	return IsBitSet(index);
 }
 
 bool BitArray::isValid(size_t index) const
