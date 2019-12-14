@@ -25,13 +25,13 @@ BitArray::BitArray(size_t numBits, MyMalloc * i_heapManager)
 	
 	ClearAll();
 
-	size_t index = 66;
+	size_t index = 1;
 	SetBit(index);
 	
 	size_t o_index;
 	
 
-	if (GetFirstSetBit(o_index))
+	if (GetFirstClearBit(o_index))
 	{
 		heapManager = nullptr;
 	}
@@ -91,6 +91,39 @@ void BitArray::ClearBit(size_t index)
 
 bool BitArray::GetFirstClearBit(size_t & index) const
 {
+	unsigned long indexUL = 0;
+	bool isNonZero = false;
+	unsigned int i = 0;
+	for (i = 0; i < allignedWordCount; i++)
+	{
+		if (WordSizeInBits() == 32)
+		{
+			isNonZero = _BitScanForward(&indexUL, (unsigned long)~bits[i]);
+			if (isNonZero)
+			{
+				i++;//account for the decrement
+				break;
+			}
+		}
+		else
+		{
+#ifdef _WIN64
+			isNonZero = _BitScanForward64(&indexUL, ~bits[i]);
+#endif
+			if (isNonZero)
+			{
+				i++;//account for the decrement
+				break;
+			}
+		}
+	}
+	i--;
+	index = i * WordSizeInBits() + indexUL;
+
+	if (isValid(index) && isNonZero)
+	{
+		return true;
+	}
 	return false;
 }
 
