@@ -31,7 +31,7 @@ private:
 	BitArray(const BitArray&) = delete;
 	BitArray& operator =(const BitArray&) = delete;
 
-	bool isValid(size_t index);
+	bool isValid(size_t index) const;
 	inline size_t getWordIndex(size_t bitIndex) const { return bitIndex / WordSizeInBits(); }
 };
 
