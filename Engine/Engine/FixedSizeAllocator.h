@@ -19,7 +19,7 @@ private:
 
 	typedef unsigned char GuardBand;
 
-	GuardBand guardPattern = 0xCF;
+	GuardBand guardPattern = 0xCC;
 
 	inline size_t blocksize() { return m_alignment + 2 * sizeof(GuardBand); }
 	inline void* payloadPointer(char* bp) { return bp + sizeof(GuardBand); }

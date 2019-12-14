@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "BitArray.h"
 #include <iostream>
+#include <stdio.h>
 void FixedSizeAllocator::Initialize(size_t i_alignment, size_t i_blockCount, BitArray * i_bitArray)
 {
 	m_alignment = i_alignment;
@@ -24,7 +25,8 @@ void FixedSizeAllocator::Destroy()
 	{
 		char* address = reinterpret_cast<char*>(m_heap) + (index * blocksize());
 		void* payload = payloadPointer(address);
-		std::cout << "Leaked memory from fixed allocator of size: " << m_alignment << " at address: " << payload;
+		printf("Leaked memory from fixed allocator of size %zu at address: %p\n", m_alignment, payload);		
+		m_bitArray->ClearBit(index);
 	}
 #endif // _DEBUG
 		
@@ -65,12 +67,14 @@ void FixedSizeAllocator::free(void * ptr)
 		GuardBand* lastGbPtr = lastGuard(ptr);
 		if (*gbPtr != guardPattern || *lastGbPtr != guardPattern)//Someone mangled the guard
 		{
-			std::cout << "Broken GuardBand detected. Memory was written out of bounds at address: " << ptr<<"\n";
+			printf("Broken GuardBand detected. Memory was written out of bounds at address: %p\n",ptr);	
 		}		
 #endif // DEBUG//check guardbanding in debug release only to save performance
 
 		*gbPtr = guardPattern;//reset the guards for next time
 		*lastGbPtr = guardPattern;
+
+		m_bitArray->ClearBit(index);
 	}
 
 

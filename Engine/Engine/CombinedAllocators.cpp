@@ -28,10 +28,17 @@ void CombinedAllocators::Init(void * i_pHeapMemory, size_t i_sizeHeapMemory)
 
 	Size16Allocator->Initialize(16, this->num16ByteBlocks, BitArray::Create(this->num16ByteBlocks, defaultHeap));
 
-	char* ptr = (char*)Size16Allocator->alloc();	
+	char* ptr = (char*)Size16Allocator->alloc();		
+	char* ptr2 = (char*)Size16Allocator->alloc();
+	char* ptr3 = (char*)Size16Allocator->alloc();
+
 	Size16Allocator->free(ptr);
+	Size16Allocator->free(ptr2);
+	Size16Allocator->free(ptr3);
+
+	Size16Allocator->Destroy();
+	char* ptr4 = (char*)Size16Allocator->alloc();
 }
-//BitArray* newBitArray = new (tmpPtr) BitArray(numBits, heapManager);
 
 void CombinedAllocators::Destroy()
 {
