@@ -3,8 +3,8 @@
 class BitArray
 {
 public:
-	static BitArray* Create(size_t numBits,MyMalloc* heapManager);
-	BitArray(size_t numBits, MyMalloc * heapManager);
+	static BitArray* Create(size_t numBits);
+	BitArray(size_t numBits);
 	~BitArray();
 
 	void ClearAll();
@@ -20,8 +20,7 @@ public:
 	bool GetFirstSetBit(size_t & index) const;
 
 	bool operator[](size_t index)const;	
-private:
-	MyMalloc* heapManager;
+private:	
 	size_t bitCount;
 	size_t allignedWordCount;
 	inline size_t WordSizeInBits() const { return (sizeof(size_t) * 8); }

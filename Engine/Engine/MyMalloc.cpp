@@ -203,7 +203,18 @@ void MyMalloc::coalesce(void * bp)
 	size_t alloc_prev = GET_ALLOC(HDRP(PREV_BLKP(bp))); //get the allocation bit of the previous block off of bp, may be prologue
 	size_t size = GET_SIZE(HDRP(bp));
 	//cases for coalescing
+	page_header* ph = first_page;
+	void* firstBlock = FIRST_BLKP((char*)ph);
+	if (firstBlock == bp)//if this is the first block manually mark the prolog as allocated because it isn't sometimes in 32 bit builds (??!!!)
+	{
+		alloc_prev = 1;
+	}
 
+	if (size == usedMemory)
+	{	
+		size_t prologSize = GET_SIZE(HDRP(NEXT_BLKP(bp)));		
+		//printMemory();
+	}
   //Case 1: only next block is free
 	if (alloc_prev && !alloc_next)
 	{

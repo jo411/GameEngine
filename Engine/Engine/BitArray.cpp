@@ -1,29 +1,30 @@
 #include "BitArray.h"
-#include "MyMalloc.h"
+#include <Windows.h>
 #include <intrin.h>
 #include<new>
 
-BitArray * BitArray::Create(size_t numBits, MyMalloc * heapManager)
+BitArray * BitArray::Create(size_t numBits)
 {
-	void* tmpPtr = heapManager->mm_malloc(sizeof(BitArray));
+	void* tmpPtr = VirtualAlloc(NULL, sizeof(BitArray), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 		
-	BitArray* newBitArray = new (tmpPtr) BitArray(numBits, heapManager);	
+	BitArray* newBitArray = new (tmpPtr) BitArray(numBits);	
 	return newBitArray;
 }
 
-BitArray::BitArray(size_t numBits, MyMalloc * i_heapManager)
+BitArray::BitArray(size_t numBits)
 {
 	bitCount = numBits;
-	heapManager = i_heapManager;
 
 	allignedWordCount = (size_t)ceil((double)numBits / WordSizeInBits());
-	bits = static_cast<size_t*>(heapManager->mm_malloc(allignedWordCount * sizeof(size_t)));	
+	size_t arraySize = allignedWordCount * sizeof(size_t);
+	bits = static_cast<size_t*>(VirtualAlloc(NULL, arraySize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
 	ClearAll();	
 }
 
 BitArray::~BitArray()
 {
-	heapManager->mm_free(this);
+	VirtualFree(bits, allignedWordCount * sizeof(size_t), MEM_RELEASE);
+	VirtualFree(this, sizeof(BitArray), MEM_RELEASE);
 }
 
 void BitArray::ClearAll()

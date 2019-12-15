@@ -26,13 +26,13 @@ void CombinedAllocators::Init(void * i_pHeapMemory, size_t i_sizeHeapMemory)
 	defaultHeap->init(i_pHeapMemory, i_sizeHeapMemory);
 
 	Size16Allocator = static_cast<FixedSizeAllocator*>(VirtualAlloc(NULL, sizeof(FixedSizeAllocator), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
-	Size16Allocator->Initialize(16, this->num16ByteBlocks, BitArray::Create(this->num16ByteBlocks, defaultHeap));
+	Size16Allocator->Initialize(16, this->num16ByteBlocks, BitArray::Create(this->num16ByteBlocks));
 
 	Size32Allocator = static_cast<FixedSizeAllocator*>(VirtualAlloc(NULL, sizeof(FixedSizeAllocator), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
-	Size32Allocator->Initialize(32, this->num32ByteBlocks, BitArray::Create(this->num32ByteBlocks, defaultHeap));
+	Size32Allocator->Initialize(32, this->num32ByteBlocks, BitArray::Create(this->num32ByteBlocks));
 
 	Size96Allocator = static_cast<FixedSizeAllocator*>(VirtualAlloc(NULL, sizeof(FixedSizeAllocator), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE));
-	Size96Allocator->Initialize(96, this->num96ByteBlocks, BitArray::Create(this->num96ByteBlocks, defaultHeap));
+	Size96Allocator->Initialize(96, this->num96ByteBlocks, BitArray::Create(this->num96ByteBlocks));
 
 }
 
@@ -53,20 +53,24 @@ void CombinedAllocators::Destroy()
 
 void * CombinedAllocators::m_alloc(size_t size)
 {
+	void* ptr;
 	if (size <= 16)
 	{
-		return Size16Allocator->alloc();
+		ptr= Size16Allocator->alloc();
 	}
 	else if (size <= 32)
 	{
-		return Size32Allocator->alloc();
+		ptr = Size32Allocator->alloc();
 	}
 	else if (size <= 96)
 	{
-		return Size96Allocator->alloc();
+		ptr = Size96Allocator->alloc();
 	}
-
-	return defaultHeap->mm_malloc(size);//larger chunks come from the heapmanager
+	else
+	{
+		ptr = defaultHeap->mm_malloc(size);//larger chunks come from the heapmanager
+	}
+	return ptr;
 }
 
 void CombinedAllocators::m_free(void * ptr)
