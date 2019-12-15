@@ -8,7 +8,7 @@ public:
 	void Destroy();
 	void* alloc();
 	void free(void *ptr);
-	bool contains(void* ptr);
+	bool contains(void* ptr);	
 private:
 
 	size_t m_alignment; 

@@ -23,6 +23,7 @@ BitArray::BitArray(size_t numBits, MyMalloc * i_heapManager)
 
 BitArray::~BitArray()
 {
+	heapManager->mm_free(this);
 }
 
 void BitArray::ClearAll()

@@ -32,6 +32,7 @@ void FixedSizeAllocator::Destroy()
 #endif // _DEBUG
 		
 	VirtualFree(m_heap,heapSize,MEM_RELEASE);//free the heap 
+	m_bitArray->~BitArray();//destruct the bit array
 }
 
 void * FixedSizeAllocator::alloc()
@@ -85,3 +86,5 @@ bool FixedSizeAllocator::contains(void * ptr)
 {
 	return (ptr >= m_heap && ptr <= reinterpret_cast<char*>(m_heap) + heapSize);
 }
+
+

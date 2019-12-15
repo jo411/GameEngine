@@ -19,8 +19,7 @@ public:
 	bool GetFirstClearBit(size_t& index) const;
 	bool GetFirstSetBit(size_t & index) const;
 
-	bool operator[](size_t index)const;
-
+	bool operator[](size_t index)const;	
 private:
 	MyMalloc* heapManager;
 	size_t bitCount;

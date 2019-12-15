@@ -9,8 +9,7 @@ public:
 	void Init(void * i_pHeapMemory, size_t i_sizeHeapMemory);
 	void Destroy();
 	void* m_alloc(size_t size);
-	void m_free(void* ptr);
-
+	void m_free(void* ptr);	
 private:
 	static CombinedAllocators* m_instance;
 
