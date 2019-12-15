@@ -64,6 +64,7 @@ void FixedSizeAllocator::free(void * ptr)
 	if (isAligned && isOutstanding)
 	{
 		m_bitArray->ClearBit(index);
+
 #ifdef _DEBUG//check guardbanding in debug release only to save performance
 		GuardBand* gbPtr = firstGuard(ptr);
 		GuardBand* lastGbPtr = lastGuard(ptr);
@@ -72,10 +73,8 @@ void FixedSizeAllocator::free(void * ptr)
 			printf("Broken GuardBand detected. Memory was written out of bounds at address: 0x%" PRIXPTR "\n", reinterpret_cast<uintptr_t>(ptr));
 		}		
 #endif // DEBUG//check guardbanding in debug release only to save performance
-
 		*gbPtr = guardPattern;//reset the guards for next time
 		*lastGbPtr = guardPattern;
-
 		m_bitArray->ClearBit(index);
 	}
 

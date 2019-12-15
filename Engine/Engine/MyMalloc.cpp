@@ -246,22 +246,7 @@ void MyMalloc::coalesce(void * bp)
 		PUT(FTRP(bp), PACK(size, 0));
 	}
 
-	insert_into_free(bp);
-	//	No need to release memory to the OS yet 
-
-	//if ((GET_SIZE(HDRP(PREV_BLKP(bp))) == 2 * WORD_SIZE) && GET_SIZE(HDRP(NEXT_BLKP(bp))) == 0)//if the new block occupies the entire page(prev and next are sentinels)
-	//{
-	
-
-	//	page_header* pp = bp - 2 * WORD_SIZE - sizeof(page_header) - sizeof(block_header);//move the pointer back to the start of the page
-
-	//	if (pp->size >= min_page_unmap_mult * mem_pagesize())//if the page is at least the minimum threshold
-	//	{
-	//		removePage(pp);//release it
-	//		return;
-	//	}
-	//}
-	
+	insert_into_free(bp);	
 }
 
 
@@ -316,21 +301,6 @@ bool MyMalloc::contains(const void * ptr)const
 	page_header* ph = first_page;	
 
 	return (ptr >= ph && ptr <= ph + totalMemory);
-
-	//char* bp = FIRST_BLKP(ph);
-	//bp = NEXT_BLKP(bp);
-
-	//while (GET_SIZE(HDRP(bp)) > 0)
-	//{
-	//	if (bp == ptr)
-	//	{
-	//		return true;//This block exists in the manager
-	//	}
-
-	//	bp = NEXT_BLKP(bp);
-	//}	
-
-	//return false;//could not find block
 }
 
 bool MyMalloc::IsAllocated(void * ptr)const
