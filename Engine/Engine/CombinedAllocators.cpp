@@ -53,11 +53,39 @@ void CombinedAllocators::Destroy()
 
 void * CombinedAllocators::m_alloc(size_t size)
 {
-	return defaultHeap->mm_malloc(size);
+	if (size <= 16)
+	{
+		return Size16Allocator->alloc();
+	}
+	else if (size <= 32)
+	{
+		return Size32Allocator->alloc();
+	}
+	else if (size <= 96)
+	{
+		return Size96Allocator->alloc();
+	}
+
+	return defaultHeap->mm_malloc(size);//larger chunks come from the heapmanager
 }
 
 void CombinedAllocators::m_free(void * ptr)
 {
-	defaultHeap->mm_free(ptr);
+	if (Size16Allocator->contains(ptr))
+	{
+		Size16Allocator->free(ptr);
+	}
+	else if (Size32Allocator->contains(ptr))
+	{
+		Size32Allocator->free(ptr);
+	}
+	else if (Size96Allocator->contains(ptr))
+	{
+		Size96Allocator->free(ptr);
+	}
+	else if (defaultHeap->contains(ptr))
+	{
+		defaultHeap->mm_free(ptr);
+	}	
 }
 
