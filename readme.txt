@@ -1,5 +1,8 @@
 Josh Nelson Final Readme
 
+I did the final inside my Engine as I felt this code fit there and in the future I want to hook up monster chase to the new allocator. 
+So there are a lot of extra files in the solution and I hope that isn't a problem. Below are the files that are used for the final. 
+
 Files related to the final:
 Engine:
 	BitArray .h/.cpp
@@ -10,7 +13,7 @@ Engine:
 FinalExamSampleProject:
 	MemorySystem .h/.cpp
 	Allocators .h/.cpp
-
+	main.cpp
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 	
