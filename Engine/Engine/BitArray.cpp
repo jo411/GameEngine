@@ -27,6 +27,25 @@ BitArray::~BitArray()
 	VirtualFree(this, sizeof(BitArray), MEM_RELEASE);
 }
 
+BitArray & BitArray::operator=(const BitArray& bitarr)
+{
+	if (this == &bitarr)
+	{
+		return *this;
+	}
+
+	if (bits)
+	{
+		VirtualFree(bits, allignedWordCount * sizeof(size_t), MEM_RELEASE);
+	}
+
+	bitCount = bitarr.getBitCount();
+	allignedWordCount = (size_t)ceil((double)bitCount / WordSizeInBits());
+	bits = bitarr.bits;
+
+	return *this;
+}
+
 void BitArray::ClearAll()
 {
 	for (unsigned int i = 0; i < allignedWordCount; i++)
@@ -42,6 +61,8 @@ void BitArray::SetAll()
 		bits[i] = SIZE_MAX;
 	}
 }
+
+
 
 bool BitArray::IsBitSet(size_t index) const
 {
@@ -101,7 +122,7 @@ bool BitArray::GetFirstClearBit(size_t & index) const
 	i--;
 	index = i * WordSizeInBits() + indexUL;
 
-	if (isValid(index) && isNonZero)
+	if (isValidIndex(index) && isNonZero)
 	{
 		return true;
 	}
@@ -139,7 +160,7 @@ bool BitArray::GetFirstSetBit(size_t & index) const
 	i--;
 	index = i*WordSizeInBits() + indexUL;
 
-	if (isValid(index) && isNonZero)
+	if (isValidIndex(index) && isNonZero)
 	{
 		return true;
 	}
@@ -151,7 +172,7 @@ bool BitArray::operator[](size_t index) const
 	return IsBitSet(index);
 }
 
-bool BitArray::isValid(size_t index) const
+bool BitArray::isValidIndex(size_t index) const
 {
 	return (index >= 0 && index < bitCount);
 }
