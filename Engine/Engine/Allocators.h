@@ -27,13 +27,12 @@ private:
 	Allocators& operator=(Allocators const&) {};// assignment operator is private
 	static Allocators* m_pInstance;
 	MyMalloc* internalMemory =nullptr;
-
-	
+		
 };
 
-void* operator new(size_t size, int allocatorID);
-void operator delete(void* ptr, int allocatorID);
-void* operator new(size_t size);
-void operator delete(void* ptr);
-void* operator new[](std::size_t s);
-void operator delete[](void* p);
+//void* operator new(size_t size, int allocatorID);
+//void operator delete(void* ptr, int allocatorID);
+//void* operator new(size_t size);
+//void operator delete(void* ptr);
+//void* operator new[](std::size_t s);
+//void operator delete[](void* p);

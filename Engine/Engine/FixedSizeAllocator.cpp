@@ -20,7 +20,7 @@ void FixedSizeAllocator::Initialize(size_t i_alignment, size_t i_blockCount, Bit
 void FixedSizeAllocator::Destroy()
 {
 
-#ifdef _DEBUG
+#ifdef _DEBUG//In debug builds detail any outstanding allocations
 	size_t index = 0;
 	while (m_bitArray->GetFirstSetBit(index))
 	{
@@ -81,7 +81,7 @@ void FixedSizeAllocator::free(void * ptr)
 
 }
 
-bool FixedSizeAllocator::contains(void * ptr)
+bool FixedSizeAllocator::contains(void * ptr) const
 {
 	return (ptr >= m_heap && ptr <= reinterpret_cast<char*>(m_heap) + heapSize);
 }

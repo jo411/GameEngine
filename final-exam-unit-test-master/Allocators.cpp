@@ -1,8 +1,6 @@
 #include <inttypes.h>
 #include <malloc.h>
-
 #include <stdio.h>
-
 #include "Engine/CombinedAllocators.h"
 
 void * __cdecl malloc(size_t i_size)

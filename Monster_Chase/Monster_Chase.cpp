@@ -10,7 +10,6 @@
 #include "Components\Walker.h"
 #include "Components\Spawner.h"
 #include "Components\TargetFollow.h"
-#include "Allocators.h"
 
 //Josh Nelson
 //u0936149
@@ -35,36 +34,12 @@
 // Spawner makes a game object spawn more dumb enemies that do not follow.
 
 //Main Game logic
-void testingNewAndDelete()
-{	
-	for (int i = 0; i < 4; i++)
-	{
-		GameScene* scene = new GameScene();
-		delete scene;
-	}
 
-
-	std::vector<GameScene*> scenes;
-	int numScenes = 1;
-
-	for (int i = 0; i < numScenes; i++)	{
-		
-		scenes.push_back(new GameScene());
-	}
-	for (int i = 0; i < numScenes; i++) {
-
-		delete scenes[i];
-	}
-	
-	//GameScene* manyScenes = new GameScene[numScenes];
-	//delete[] manyScenes;
-
-}
 int main()
 {
-	testingNewAndDelete();
+	//testingNewAndDelete();
 	//_CrtDumpMemoryLeaks();
-	return 0;
+	//return 0;
 	{
 		srand((unsigned int)time(NULL));//seed the random function
 

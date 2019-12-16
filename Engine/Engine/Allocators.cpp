@@ -6,7 +6,7 @@
 Allocators* Allocators::m_pInstance = NULL;
 std::map<void*, int> Allocators::mappedAllocators = std::map<void*, int>();
 std::vector<MyMalloc*> Allocators::allAllocators = std::vector<MyMalloc*>();
-#define TRACING_ENABLED
+//#define TRACING_ENABLED
 
 Allocators * Allocators::Instance()
 {
@@ -71,6 +71,8 @@ void Allocators::Initialize()
 	}
 	
 }
+//The below code was commented out to avoid any issues with the new allocators.h file in the final project 
+
 //
 ////placement new cannot be replaced in cpp11
 //void* operator new(size_t size, void* where)
@@ -82,74 +84,74 @@ void Allocators::Initialize()
 //New with specified ID
 //I want to use a size_t instead of an int
 //I have no idea why this is needed but without using an int in place of size_t the function was treated as simply a placement delete and would not compile. 
-void* operator new(size_t size, int allocatorID)
-{
-#ifdef TRACING_ENABLED
-	std::cout << "Calling new on allocator: " << allocatorID << " with " << size << " bytes.\n";
-#endif // TRACING_ENABLED
-	
-	void* ptr = Allocators::Instance()->GetAllocator(allocatorID)->mm_malloc(size);
-	Allocators::Instance()->mapAllocator(ptr, allocatorID);
-	return ptr;
-}
-void operator delete(void* ptr, int allocatorID)
-{
-
-}
-//generic new
-void * operator new(size_t size)
-{
-#ifdef TRACING_ENABLED
-	std::cout << "Calling new on default allocator with: " << size << " bytes.\n";
-#endif // TRACING_ENABLED
-	
-	return Allocators::Instance()->GetAllocator()->mm_malloc(size);
-}
-
-//generic delete
-void operator delete(void* ptr)
-{
-
-
-	int allocatorUsed = Allocators::Instance()->getMappedAllocator(ptr);
-	if (allocatorUsed >= 0)
-	{
-#ifdef TRACING_ENABLED
-		std::cout << "Calling delete on: " << ptr << " in allocator: " << allocatorUsed << "\n";
-#endif // TRACING_ENABLED
-		
-		Allocators::Instance()->unmapAllocator(ptr);
-		Allocators::Instance()->GetAllocator(allocatorUsed)->mm_free(ptr);		
-	}
-	else
-	{
-#ifdef TRACING_ENABLED
-		std::cout << "Calling delete on: " << ptr << " in default allocator\n";
-#endif // TRACING_ENABLED
-		
-		Allocators::Instance()->GetAllocator()->mm_free(ptr);
-	}	
-}
-
-
-void* operator new[](std::size_t size)
-{
-#ifdef TRACING_ENABLED
-	std::cout << "Calling new[] with size "<<size<<"\n";
-#endif // TRACING_ENABLED
-	void* ptr = Allocators::Instance()->GetAllocator()->mm_malloc(size+sizeof(size_t));//get enough room for the number of objects
-	size_t* tmp = reinterpret_cast<size_t*>(ptr);
-	*tmp = size;//mark the size
-	tmp += sizeof(size_t);//incrememnt to the user space
-	return static_cast<void*>(tmp);
-}
-void operator delete[](void* ptr)
-{
-#ifdef TRACING_ENABLED
-	std::cout << "Calling delete[] on"<<ptr<<"\n";
-#endif // TRACING_ENABLED
-
-	size_t* tmp = reinterpret_cast<size_t*>(ptr);
-	size_t size = *tmp;
-	Allocators::Instance()->GetAllocator()->mm_free(ptr);
-}
+//void* operator new(size_t size, int allocatorID)
+//{
+//#ifdef TRACING_ENABLED
+//	std::cout << "Calling new on allocator: " << allocatorID << " with " << size << " bytes.\n";
+//#endif // TRACING_ENABLED
+//	
+//	void* ptr = Allocators::Instance()->GetAllocator(allocatorID)->mm_malloc(size);
+//	Allocators::Instance()->mapAllocator(ptr, allocatorID);
+//	return ptr;
+//}
+//void operator delete(void* ptr, int allocatorID)
+//{
+//
+//}
+////generic new
+//void * operator new(size_t size)
+//{
+//#ifdef TRACING_ENABLED
+//	std::cout << "Calling new on default allocator with: " << size << " bytes.\n";
+//#endif // TRACING_ENABLED
+//	
+//	return Allocators::Instance()->GetAllocator()->mm_malloc(size);
+//}
+//
+////generic delete
+//void operator delete(void* ptr)
+//{
+//
+//
+//	int allocatorUsed = Allocators::Instance()->getMappedAllocator(ptr);
+//	if (allocatorUsed >= 0)
+//	{
+//#ifdef TRACING_ENABLED
+//		std::cout << "Calling delete on: " << ptr << " in allocator: " << allocatorUsed << "\n";
+//#endif // TRACING_ENABLED
+//		
+//		Allocators::Instance()->unmapAllocator(ptr);
+//		Allocators::Instance()->GetAllocator(allocatorUsed)->mm_free(ptr);		
+//	}
+//	else
+//	{
+//#ifdef TRACING_ENABLED
+//		std::cout << "Calling delete on: " << ptr << " in default allocator\n";
+//#endif // TRACING_ENABLED
+//		
+//		Allocators::Instance()->GetAllocator()->mm_free(ptr);
+//	}	
+//}
+//
+//
+//void* operator new[](std::size_t size)
+//{
+//#ifdef TRACING_ENABLED
+//	std::cout << "Calling new[] with size "<<size<<"\n";
+//#endif // TRACING_ENABLED
+//	void* ptr = Allocators::Instance()->GetAllocator()->mm_malloc(size+sizeof(size_t));//get enough room for the number of objects
+//	size_t* tmp = reinterpret_cast<size_t*>(ptr);
+//	*tmp = size;//mark the size
+//	tmp += sizeof(size_t);//incrememnt to the user space
+//	return static_cast<void*>(tmp);
+//}
+//void operator delete[](void* ptr)
+//{
+//#ifdef TRACING_ENABLED
+//	std::cout << "Calling delete[] on"<<ptr<<"\n";
+//#endif // TRACING_ENABLED
+//
+//	size_t* tmp = reinterpret_cast<size_t*>(ptr);
+//	size_t size = *tmp;
+//	Allocators::Instance()->GetAllocator()->mm_free(ptr);
+//}

@@ -1,17 +1,15 @@
 #include "GameScene.h"
 #include "malloc.h"
 #include "ListPointer.h"
-#include "Allocators.h"
 
 //TODO: actually use the rule of three
 
 //Constructs the scene and allocates lists for all the dynamic memory needed
 GameScene::GameScene()
-{
-	this->allocatorID = Allocators::Instance()->AddAllocator();
-	scene = new(allocatorID) ListPointer(1);
-	addBuffer = new(allocatorID) ListPointer(1);
-	removeBuffer = new(allocatorID) ListPointer(1);
+{	
+	scene = new ListPointer(1);
+	addBuffer = new ListPointer(1);
+	removeBuffer = new ListPointer(1);
 }
 
 //Clears any dynamic memory allocated

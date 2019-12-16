@@ -25,7 +25,8 @@ private:
 	size_t allignedWordCount;
 	inline size_t WordSizeInBits() const { return (sizeof(size_t) * 8); }
 	size_t* bits;//array of bits that this bit array tracks
-	//a bit array should be tied to a single memory manager. We dont want to allow copying
+
+	//a bit array should be tied to a single memory manager. We dont want to allow copying. If this class had more uses in the engine these should be defined. 
 	BitArray(const BitArray&) = delete;
 	BitArray& operator =(const BitArray&) = delete;
 

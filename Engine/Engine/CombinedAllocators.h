@@ -13,11 +13,14 @@ public:
 private:
 	static CombinedAllocators* m_instance;
 
-	CombinedAllocators() {};  // Private so that it can  not be called
+	//As this is a singleton that exists for the life of the program we do not want copying to occur at all
+
+	CombinedAllocators() {};  // Private so that it can  not be called. Only one instance should be created through the Instance() function
 	CombinedAllocators(CombinedAllocators const&) {};             // copy constructor is private
 	CombinedAllocators& operator=(CombinedAllocators const&) {};  // assignment operator is private
 
 
+	//TODO: next step is to store these in a dictionary or array for better dynamic changes
 	FixedSizeAllocator* Size16Allocator;
 	static size_t num16ByteBlocks;
 	FixedSizeAllocator* Size32Allocator;
