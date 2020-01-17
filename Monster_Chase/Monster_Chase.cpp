@@ -13,6 +13,7 @@
 
 #pragma region Components
 #include "Components/randomPosition.h"
+#include "Components/Walker.h"
 #pragma endregion
 
 
@@ -26,9 +27,12 @@
 #include "GLib.h"
 //Josh Nelson
 //u0936149
-//
 
-//Main Game logic
+//-----------------------------------------------CLASS SETUP---------------------------------------------------------------
+// Below I've used my old ECS setup from semester 1
+// Engine/SpriteSystem is a wrapper for the load file and create sprite methods that makes them static functions
+// Engine/SpriteRenderer is a component that creates and renders a sprite. 
+
 
 void TestKeyCallback(unsigned int i_VKeyID, bool bWentDown)
 {		
@@ -51,10 +55,18 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		srand((unsigned int)time(NULL));//seed the random function
 		GameScene Scene;
 
+
+		//Create game objects for the scene
 		GameObject* player = Scene.CreateGameObject();
 		player->name->fromCharArray("Player");
-		player->addComponent(new SpriteRenderer("data\\GoodGuy.dds"));
-		player->addComponent(new randomPosition(200, 200));
+		player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
+		player->addComponent(new randomPosition(300, 300));
+
+		GameObject* enemy = Scene.CreateGameObject();
+		enemy->name->fromCharArray("Enemy");
+		enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));
+		enemy->addComponent(new randomPosition(50, 50));
+		enemy->addComponent(new Walker(1));
 
 		if (bSuccess)
 		{
