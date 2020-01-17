@@ -181,6 +181,7 @@
     <ClInclude Include="ListPointer.h" />
     <ClInclude Include="MyMalloc.h" />
     <ClInclude Include="SimpleString.h" />
+    <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="SpriteSystem.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UpdateParams.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="ListPointer.cpp" />
     <ClCompile Include="MyMalloc.cpp" />
     <ClCompile Include="SimpleString.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="SpriteSystem.cpp" />
     <ClCompile Include="UpdateParams.cpp" />
     <ClCompile Include="Vector2.cpp" />

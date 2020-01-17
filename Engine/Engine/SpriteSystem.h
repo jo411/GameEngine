@@ -3,8 +3,9 @@
 class SpriteSystem
 {
 public:
-	GLib::Sprites::Sprite * CreateSprite(const char * i_pFilename);
+	static GLib::Sprites::Sprite * CreateSprite(const char * i_pFilename);
 
 private:
+	static void * LoadFile(const char * i_pFilename, size_t & o_sizeFile);	
 };
 
