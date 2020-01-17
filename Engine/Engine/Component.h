@@ -14,7 +14,9 @@ class GameObject;
 		virtual void onAddToObject() = 0;	//Defined in a derived class. Is called after a component is added to a gameobject
 		bool enabled = true; //will this component recieve or ignore updates. 
 		Component();
-		virtual ~Component();		
+		virtual ~Component();	
+		Component(const Component &old);
+		Component& operator=(const Component& other);
 		void registerGameObject(GameObject* obj);//Stores this components attached game object
 	};
 

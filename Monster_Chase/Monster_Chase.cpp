@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <Windows.h>
+#include <time.h>
 
 #include "SpriteSystem.h"
 #include "GameScene.h"
@@ -46,12 +47,14 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 	{
 		// IMPORTANT: first we need to initialize GLib
 		bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600);
+
+		srand((unsigned int)time(NULL));//seed the random function
 		GameScene Scene;
 
 		GameObject* player = Scene.CreateGameObject();
 		player->name->fromCharArray("Player");
 		player->addComponent(new SpriteRenderer("data\\GoodGuy.dds"));
-		//player->addComponent(new randomPosition(100, 100));
+		player->addComponent(new randomPosition(200, 200));
 
 		if (bSuccess)
 		{
@@ -70,9 +73,12 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 				if (!bQuit)
 				{
 					Scene.update(NULL);//update the scene
+
 					GLib::BeginRendering();
 					GLib::Sprites::BeginRendering();
-					//Scene.draw(NULL);//draw the scene
+
+					Scene.draw(NULL);//draw the scene
+
 					GLib::Sprites::EndRendering();
 					GLib::EndRendering();
 				}

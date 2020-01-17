@@ -15,9 +15,7 @@ GameScene::GameScene()
 //Clears any dynamic memory allocated
 GameScene::~GameScene()
 {
-	delete scene;
-	delete addBuffer;
-	delete removeBuffer;
+	//Temporarily using explicit destroy calls for now to avoid weird heap issues
 }
 
 //Creates and returns a pointer to a new gameobject that is, or will be, in this scene
@@ -109,5 +107,7 @@ void GameScene::draw(UpdateParams* params)
 
 void GameScene::Release()
 {
-	this->~GameScene();
+	delete scene;
+	delete addBuffer;
+	delete removeBuffer;
 }

@@ -10,7 +10,7 @@ public:
 	float y;
 
 	inline float getX()const { return x; }
-	inline float getY()const { return x; }
+	inline float getY()const { return y; }
 
 	
 	Vector2(float i_x = 0, float i_y = 0);
