@@ -106,3 +106,8 @@ void GameScene::draw(UpdateParams* params)
 		}
 	}
 }
+
+void GameScene::Release()
+{
+	this->~GameScene();
+}

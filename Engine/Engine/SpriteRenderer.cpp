@@ -14,6 +14,7 @@ SpriteRenderer::~SpriteRenderer()
 	}
 }
 
+
 void SpriteRenderer::update(UpdateParams * params)
 {
 }

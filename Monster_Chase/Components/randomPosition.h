@@ -9,7 +9,7 @@ class randomPosition : public Component
 public:
 	randomPosition(int xRange, int yRange);
 	~randomPosition();
-	void update(UpdateParams* params);
+	void update(UpdateParams* params);	
 	void draw(UpdateParams* params);
 	void onAddToObject();
 };

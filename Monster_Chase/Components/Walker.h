@@ -8,7 +8,7 @@ public:
 	Walker(int speed);
 	~Walker();
 	void update(UpdateParams* params);
-	void draw(UpdateParams* params);
+	void draw(UpdateParams* params);	
 	void onAddToObject();
 	int getWalkDistance();
 };

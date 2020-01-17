@@ -8,7 +8,7 @@ class RottingEntity: public Component
 public:
 	RottingEntity(int delay);
 	~RottingEntity();
-	void update(UpdateParams* params);
+	void update(UpdateParams* params);	
 	void draw(UpdateParams* params);
 	void onAddToObject();
 };

@@ -30,11 +30,11 @@ void Spawner::update(UpdateParams * params)
 		monster->addComponent(new RottingEntity(5));
 		monster->position.x = gameObject->position.x;
 		monster->position.y = gameObject->position.y;		
-		renderText->fromCharArray("~~~A hive just spawned a new monster!~~~\n");//Set output for the next draw cycle
+		//renderText->fromCharArray("~~~A hive just spawned a new monster!~~~\n");//Set output for the next draw cycle
 	}
 	else
 	{
-		renderText->fromCharArray("");//nothing to display this frame
+		//renderText->fromCharArray("");//nothing to display this frame
 	}
 	
 
@@ -46,7 +46,7 @@ void Spawner::draw(UpdateParams * params)
 	{
 		std::cout << "~~~" << *(gameObject->name) << " is about to spawn a creature at: " << gameObject->position << "~~~\n";
 	}
-	std::cout << *renderText;
+	//std::cout << *renderText;
 }
 
 void Spawner::onAddToObject()

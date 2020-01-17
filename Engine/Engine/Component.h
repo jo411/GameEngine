@@ -7,17 +7,14 @@ class GameObject;
 	class Component
 	{
 	protected:
-		GameObject* gameObject=NULL;//What G.O. is this component attached to
-		SimpleString* renderText;//A component may use this to set display text in draw() from its update() method. 
+		GameObject* gameObject=NULL;//What G.O. is this component attached to		
 	public:
 		virtual void update(UpdateParams* params) = 0;//defined in a derived class. Is called with its gameobject's update
 		virtual void draw(UpdateParams* params) = 0;//defined in a derived class. Is called with its gameobject's draw
 		virtual void onAddToObject() = 0;	//Defined in a derived class. Is called after a component is added to a gameobject
 		bool enabled = true; //will this component recieve or ignore updates. 
 		Component();
-		~Component();
-		Component(const Component &old);
-		Component& operator=(const Component& other);
+		virtual ~Component();		
 		void registerGameObject(GameObject* obj);//Stores this components attached game object
 	};
 

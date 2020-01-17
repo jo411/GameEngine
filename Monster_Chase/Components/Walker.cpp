@@ -28,6 +28,7 @@ void Walker::draw(UpdateParams * params)
 {
 }
 
+
 void Walker::onAddToObject()
 {
 }

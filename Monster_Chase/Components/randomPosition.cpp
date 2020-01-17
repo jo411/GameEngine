@@ -26,6 +26,7 @@ void randomPosition::update(UpdateParams * params)
 {
 }
 
+
 void randomPosition::draw(UpdateParams * params)
 {
 }
