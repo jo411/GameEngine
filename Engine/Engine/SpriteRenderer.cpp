@@ -21,7 +21,7 @@ void SpriteRenderer::update(UpdateParams * params)
 
 void SpriteRenderer::draw(UpdateParams * params)
 {	
-	static GLib::Point2D	Offset = { gameObject->position.getX(), gameObject->position.getY() };
+	GLib::Point2D	Offset = { gameObject->position.getX(), gameObject->position.getY() };
 	GLib::Sprites::RenderSprite(*sprite, Offset, 0.0f);
 }
 
