@@ -54,6 +54,9 @@
     <ClInclude Include="FixedSizeAllocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -90,6 +93,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FixedSizeAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
