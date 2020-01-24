@@ -72,9 +72,6 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 
 			bool bQuit = false;
 
-			const size_t	lenBuffer = 65;
-			char			Buffer[lenBuffer];
-
 			updateParams.deltaTime = 16.68;//60fps in miliseconds default
 				
 			do
@@ -85,10 +82,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 				GLib::Service(bQuit);				
 
 				if (!bQuit)
-				{
-					sprintf_s(Buffer, lenBuffer, "Frame Time: %lf \n", updateParams.deltaTime);
-					OutputDebugStringA(Buffer);
-								
+				{		
 
 					Scene.update(&updateParams);//update the scene
 

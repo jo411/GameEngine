@@ -20,6 +20,7 @@ public:
 	bool enabled = true;//Whether this object recieves or ignores update() from the scene
 	void update(UpdateParams* params);//Called with the parent scene's update()
 	void draw(UpdateParams* params);//Called with the parent scene's draw()
+	template <typename T> T* GetComponent();//Gets the first component of type T on this game object
 	GameObject(GameScene* scene);
 	~GameObject();
 	GameObject(const GameObject &other);
