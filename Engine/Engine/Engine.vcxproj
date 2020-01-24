@@ -178,6 +178,7 @@
     <ClInclude Include="FixedSizeAllocator.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="ListPointer.h" />
     <ClInclude Include="MyMalloc.h" />
     <ClInclude Include="SimpleString.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="FixedSizeAllocator.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="ListPointer.cpp" />
     <ClCompile Include="MyMalloc.cpp" />
     <ClCompile Include="SimpleString.cpp" />
