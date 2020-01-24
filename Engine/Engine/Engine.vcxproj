@@ -182,6 +182,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ListPointer.h" />
     <ClInclude Include="MyMalloc.h" />
+    <ClInclude Include="RigidBody2d.h" />
     <ClInclude Include="SimpleString.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="SpriteSystem.h" />
@@ -201,6 +202,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="ListPointer.cpp" />
     <ClCompile Include="MyMalloc.cpp" />
+    <ClCompile Include="RigidBody2d.cpp" />
     <ClCompile Include="SimpleString.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="SpriteSystem.cpp" />
