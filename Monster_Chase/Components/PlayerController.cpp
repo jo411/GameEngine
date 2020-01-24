@@ -1,4 +1,5 @@
 #include "PlayerController.h"
+#include "InputManager.h"
 PlayerController::PlayerController()
 {
 }
@@ -11,19 +12,21 @@ PlayerController::~PlayerController()
 //checks the input key and moves the player accordingly
 void PlayerController::update(UpdateParams * params)
 {
-	if (params->keyPressed == 'w')
+	InputManager::Key keyDown = InputManager::lastKeyDown;
+
+	if (keyDown == InputManager::Key::W)
 	{
 		gameObject->position.y++;
 	}
-	else if (params->keyPressed == 'a')
+	else if (keyDown == InputManager::Key::A)
 	{
 		gameObject->position.x--;
 	}
-	else if (params->keyPressed == 's')
+	else if (keyDown == InputManager::Key::S)
 	{
 		gameObject->position.y--;
 	}
-	else if (params->keyPressed == 'd')
+	else if (keyDown == InputManager::Key::D)
 	{
 		gameObject->position.x++;
 	}
