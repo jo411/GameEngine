@@ -4,11 +4,8 @@
 class UpdateParams
 {
 public:
-	
+	double deltaTime;
 	UpdateParams();
 	~UpdateParams();
-	const InputManager* getInput() { return &input; };
-private:
-	InputManager input;
 };
 

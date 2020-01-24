@@ -6,14 +6,18 @@
 #include <Windows.h>
 #include <time.h>
 
+#include "HighResolutionTimer.h"
+
 #include "SpriteSystem.h"
 #include "GameScene.h"
 #include "GameObject.h"
 #include "SpriteRenderer.h"
 
+
 #pragma region Components
 #include "Components/randomPosition.h"
 #include "Components/Walker.h"
+#include "Components/PlayerController.h"
 #pragma endregion
 
 
@@ -33,34 +37,24 @@
 // Engine/SpriteSystem is a wrapper for the load file and create sprite methods that makes them static functions
 // Engine/SpriteRenderer is a component that creates and renders a sprite. 
 
-
-void TestKeyCallback(unsigned int i_VKeyID, bool bWentDown)
-{		
-	
-#ifdef _DEBUG
-	const size_t	lenBuffer = 65;
-	char			Buffer[lenBuffer];
-
-	sprintf_s(Buffer, lenBuffer, "VKey 0x%04x went %s\n", i_VKeyID, bWentDown ? "down" : "up");
-	OutputDebugStringA(Buffer);
-#endif // __DEBUG
-}
-
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
 	{
-		// IMPORTANT: first we need to initialize GLib
+		// IMPORTANT: first we need to initialize GLib		
 		bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600);
 
 		srand((unsigned int)time(NULL));//seed the random function
+
+
 		GameScene Scene;
-
-
+		UpdateParams updateParams;
+		HighResolutionTimer gameTimer;
 		//Create game objects for the scene
 		GameObject* player = Scene.CreateGameObject();
 		player->name->fromCharArray("Player");
 		player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
 		player->addComponent(new randomPosition(300, 300));
+		player->addComponent(new PlayerController());
 
 		GameObject* enemy = Scene.CreateGameObject();
 		enemy->name->fromCharArray("Enemy");
@@ -71,28 +65,42 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		if (bSuccess)
 		{
 			// IMPORTANT (if we want keypress info from GLib): Set a callback for notification of key presses
-			GLib::SetKeyStateChangeCallback(TestKeyCallback);
+			//(updateParams.getInput())			
+			GLib::SetKeyStateChangeCallback(InputManager::KeyCallback);
 
 			// Create a couple of sprites using our own helper routine CreateSprite		
 
 			bool bQuit = false;
 
+			const size_t	lenBuffer = 65;
+			char			Buffer[lenBuffer];
+
+			updateParams.deltaTime = 16.68;//60fps in miliseconds default
+				
 			do
 			{
+				gameTimer.StartCounter();//reset timer	
+
 				// IMPORTANT: We need to let GLib do it's thing. 
-				GLib::Service(bQuit);
+				GLib::Service(bQuit);				
 
 				if (!bQuit)
 				{
-					Scene.update(NULL);//update the scene
+					sprintf_s(Buffer, lenBuffer, "Frame Time: %lf \n", updateParams.deltaTime);
+					OutputDebugStringA(Buffer);
+								
+
+					Scene.update(&updateParams);//update the scene
 
 					GLib::BeginRendering();
 					GLib::Sprites::BeginRendering();
 
-					Scene.draw(NULL);//draw the scene
+					Scene.draw(&updateParams);//draw the scene
 
 					GLib::Sprites::EndRendering();
 					GLib::EndRendering();
+
+					updateParams.deltaTime = gameTimer.GetCounter();//get last frame time					
 				}
 			} while (bQuit == false);
 
