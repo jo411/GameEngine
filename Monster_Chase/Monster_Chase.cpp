@@ -33,10 +33,13 @@
 //Josh Nelson
 //u0936149
 
-//-----------------------------------------------CLASS SETUP---------------------------------------------------------------
-// Below I've used my old ECS setup from semester 1
-// Engine/SpriteSystem is a wrapper for the load file and create sprite methods that makes them static functions
-// Engine/SpriteRenderer is a component that creates and renders a sprite. 
+//-----------------------------------------------Assignment 2 notes---------------------------------------------------------------
+// Non blocking loop already existed
+// High Resoluton timer.h/cpp in the engine holds the timing code
+// RigigBody2d.h/cpp in the engine holds all the physics code 
+// The initialization for these objects is in this file lines 61-71
+// Press W A S D to apply a force (.01 newtons) in that direction for 1 second 
+// Press F to negate all forces (not velocity so the sprite will slow down until friction stops it)
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
@@ -56,24 +59,22 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
 
 		RigidBody2d* rb = new RigidBody2d();
-		rb->mass = 1000;
-		rb->drag = .99f;
-		Vector2 testForce;
-		testForce.x = .05;
-		testForce.y = .1;
-		//rb->addForce(testForce);
+		rb->mass = 10;
+		rb->drag = .8f;	
+		rb->minGroundingSpeed = .01f;
 
 		player->addComponent(rb);
 
-		PlayerController* pc = new PlayerController(.1f);
+		PlayerController* pc = new PlayerController(.01f);	
+		pc->timeToApplyForce = 1000.0f;
 		pc->rb = rb;//This is really bad but I couldnt get a template function for getComponent<type> working
 		player->addComponent(pc);
 
-		/*GameObject* enemy = Scene.CreateGameObject();
+		GameObject* enemy = Scene.CreateGameObject();
 		enemy->name->fromCharArray("Enemy");
 		enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));
-		enemy->addComponent(new randomPosition(50, 50));*/
-		//enemy->addComponent(new Walker(1));
+		enemy->addComponent(new randomPosition(50, 50));
+		enemy->addComponent(new Walker(1));
 
 		if (bSuccess)
 		{
