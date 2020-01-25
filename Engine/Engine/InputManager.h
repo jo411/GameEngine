@@ -6,6 +6,7 @@ public:
 	
 	static Key lastKeyDown;//the last key that was pressed prior to this frame
 	static Key lastKeyUp;//the last key released prior to this frame
+	static bool isHeld;
 
 	static void KeyCallback(unsigned int i_VKeyID, bool bWentDown);
 	static inline bool isValidKey(int keyId);

@@ -18,6 +18,7 @@
 #include "Components/randomPosition.h"
 #include "Components/Walker.h"
 #include "Components/PlayerController.h"
+#include "RigidBody2d.h"
 #pragma endregion
 
 
@@ -53,14 +54,26 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		GameObject* player = Scene.CreateGameObject();
 		player->name->fromCharArray("Player");
 		player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
-		player->addComponent(new randomPosition(300, 300));
-		player->addComponent(new PlayerController());
 
-		GameObject* enemy = Scene.CreateGameObject();
+		RigidBody2d* rb = new RigidBody2d();
+		rb->mass = 1000;
+		rb->drag = .99f;
+		Vector2 testForce;
+		testForce.x = .05;
+		testForce.y = .1;
+		//rb->addForce(testForce);
+
+		player->addComponent(rb);
+
+		PlayerController* pc = new PlayerController(.1f);
+		pc->rb = rb;//This is really bad but I couldnt get a template function for getComponent<type> working
+		player->addComponent(pc);
+
+		/*GameObject* enemy = Scene.CreateGameObject();
 		enemy->name->fromCharArray("Enemy");
 		enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));
-		enemy->addComponent(new randomPosition(50, 50));
-		enemy->addComponent(new Walker(1));
+		enemy->addComponent(new randomPosition(50, 50));*/
+		//enemy->addComponent(new Walker(1));
 
 		if (bSuccess)
 		{

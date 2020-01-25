@@ -51,19 +51,6 @@ GameObject::GameObject(GameScene* scene)
 	name = new SimpleString();
 	this->scene = scene;
 }
-
-template <typename T> T* GameObject::GetComponent()
-{
-	for (int i = 0; i < components.count - 1; i++)
-	{
-		T* found = dynamic_cast<T>(components->getAt(i));
-		if (found!=0)
-		{
-			return found;
-		}
-	}
-}
-
 //removes dynamic memory 
 GameObject::~GameObject()
 {

@@ -26,5 +26,5 @@ void SpriteRenderer::draw(UpdateParams * params)
 }
 
 void SpriteRenderer::onAddToObject()
-{
+{	
 }

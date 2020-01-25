@@ -1,7 +1,10 @@
 #include "PlayerController.h"
 #include "InputManager.h"
-PlayerController::PlayerController()
+#include "GameObject.h"
+#include "RigidBody2d.h"
+PlayerController::PlayerController(float i_speed)
 {
+	speed = i_speed;
 }
 
 
@@ -13,23 +16,34 @@ PlayerController::~PlayerController()
 void PlayerController::update(UpdateParams * params)
 {
 	InputManager::Key keyDown = InputManager::lastKeyDown;
-
+	Vector2 moveForce;
+	if (InputManager::isHeld)
+	{
+		return;
+	}
 	if (keyDown == InputManager::Key::W)
 	{
-		gameObject->position.y++;
+		moveForce.y = speed;
+		InputManager::isHeld = true;
 	}
 	else if (keyDown == InputManager::Key::A)
 	{
-		gameObject->position.x--;
+		moveForce.x = -speed;
+		InputManager::isHeld = true;
 	}
 	else if (keyDown == InputManager::Key::S)
 	{
-		gameObject->position.y--;
+		rb->clearForces();
+		//moveForce.y = -speed;
+		InputManager::isHeld = true;
 	}
 	else if (keyDown == InputManager::Key::D)
 	{
-		gameObject->position.x++;
+		moveForce.x = speed;
+		InputManager::isHeld = true;
 	}
+	rb->addForce(moveForce);
+	
 }
 
 void PlayerController::draw(UpdateParams * params)
@@ -38,4 +52,5 @@ void PlayerController::draw(UpdateParams * params)
 
 void PlayerController::onAddToObject()
 {
+	
 }

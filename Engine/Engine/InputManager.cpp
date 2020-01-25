@@ -1,6 +1,7 @@
 #include "InputManager.h"
 InputManager::Key InputManager::lastKeyDown = InputManager::Key::NONE;//the last key that was pressed prior to this frame
 InputManager::Key InputManager::lastKeyUp = InputManager::Key::NONE;//the last key released prior to this frame
+bool InputManager::isHeld = false;
 void InputManager::KeyCallback(unsigned int i_VKeyID, bool bWentDown)
 {
 	Key convertedKey;
@@ -14,12 +15,15 @@ void InputManager::KeyCallback(unsigned int i_VKeyID, bool bWentDown)
 		}
 		else
 		{
-			lastKeyUp = convertedKey;
-			if (lastKeyDown == lastKeyUp)
-			{
-				lastKeyDown = Key::NONE;
-			}
+			lastKeyUp = convertedKey;			
+			lastKeyDown = Key::NONE;
+			isHeld = false;
 		}
+
+		if (convertedKey != lastKeyDown)
+		{
+			isHeld = false;
+		}		
 	}
 	
 

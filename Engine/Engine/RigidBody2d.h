@@ -4,6 +4,7 @@
 class RigidBody2d : public Component
 {
 public:
+	RigidBody2d();
 	void update(UpdateParams* params);
 	void draw(UpdateParams* params);
 	void onAddToObject();
