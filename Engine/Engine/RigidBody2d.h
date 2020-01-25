@@ -11,11 +11,14 @@ public:
 
 	float mass;
 	float drag;	
+	float minGroundingSpeed;//speed at which to stop the object
+
 	void addForce(const Vector2& i_force);
 	void clearForces();
 private: 
 	Vector2 prevPosition;
 	Vector2 force;
 	Vector2 velocity;
+	Vector2 acc;
 };
 

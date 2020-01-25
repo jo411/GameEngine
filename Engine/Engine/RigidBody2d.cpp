@@ -5,35 +5,57 @@ RigidBody2d::RigidBody2d()
 {
 	velocity.x = 0;
 	velocity.y = 0;
+	acc.x = 0;
+	acc.y = 0;
 	drag = 0;
 	mass = 0;
 }
 void RigidBody2d::update(UpdateParams * params)
 {
-	Vector2 Acc = (force) / mass;
+	//Slightly modified verlet called Velocity Verlet
 
-	float newPosX;
-	float newPosY;
+	float dt = params->deltaTime;
+	acc = force / mass;
 
-	newPosX = 2.0f * gameObject->position.x - prevPosition.x + Acc.x * params->deltaTime;
-	newPosY = 2.0f * gameObject->position.y - prevPosition.y + Acc.y * params->deltaTime;
+	//Check for min speed and ground the object if needed
+	if (abs(velocity.x) < minGroundingSpeed &&abs(acc.x)<.0001)
+	{
+		velocity.x = 0;
+	}
 
-	prevPosition.x = gameObject->position.x;
-	prevPosition.y = gameObject->position.y;
+	if (abs(velocity.y) < minGroundingSpeed && abs(acc.y) < .0001)
+	{
+		velocity.y = 0;
+	}
 
-	gameObject->position.x = newPosX;
-	gameObject->position.y = newPosY;
+	//verlet integration
 
-	velocity.x = newPosX - prevPosition.x;
-	velocity.y = newPosY - prevPosition.y;	
+	Vector2 newPos = gameObject->position + velocity * dt + acc * (dt*dt*.5);
+	
+	Vector2 dragForce;
+	dragForce.x = 0.5 * drag * (velocity.x * abs(velocity.x));
+	dragForce.y = 0.5 * drag * (velocity.y * abs(velocity.y));
+	Vector2 dragAcc = dragForce / mass;
 
-	force *= drag;
+	Vector2 gravity;
+	gravity.x = 0;
+	gravity.y = 0;
 
+	Vector2 newAcc = gravity - dragAcc;
+	Vector2 newVel = velocity + (acc + newAcc)*(dt*.5);
+
+	gameObject->position.x = newPos.x;
+	gameObject->position.y = newPos.y;	
+
+	velocity = newVel;
+	acc = newAcc;
+
+	
 
 	const size_t	lenBuffer = 65;
 	char			Buffer[lenBuffer];
 
-	sprintf_s(Buffer, lenBuffer, "Current Force: %.9f , %.9f\n", force.x, force.y);
+	sprintf_s(Buffer, lenBuffer, "Current velocity: %.9f , %.9f\n", velocity.x, velocity.y);
 	OutputDebugStringA(Buffer);
 
 }
