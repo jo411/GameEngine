@@ -2,9 +2,11 @@
 #include "InputManager.h"
 #include "GameObject.h"
 #include "RigidBody2d.h"
-PlayerController::PlayerController(float i_speed)
+PlayerController::PlayerController(float i_forceMagnitude)
 {
-	speed = i_speed;
+	forceMagnitude = i_forceMagnitude;
+	timeToApplyForce = 500.0f;
+	forceTimer = 0;
 }
 
 
@@ -17,30 +19,48 @@ void PlayerController::update(UpdateParams * params)
 {
 	InputManager::Key keyDown = InputManager::lastKeyDown;
 	Vector2 moveForce;
+
+	forceTimer += params->deltaTime;
+	if (forceTimer > timeToApplyForce)
+	{
+		forceTimer = 0;
+		rb->clearForces();
+	}
+
+
 	if (InputManager::isHeld)
 	{
 		return;
 	}
 	if (keyDown == InputManager::Key::W)
 	{
-		moveForce.y = speed;
+		moveForce.y = forceMagnitude;
 		InputManager::isHeld = true;
+		forceTimer = 0;
 	}
 	else if (keyDown == InputManager::Key::A)
 	{
-		moveForce.x = -speed;
+		moveForce.x = -forceMagnitude;
 		InputManager::isHeld = true;
+		forceTimer = 0;
 	}
 	else if (keyDown == InputManager::Key::S)
-	{
-		rb->clearForces();
-		//moveForce.y = -speed;
+	{		
+		moveForce.y = -forceMagnitude;
 		InputManager::isHeld = true;
+		forceTimer = 0;
 	}
 	else if (keyDown == InputManager::Key::D)
 	{
-		moveForce.x = speed;
+		moveForce.x = forceMagnitude;
 		InputManager::isHeld = true;
+		forceTimer = 0;
+	}
+	else if (keyDown == InputManager::Key::F)
+	{
+		rb->clearForces();
+		InputManager::isHeld = true;
+		forceTimer = 0;
 	}
 	rb->addForce(moveForce);
 	

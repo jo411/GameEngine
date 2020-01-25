@@ -5,15 +5,16 @@
 class PlayerController: public Component
 {
 public:
-	PlayerController(float i_speed);
+	PlayerController(float i_forceMagnitude);
 	~PlayerController();
 	void update(UpdateParams* params);
 	void draw(UpdateParams* params);
 	void onAddToObject();
 	RigidBody2d* rb;//the rigid body to control
-
+	float timeToApplyForce;
+	float forceTimer;//how many miliseconds to apply force for
 private:
-	float speed;
+	float forceMagnitude;//how many (newtons?) of force to apply
 
 };
 
