@@ -50,14 +50,6 @@ void RigidBody2d::update(UpdateParams * params)
 	velocity = newVel;
 	acc = newAcc;
 
-	
-
-	const size_t	lenBuffer = 65;
-	char			Buffer[lenBuffer];
-
-	sprintf_s(Buffer, lenBuffer, "Current velocity: %.9f , %.9f\n", velocity.x, velocity.y);
-	OutputDebugStringA(Buffer);
-
 }
 
 void RigidBody2d::draw(UpdateParams * params)
