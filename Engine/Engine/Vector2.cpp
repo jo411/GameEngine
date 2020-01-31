@@ -1,4 +1,5 @@
 #include "Vector2.h"
+#include "Floats.h"
 
 
 Vector2::Vector2(float i_x, float i_y):x(i_x), y(i_y)
@@ -70,13 +71,13 @@ Vector2 Vector2::operator/(double scalar)const
 
 
 bool Vector2::operator==(const Vector2& rhs) const
-{
-	return (x == rhs.x && y == rhs.y);
+{	
+	return (Floats::RelativeEpsilonEqual(x,rhs.x) && Floats::RelativeEpsilonEqual(y, rhs.y));
 }
 
 bool Vector2::operator!=(const Vector2& rhs) const
 {
-	return !(x == rhs.x && y == rhs.y);
+	return !(Floats::RelativeEpsilonEqual(x, rhs.x) && Floats::RelativeEpsilonEqual(y, rhs.y));
 }
 
 bool Vector2::operator>(const Vector2& rhs) const
