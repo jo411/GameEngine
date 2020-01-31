@@ -30,7 +30,7 @@ public:
 
 	static inline bool isNAN(float A)
 	{
-		return A == A;
+		return A != A;
 	}
 
 };

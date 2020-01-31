@@ -271,7 +271,7 @@ namespace FloatTests
 			Assert::IsTrue(Floats::RelativeEpsilonEqual(x, y));
 		}
 
-		TEST_METHOD(FloatEq4)
+		TEST_METHOD(FloatZeroADD)
 		{
 			float x = 0.0f;			
 
@@ -284,7 +284,7 @@ namespace FloatTests
 			Assert::IsTrue(Floats::isZero(x));
 		}		
 
-		TEST_METHOD(FloatEq5)
+		TEST_METHOD(FloatZeroPI)
 		{
 			float x = 0.0f;
 			float y = 0.0f;
@@ -292,6 +292,18 @@ namespace FloatTests
 			x = sin(M_PI);
 
 			Assert::IsTrue(Floats::isZero(x));
+		}
+
+		TEST_METHOD(FloatisNotNAN)
+		{
+			float A = sqrt(2);
+			Assert::IsFalse(Floats::isNAN(A));
+		}
+
+		TEST_METHOD(FloatisNAN)
+		{
+			float A = sqrt(-2);
+			Assert::IsTrue(Floats::isNAN(A));
 		}
 
 	};
