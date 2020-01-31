@@ -28,5 +28,10 @@ public:
 		return RelativeEpsilonEqual(A, 0.0f, .000001f);
 	}
 
+	static inline bool isNAN(float A)
+	{
+		return A == A;
+	}
+
 };
 
