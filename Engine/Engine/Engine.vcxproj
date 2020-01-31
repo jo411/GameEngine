@@ -176,6 +176,7 @@
     <ClInclude Include="CombinedAllocators.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="FixedSizeAllocator.h" />
+    <ClInclude Include="Floats.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="HighResolutionTimer.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="CombinedAllocators.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="FixedSizeAllocator.cpp" />
+    <ClCompile Include="Floats.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="HighResolutionTimer.cpp" />
