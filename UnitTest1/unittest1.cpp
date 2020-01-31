@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "Vector2.h"
+#include "Floats.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -233,5 +236,63 @@ namespace UnitTest1
 			Assert::IsTrue(sameVal);
 			
 		}
+	};
+}
+
+namespace FloatTests
+{
+	TEST_CLASS(FloatTests)
+	{
+	public:
+		TEST_METHOD(FloatEq1)
+		{
+			float x = 1.0f;
+			float y = 0 + 1;
+			Assert::IsTrue(Floats::RelativeEpsilonEqual(x,y));
+		}
+
+		TEST_METHOD(FloatEq2)
+		{
+			float x = 100/300.0f;
+			float y = 1.0f/3.0f;
+			Assert::IsTrue(Floats::RelativeEpsilonEqual(x, y));
+		}
+
+		TEST_METHOD(FloatEq3)
+		{
+			float x = 0.0f;
+			float y = 1.0f;
+
+			for (int i = 0; i < 10; i++)
+			{
+				x += .1f;
+			}
+
+			Assert::IsTrue(Floats::RelativeEpsilonEqual(x, y));
+		}
+
+		TEST_METHOD(FloatEq4)
+		{
+			float x = 0.0f;			
+
+			for (int i = 0; i < 10; i++)
+			{
+				x += .1f;
+			}
+			x -= 1.0f;
+
+			Assert::IsTrue(Floats::isZero(x));
+		}		
+
+		TEST_METHOD(FloatEq5)
+		{
+			float x = 0.0f;
+			float y = 0.0f;
+
+			x = sin(M_PI);
+
+			Assert::IsTrue(Floats::isZero(x));
+		}
+
 	};
 }
