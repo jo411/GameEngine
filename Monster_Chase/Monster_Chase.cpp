@@ -7,12 +7,13 @@
 #include <time.h>
 
 #include "HighResolutionTimer.h"
+#include "SmartPointer.h"
 
 #include "SpriteSystem.h"
 #include "GameScene.h"
 #include "GameObject.h"
 #include "SpriteRenderer.h"
-
+#include "Person.h"
 
 #pragma region Components
 #include "Components/randomPosition.h"
@@ -33,24 +34,80 @@
 //Josh Nelson
 //u0936149
 
-//-----------------------------------------------Assignment 2 notes---------------------------------------------------------------
-// Non blocking loop already existed
-// High Resoluton timer.h/cpp in the engine holds the timing code
-// RigigBody2d.h/cpp in the engine holds all the physics code 
-// The initialization for these objects is in this file lines 61-71
-// Press W A S D to apply a force (.01 newtons) in that direction for 1 second 
-// Press F to negate all forces (not velocity so the sprite will slow down until friction stops it)
+//-----------------------------------------------Assignment notes---------------------------------------------------------------
+//
 
-void testPointers()
+
+
+
+void testSmartPointersOnly()
 {
+	SmartPointer<Person> p(new Person("Josh", 23));
+	p->Display();
+	{
+		SmartPointer<Person> q = p;
+		q->Display();
+		// Destructor of q will be called here..
+
+		SmartPointer<Person> r;
+		r = p;
+		r->Display();
+		// Destructor of r will be called here..
+	}
+	p->Display();
+	// Destructor of p will be called here 
+	// and person pointer will be deleted
+}
+void testSmartPointerComparison()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		SmartPointer<Person> p(new Person("Josh", 23));
+		SmartPointer<Person> q(new Person("Josh2", 46));
+		if (p < q)
+		{
+			assert(p < q);
+		}
+		else
+		{
+			assert(p > q);
+		}
+
+		if (p == p)
+		{
+			assert(p == p);
+		}
+		else
+		{
+			assert(p != p);
+		}
+		if (p <= p)
+		{
+			assert(p <= p);
+		}
+		else
+		{
+			assert(p >= p);
+		}
+		if ((q < p))
+		{
+			assert((q < p));
+		}
+		else
+		{
+			assert((q > p));
+		}
+	}
 	
 }
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
-
-	testPointers();
-
+	{
+		testSmartPointersOnly();
+		testSmartPointerComparison();
+	}	
+	_CrtDumpMemoryLeaks();
 	return 1;
 	{
 		// IMPORTANT: first we need to initialize GLib		

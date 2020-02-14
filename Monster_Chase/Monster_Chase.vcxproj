@@ -178,6 +178,7 @@
     <ClInclude Include="Components\Spawner.h" />
     <ClInclude Include="Components\RottingEntity.h" />
     <ClInclude Include="Components\TargetFollow.h" />
+    <ClInclude Include="Person.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\PlayerController.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Components\Walker.cpp" />
     <ClCompile Include="Components\Spawner.cpp" />
     <ClCompile Include="Components\TargetFollow.cpp" />
+    <ClCompile Include="Person.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine\Engine.vcxproj">
