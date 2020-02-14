@@ -41,8 +41,17 @@
 // Press W A S D to apply a force (.01 newtons) in that direction for 1 second 
 // Press F to negate all forces (not velocity so the sprite will slow down until friction stops it)
 
+void testPointers()
+{
+	
+}
+
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
+
+	testPointers();
+
+	return 1;
 	{
 		// IMPORTANT: first we need to initialize GLib		
 		bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600);
