@@ -147,6 +147,40 @@ bool TestWeakGet()
 	return true;
 }
 
+bool TestWeakDoesntDelete()
+{
+	SmartPointer<Person> p(new Person("Promoted pointer", 23));
+
+	{
+		WeakPointer<Person> observer(p);
+		if (!observer.Aquire())
+		{
+			return false;
+		}
+	}
+	if (!p)
+	{
+		return false;
+	}
+	return true;
+}
+
+bool TestSmartAndWeakNull()
+{
+	WeakPointer<Person> wp1;
+	{
+		SmartPointer<Person> p(new Person("Good pointer", 23));
+		WeakPointer<Person> wp2(p);
+		wp1 = wp2;
+	}
+	
+	if (wp1.IsAlive())
+	{
+		return false;
+	}	
+	return(true);
+}
+
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
 	{
@@ -154,6 +188,8 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		testSmartPointerComparison();
 		assert(testSmartNull());
 		assert(TestWeakGet());
+		assert(TestWeakDoesntDelete());
+		assert(TestSmartAndWeakNull());
 	}	
 	_CrtDumpMemoryLeaks();
 	return 1;
