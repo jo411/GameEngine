@@ -2,17 +2,25 @@
 #include "RefCounter.h"
 template <typename T> class SmartPointer
 {
+
+public:
+	
+private:
+	T* pointer;
+	RefCounter* references;
+
+
 public:
 	explicit SmartPointer(T* i_data) : pointer(i_data), references(0)
 	{
 		references = new RefCounter();
-		references->AddRef();
+		references->AddSmartRef();
 	}
 
 	SmartPointer() : pointer(nullptr), references(0)
 	{
 		references = new RefCounter();
-		references->AddRef();
+		references->AddSmartRef();
 	}
 
 	~SmartPointer()
@@ -22,7 +30,17 @@ public:
 
 	SmartPointer(const SmartPointer<T>& sp) : pointer(sp.pointer), references(sp.references)
 	{
-		references->AddRef();
+		if (references)
+		{
+			references->AddSmartRef();
+		}
+		
+	}
+	SmartPointer(SmartPointer<T>&& sp) : pointer(sp.pointer), references(sp.references)
+	{
+		sp.pointer = nullptr;
+		sp.references = nullptr;
+
 	}
 
 	SmartPointer<T>& operator=(const SmartPointer<T>& sp)
@@ -33,7 +51,7 @@ public:
 
 			pointer = sp.pointer;
 			references = sp.references;
-			references->AddRef();
+			references->AddSmartRef();
 		}
 		return *this;
 	}
@@ -85,15 +103,20 @@ public:
 		return lhs.pointer > rhs.pointer | lhs.pointer == rhs.pointer;
 	}
 
+	//make weakpointers a friend class
+	template < class Y > friend class WeakPointer;
 private:
-	T* pointer;
-	RefCounter* references;
 	
 	void ReleaseAndDeleteIfNeeded()
-	{
-		if (references->Release() == 0)
+	{		
+		
+
+		if (references && references->ReleaseSmart() == 0)
 		{
-			delete pointer;
+			if (pointer)
+			{
+				delete pointer;
+			}		
 			delete references;
 		}
 	}
