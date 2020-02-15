@@ -78,6 +78,9 @@
     <ClInclude Include="RefCounter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WeakPointer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -138,6 +141,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RefCounter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WeakPointer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

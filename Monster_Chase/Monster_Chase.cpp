@@ -8,6 +8,7 @@
 
 #include "HighResolutionTimer.h"
 #include "SmartPointer.h"
+#include "WeakPointer.h"
 
 #include "SpriteSystem.h"
 #include "GameScene.h"
@@ -131,12 +132,28 @@ bool testSmartNull()
 	return true;
 }
 
+bool TestWeakGet()
+{
+	SmartPointer<Person> p(new Person("Promoted pointer", 23));
+	WeakPointer<Person> observer(p);
+
+	assert(p);
+
+	assert(observer.Aquire());
+
+	SmartPointer<Person> promoted = observer.Aquire();
+
+	promoted->Display();
+	return true;
+}
+
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
 	{
 		testSmartPointersOnly();
 		testSmartPointerComparison();
-		assert(testSmartNull);
+		assert(testSmartNull());
+		assert(TestWeakGet());
 	}	
 	_CrtDumpMemoryLeaks();
 	return 1;

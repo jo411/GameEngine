@@ -192,6 +192,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UpdateParams.h" />
     <ClInclude Include="Vector2.h" />
+    <ClInclude Include="WeakPointer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Allocators.cpp" />
@@ -214,6 +215,7 @@
     <ClCompile Include="SpriteSystem.cpp" />
     <ClCompile Include="UpdateParams.cpp" />
     <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="WeakPointer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
