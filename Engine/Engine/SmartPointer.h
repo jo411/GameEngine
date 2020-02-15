@@ -4,7 +4,8 @@ template <typename T> class SmartPointer
 {
 
 public:
-	
+	//make weakpointers a friend class
+	template < class Y > friend class WeakPointer;
 private:
 	T* pointer;
 	RefCounter* references;
@@ -36,11 +37,27 @@ public:
 		}
 		
 	}
+
+	SmartPointer(const WeakPointer<T>& wp) : pointer(wp.pointer), references(wp.references)
+	{
+		if (references)
+		{
+			if (references->getSmartCount == 0)
+			{
+				pointer = nullptr;
+				references = nullptr;
+			}
+			else
+			{
+				references->AddSmartRef();
+			}
+		}
+	}
+
 	SmartPointer(SmartPointer<T>&& sp) : pointer(sp.pointer), references(sp.references)
 	{
 		sp.pointer = nullptr;
 		sp.references = nullptr;
-
 	}
 
 	SmartPointer<T>& operator=(const SmartPointer<T>& sp)
@@ -103,8 +120,7 @@ public:
 		return lhs.pointer > rhs.pointer | lhs.pointer == rhs.pointer;
 	}
 
-	//make weakpointers a friend class
-	template < class Y > friend class WeakPointer;
+	
 private:
 	
 	void ReleaseAndDeleteIfNeeded()
@@ -115,9 +131,13 @@ private:
 		{
 			if (pointer)
 			{
-				delete pointer;
-			}		
-			delete references;
+				delete pointer;				
+			}	
+			if (references->getWeakCount() == 0)
+			{
+				delete references;
+			}
+						
 		}
 	}
 

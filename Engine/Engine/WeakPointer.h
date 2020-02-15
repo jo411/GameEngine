@@ -5,7 +5,8 @@ template <typename T>class WeakPointer
 {
 	
 public:
-
+	//make Strongpointers a friend class
+	template < class Y > friend class StrongPointer;
 private:
 	T* pointer;
 	RefCounter* references;
@@ -51,7 +52,7 @@ public:
 		}
 		else
 		{
-			if (references->SmartCount == 0)
+			if (references->getSmartCount() == 0)
 			{
 				return false;
 			}
@@ -96,9 +97,9 @@ private:
 	{
 		if (references != nullptr)
 		{
-			if (references->ReleaseWeak() == 0)
+			if (references->ReleaseWeak() == 0 && references->getSmartCount()==0)
 			{
-				//delete references;
+				delete references;
 			}
 
 		}
