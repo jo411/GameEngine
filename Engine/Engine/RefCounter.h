@@ -2,17 +2,30 @@
 class RefCounter
 {
 public:
-	void AddRef()
+	void AddSmartRef()
 	{
-		count++;
+		SmartCount++;
 	}
 
-	int Release()
+	void AddWeakRef()
 	{
-		return --count;
+		WeakCount++;
+	}
+
+	int getSmartCount() { return SmartCount; }
+	int getWeakCount() { return WeakCount; }
+
+	int ReleaseSmart()
+	{
+		return --SmartCount;
+	}
+	int ReleaseWeak()
+	{
+		return --WeakCount;
 	}
 
 private:
-	int count;
+	int SmartCount=0;
+	int WeakCount = 0;
 };
 
