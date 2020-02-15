@@ -1,5 +1,6 @@
 # u0936149
 -----------------------------------------------Assignment notes---------------------------------------------------------------
+
  Monster_Chase.cpp is where all the main startup code is located for this assignment. 
 SmartPointer.h and WeakPointer.h inside the engine hold exactly what their names suggest 
 RefCounter.h in the engine holds the reference counter
