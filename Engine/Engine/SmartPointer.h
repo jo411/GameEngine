@@ -9,7 +9,7 @@ public:
 		references->AddRef();
 	}
 
-	SmartPointer() : pointer(0), references(0)
+	SmartPointer() : pointer(nullptr), references(0)
 	{
 		references = new RefCounter();
 		references->AddRef();
@@ -47,20 +47,23 @@ public:
 	{
 		return pointer;
 	}
+	
+	operator bool()
+	{
+		return pointer;
+	}
 
 	//Comparison operators
 	template < class T, class U >
 	friend bool operator==(const SmartPointer<T>& lhs, const SmartPointer<U>& rhs)
 	{
 		return lhs.pointer == rhs.pointer;
-	}
-
+	}	
 	template< class T, class U >
 	friend bool operator!=(const SmartPointer<T>& lhs, const SmartPointer<U>& rhs)
 	{
 		return !(lhs.pointer == rhs.pointer);
 	}
-
 	template< class T, class U >
 	friend bool operator<(const SmartPointer<T>& lhs, const SmartPointer<U>& rhs)
 	{

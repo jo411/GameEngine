@@ -47,12 +47,13 @@ void testSmartPointersOnly()
 	{
 		SmartPointer<Person> q = p;
 		q->Display();
-		// Destructor of q will be called here..
+	
 
 		SmartPointer<Person> r;
 		r = p;
 		r->Display();
 		// Destructor of r will be called here..
+			// Destructor of q will be called here..
 	}
 	p->Display();
 	// Destructor of p will be called here 
@@ -101,11 +102,41 @@ void testSmartPointerComparison()
 	
 }
 
+bool testSmartNull()
+{
+	SmartPointer<Person> p;	
+	{
+		SmartPointer<Person> q = p;
+		if (q)
+		{
+			return false;
+		}
+		// Destructor of q will be called here..
+
+		SmartPointer<Person> r;
+		SmartPointer<Person> s;
+		r = p;
+		r = SmartPointer<Person>(new Person("Josh", 23));
+		if (!r)
+		{
+			return false;
+		}
+		r->Display();
+		// Destructor of r will be called here..
+	}
+	if (p)
+	{
+		return false;
+	}
+	return true;
+}
+
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
 	{
 		testSmartPointersOnly();
 		testSmartPointerComparison();
+		assert(testSmartNull);
 	}	
 	_CrtDumpMemoryLeaks();
 	return 1;
