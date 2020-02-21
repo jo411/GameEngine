@@ -73,3 +73,7 @@ void RigidBody2d::clearForces()
 	force.x = 0;
 	force.y = 0;
 }
+void RigidBody2d::Serialize(json & j)
+{
+	j["RigidBody2d"] = { {"mass",mass},{"drag", drag},{"minGroundingSpeed",minGroundingSpeed } };
+}

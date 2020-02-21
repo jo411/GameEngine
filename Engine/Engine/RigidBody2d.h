@@ -13,6 +13,7 @@ public:
 	float drag;	
 	float minGroundingSpeed;//speed at which to stop the object
 
+	void Serialize(json & j);
 	void addForce(const Vector2& i_force);
 	void clearForces();
 private: 

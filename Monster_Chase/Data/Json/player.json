@@ -1,0 +1,1 @@
+{"Name":"Player","PlayerController":{"forceMagnitude":0.009999999776482582,"timeToApplyForce":1000.0},"Position":{"x":0.0,"y":0.0},"RigidBody2d":{"drag":0.800000011920929,"mass":10.0,"minGroundingSpeed":0.009999999776482582},"SpriteRenderer":{"FileName":"data\\pikachu.dds"}}

@@ -41,6 +41,17 @@ void GameObject::draw(UpdateParams * params)
 	}
 }
 
+void GameObject::Serialize(json & j)
+{
+	j["Name"] = name->getCharArray();
+	j["Position"] = { {"x",position.getX()},{"y",position.getY()} };
+	for (int i = 0; i <= components->count(); i++)
+	{
+		Component* obj = ((Component*)(components->getAt(i)));
+		obj->Serialize(j);		
+	}
+}
+
 GameObject::GameObject(GameScene* scene)
 {
 	//Start at (0,0)

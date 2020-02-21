@@ -3,7 +3,8 @@
 #include "Component.h"
 #include "Vector2.h"
 #include "SimpleString.h"
-
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 class GameScene;
 //A Gameobject holds basic information about an entity in a scene. Position and name are stored here. 
 //Each GameObject holds a list of components.
@@ -20,6 +21,8 @@ public:
 	bool enabled = true;//Whether this object recieves or ignores update() from the scene
 	void update(UpdateParams* params);//Called with the parent scene's update()
 	void draw(UpdateParams* params);//Called with the parent scene's draw()
+
+	void Serialize(json& j);
 	
 	GameObject(GameScene* scene);
 	~GameObject();

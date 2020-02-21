@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Component.h"
 //This component starts a GameObject at a random location 
 class randomPosition : public Component
 {
@@ -11,6 +12,7 @@ public:
 	~randomPosition();
 	void update(UpdateParams* params);	
 	void draw(UpdateParams* params);
+	void Serialize(json & j);
 	void onAddToObject();
 };
 

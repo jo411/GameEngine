@@ -13,6 +13,7 @@ public:
 	RigidBody2d* rb;//the rigid body to control
 	float timeToApplyForce;
 	float forceTimer;//how many miliseconds to apply force for
+	void Serialize(json & j);
 private:
 	float forceMagnitude;//how many (newtons?) of force to apply
 

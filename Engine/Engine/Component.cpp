@@ -1,6 +1,11 @@
 #include "Component.h"
 
 
+void Component::Serialize(json & j)
+{
+	j["BaseComponent"] = "This component has no defined serialization.";
+}
+
 Component::Component()
 {	
 	

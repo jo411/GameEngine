@@ -43,3 +43,8 @@ int Walker::getWalkDistance()
 	}
 	return speed * multiply;
 }
+
+void Walker::Serialize(json & j)
+{
+	j["Walker"] = { {"speed",speed} };
+}

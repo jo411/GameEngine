@@ -23,6 +23,12 @@
 #include "RigidBody2d.h"
 #pragma endregion
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
+#include <fstream>
+
+
 
 #pragma comment(lib,"d3d11.lib")
 
@@ -66,6 +72,20 @@ void loadGameObjects(GameScene& Scene)
 	enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));
 	enemy->addComponent(new randomPosition(50, 50));
 	enemy->addComponent(new Walker(1));
+
+	json j;
+	std::ofstream myfile;
+
+	enemy->Serialize(j);	
+	myfile.open("Data/Json/enemy.json");
+	myfile << j;
+	myfile.close();	
+
+	j.clear();
+	player->Serialize(j);
+	myfile.open("Data/Json/player.json");
+	myfile << j;
+	myfile.close();
 }
 
 
@@ -83,6 +103,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		HighResolutionTimer gameTimer;
 		
 		loadGameObjects(Scene);
+		return 0;
 
 		if (bSuccess)
 		{

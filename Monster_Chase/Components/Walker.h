@@ -11,5 +11,6 @@ public:
 	void draw(UpdateParams* params);	
 	void onAddToObject();
 	int getWalkDistance();
+	void Serialize(json& j);
 };
 

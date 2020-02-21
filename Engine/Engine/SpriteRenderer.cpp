@@ -4,6 +4,7 @@
 SpriteRenderer::SpriteRenderer(const char * i_pFilename)
 {
 	sprite = SpriteSystem::CreateSprite(i_pFilename);
+	file = i_pFilename;
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -27,4 +28,9 @@ void SpriteRenderer::draw(UpdateParams * params)
 
 void SpriteRenderer::onAddToObject()
 {	
+}
+
+void SpriteRenderer::Serialize(json & j)
+{
+	j["SpriteRenderer"] = { {"FileName",file } };
 }

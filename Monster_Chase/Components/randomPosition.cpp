@@ -31,6 +31,11 @@ void randomPosition::draw(UpdateParams * params)
 {
 }
 
+void randomPosition::Serialize(json & j)
+{
+	j["RandomPosition"] = { {"xRange",xRange},{"yRange",yRange} };
+}
+
 //set the random position
 void randomPosition::onAddToObject()
 {

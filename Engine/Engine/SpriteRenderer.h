@@ -9,7 +9,9 @@ class SpriteRenderer: public Component
 	void update(UpdateParams* params);
 	void draw(UpdateParams* params);
 	void onAddToObject();
-private:
+	void Serialize(json& j);
+private:	
 	GLib::Sprites::Sprite* sprite;
+	const char* file;
 };
 
