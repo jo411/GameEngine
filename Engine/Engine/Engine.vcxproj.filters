@@ -81,6 +81,9 @@
     <ClInclude Include="WeakPointer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JsonHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -144,6 +147,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WeakPointer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

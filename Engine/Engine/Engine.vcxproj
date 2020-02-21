@@ -181,6 +181,7 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="HighResolutionTimer.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="JsonHandler.h" />
     <ClInclude Include="ListPointer.h" />
     <ClInclude Include="MyMalloc.h" />
     <ClInclude Include="RefCounter.h" />
@@ -205,6 +206,7 @@
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="HighResolutionTimer.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="JsonHandler.cpp" />
     <ClCompile Include="ListPointer.cpp" />
     <ClCompile Include="MyMalloc.cpp" />
     <ClCompile Include="RefCounter.cpp" />

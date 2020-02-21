@@ -3,6 +3,7 @@
 #include "ListPointer.h"
 #include <vector>
 #include <algorithm>
+#include "JsonHandler.h"
 
 //TODO: actually use the rule of three
 
@@ -38,6 +39,13 @@ WeakPointer<GameObject> GameScene::CreateGameObject()
 		dirtyBuffer = true;//mark the buffers dirty		
 	}	
 	return newGameObject;
+}
+
+WeakPointer<GameObject> GameScene::CreateGameObject(const char * AssetFilePath)
+{
+	SmartPointer<GameObject> newObject(CreateGameObject());
+	JsonHandler::PopulateGameObjectFromJson(newObject, AssetFilePath);
+	return newObject;
 }
 
 //Removes the specified gameobject from the scene forever
