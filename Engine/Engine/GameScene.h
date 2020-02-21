@@ -22,6 +22,7 @@ public:
 	GameScene();
 	~GameScene();
 	WeakPointer<GameObject> CreateGameObject();//Creates and returns a pointer to a new gameobject that is, or will be, in this scene
+	WeakPointer<GameObject> CreateGameObject(const char* AssetFilePath);
 	void RemoveGameObject(SmartPointer<GameObject> go);//Removes the specified gameobject from the scene forever
 	void update(UpdateParams* params);//Updates all the enabled gameobjects in this scene
 	void draw(UpdateParams* params);//Draws all the enabled gameobjects in this scene

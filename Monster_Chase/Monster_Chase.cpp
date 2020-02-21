@@ -48,7 +48,7 @@ using json = nlohmann::json;
 //
 //
 
-void loadGameObjects(GameScene& Scene)
+void CreateAndSaveGameObjects(GameScene& Scene)
 {
 	//Create game objects for the scene
 	SmartPointer<GameObject> player = Scene.CreateGameObject();
@@ -87,6 +87,10 @@ void loadGameObjects(GameScene& Scene)
 	myfile << j;
 	myfile.close();
 }
+void loadGameObjects(GameScene& Scene)
+{
+	Scene.CreateGameObject("Data/Json/player.json");
+}
 
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
@@ -103,6 +107,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		HighResolutionTimer gameTimer;
 		
 		loadGameObjects(Scene);
+		
 		return 0;
 
 		if (bSuccess)
