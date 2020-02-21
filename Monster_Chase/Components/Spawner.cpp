@@ -18,25 +18,27 @@ Spawner::~Spawner()
 
 void Spawner::update(UpdateParams * params)
 {
-	turnCounter++;
-	//If the timer has run out create a monster and spawn it into the attached gameobjects scene
-	if (turnCounter >= delay)
-	{
-		turnCounter = 0;
-		GameObject* monster = (gameObject->scene->CreateGameObject());
-		monster->name->fromCharArray("Hive Spawn");
-		monster->addComponent(new Talker());
-		monster->addComponent(new Walker(3));
-		monster->addComponent(new RottingEntity(5));
-		monster->position.x = gameObject->position.x;
-		monster->position.y = gameObject->position.y;		
-		//renderText->fromCharArray("~~~A hive just spawned a new monster!~~~\n");//Set output for the next draw cycle
-	}
-	else
-	{
-		//renderText->fromCharArray("");//nothing to display this frame
-	}
-	
+	//DEPRECATED
+
+	//turnCounter++;
+	////If the timer has run out create a monster and spawn it into the attached gameobjects scene
+	//if (turnCounter >= delay)
+	//{
+	//	turnCounter = 0;
+	//	GameObject* monster = (gameObject->scene->CreateGameObject());
+	//	monster->name->fromCharArray("Hive Spawn");
+	//	monster->addComponent(new Talker());
+	//	monster->addComponent(new Walker(3));
+	//	monster->addComponent(new RottingEntity(5));
+	//	monster->position.x = gameObject->position.x;
+	//	monster->position.y = gameObject->position.y;		
+	//	//renderText->fromCharArray("~~~A hive just spawned a new monster!~~~\n");//Set output for the next draw cycle
+	//}
+	//else
+	//{
+	//	//renderText->fromCharArray("");//nothing to display this frame
+	//}
+	//
 
 }
 

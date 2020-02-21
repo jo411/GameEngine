@@ -42,7 +42,31 @@
 //
 //
 
+void loadGameObjects(GameScene& Scene)
+{
+	//Create game objects for the scene
+	SmartPointer<GameObject> player = Scene.CreateGameObject();
+	player->name->fromCharArray("Player");
+	player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
 
+	RigidBody2d* rb = new RigidBody2d();
+	rb->mass = 10;
+	rb->drag = .8f;
+	rb->minGroundingSpeed = .01f;
+
+	player->addComponent(rb);
+
+	PlayerController* pc = new PlayerController(.01f);
+	pc->timeToApplyForce = 1000.0f;
+	pc->rb = rb;//This is really bad but I couldnt get a template function for getComponent<type> working
+	player->addComponent(pc);
+
+	SmartPointer<GameObject> enemy = Scene.CreateGameObject();
+	enemy->name->fromCharArray("Enemy");
+	enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));
+	enemy->addComponent(new randomPosition(50, 50));
+	enemy->addComponent(new Walker(1));
+}
 
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
@@ -57,28 +81,8 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		GameScene Scene;
 		UpdateParams updateParams;
 		HighResolutionTimer gameTimer;
-		//Create game objects for the scene
-		GameObject* player = Scene.CreateGameObject();
-		player->name->fromCharArray("Player");
-		player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
-
-		RigidBody2d* rb = new RigidBody2d();
-		rb->mass = 10;
-		rb->drag = .8f;	
-		rb->minGroundingSpeed = .01f;
-
-		player->addComponent(rb);
-
-		PlayerController* pc = new PlayerController(.01f);	
-		pc->timeToApplyForce = 1000.0f;
-		pc->rb = rb;//This is really bad but I couldnt get a template function for getComponent<type> working
-		player->addComponent(pc);
-
-		GameObject* enemy = Scene.CreateGameObject();
-		enemy->name->fromCharArray("Enemy");
-		enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));
-		enemy->addComponent(new randomPosition(50, 50));
-		enemy->addComponent(new Walker(1));
+		
+		loadGameObjects(Scene);
 
 		if (bSuccess)
 		{
@@ -127,7 +131,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 #if defined _DEBUG
 	_CrtDumpMemoryLeaks();
 #endif // _DEBUG
-
+	return 0;
 }
 
 

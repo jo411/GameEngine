@@ -1,15 +1,17 @@
 #include "GameScene.h"
 #include "malloc.h"
 #include "ListPointer.h"
+#include <vector>
+#include <algorithm>
 
 //TODO: actually use the rule of three
 
 //Constructs the scene and allocates lists for all the dynamic memory needed
 GameScene::GameScene()
 {	
-	scene = new ListPointer(1);
-	addBuffer = new ListPointer(1);
-	removeBuffer = new ListPointer(1);
+	//scene = new ListPointer(1);
+	//addBuffer = new ListPointer(1);
+	//removeBuffer = new ListPointer(1);
 }
 
 //Clears any dynamic memory allocated
@@ -19,31 +21,40 @@ GameScene::~GameScene()
 }
 
 //Creates and returns a pointer to a new gameobject that is, or will be, in this scene
-GameObject* GameScene::CreateGameObject()
+WeakPointer<GameObject> GameScene::CreateGameObject()
 {
-	GameObject* newGameObject = new GameObject(this);
+	SmartPointer<GameObject> newGameObject( new GameObject(this));
 	if (!inUpdate)
 	{		
-		scene->add(newGameObject);		
+		//scene->add(newGameObject);
+		sceneVector.push_back(newGameObject);
 	}
 	else//if this scene is currently updating the object is added to the buffer for later
 	{
-		addBuffer->add(newGameObject);
-		dirtyBuffer = true;//mark the buffers dirty
+		//addBuffer->add(newGameObject);
+
+		addBufferVector.push_back(newGameObject);
+
+		dirtyBuffer = true;//mark the buffers dirty		
 	}	
 	return newGameObject;
 }
 
 //Removes the specified gameobject from the scene forever
-void GameScene::RemoveGameObject(GameObject * gameObject)
+void GameScene::RemoveGameObject(SmartPointer<GameObject> gameObject)
 {
 	if (!inUpdate)
 	{
-		scene->remove(gameObject);
+		//scene->remove(gameObject);
+	
+		sceneVector.erase(std::remove(sceneVector.begin(), sceneVector.end(), gameObject), sceneVector.end());
 	}
 	else//if this scene is currently updating the object is added to the buffer for later
 	{
-		removeBuffer->add(gameObject);
+		//removeBuffer->add(gameObject);
+
+		removeBufferVector.push_back(gameObject);
+		
 		dirtyBuffer = true;//mark the buffers dirty
 	}
 }
@@ -51,19 +62,25 @@ void GameScene::RemoveGameObject(GameObject * gameObject)
 //Add all objects in the addBuffer and removes all in removeBuffer
 void GameScene::clearBuffers()
 {
-	for (int i = 0; i <= addBuffer->count(); i++)
+	for (int i = 0; i < addBufferVector.size(); i++)
 	{
-		scene->add(addBuffer->getAt(i));	
+		//scene->add(addBuffer->getAt(i));
+
+		sceneVector.push_back(addBufferVector[i]);
 		
 	}
-	addBuffer->clearNonDestructive();//clear the objects from the list bur keep the memory for more objects later
+	//addBuffer->clearNonDestructive();//clear the objects from the list bur keep the memory for more objects later
+	addBufferVector.clear();
 
-	for (int i = 0; i <= removeBuffer->count(); i++)
+	for (int i = 0; i < removeBufferVector.size(); i++)
 	{
-		scene->remove(removeBuffer->getAt(i));
+		//scene->remove(removeBuffer->getAt(i));
+
+		sceneVector.erase(std::remove(sceneVector.begin(), sceneVector.end(), removeBufferVector[i]), sceneVector.end());
 	
 	}
-	removeBuffer->clearNonDestructive();//clear the objects from the list bur keep the memory for more objects later
+	//removeBuffer->clearNonDestructive();//clear the objects from the list bur keep the memory for more objects later
+	removeBufferVector.clear();
 	dirtyBuffer = false;//mark the buffers clean
 }
 
@@ -76,9 +93,11 @@ void GameScene::update(UpdateParams* params)
 	}
 
 	inUpdate = true;//lock the gameobject list
-	for (int i = 0; i <= scene->count(); i++)//update all enabled Gameobjects in the scene
+	for (int i = 0; i < sceneVector.size(); i++)//update all enabled Gameobjects in the scene
 	{
-		GameObject* obj =((GameObject*)(scene->getAt(i)));
+//		GameObject* obj =((GameObject*)(scene->getAt(i)));
+		SmartPointer<GameObject> obj = sceneVector[i];
+
 		if (obj->enabled)
 		{
 			obj->update(params);
@@ -95,9 +114,10 @@ void GameScene::update(UpdateParams* params)
 //Draws all the enabled gameobjects in this scene
 void GameScene::draw(UpdateParams* params)
 {
-	for (int i = 0; i <= scene->count(); i++)
+	for (int i = 0; i <sceneVector.size(); i++)
 	{
-		GameObject* obj = ((GameObject*)(scene->getAt(i)));
+		//GameObject* obj = ((GameObject*)(scene->getAt(i)));
+		SmartPointer<GameObject> obj = sceneVector[i];
 		if (obj->enabled)
 		{
 			obj->draw(params);
@@ -107,7 +127,12 @@ void GameScene::draw(UpdateParams* params)
 
 void GameScene::Release()
 {
-	delete scene;
-	delete addBuffer;
-	delete removeBuffer;
+	//delete scene;
+	//delete addBuffer;
+	//delete removeBuffer;
+
+	sceneVector.clear();
+	addBufferVector.clear();
+	removeBufferVector.clear();
+
 }

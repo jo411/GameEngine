@@ -38,11 +38,11 @@ public:
 		
 	}
 
-	SmartPointer(const WeakPointer<T>& wp) : pointer(wp.pointer), references(wp.references)
+	SmartPointer(const WeakPointer<T>& wp) : pointer(wp.getRawPointer()), references(wp.getRawReferences())
 	{
 		if (references)
 		{
-			if (references->getSmartCount == 0)
+			if (references->getSmartCount() == 0)
 			{
 				pointer = nullptr;
 				references = nullptr;

@@ -16,6 +16,14 @@ public:
 	{
 	}
 
+	T* getRawPointer() const
+	{
+		return pointer;
+	}
+	RefCounter* getRawReferences() const
+	{
+		return references;
+	}
 	WeakPointer(const WeakPointer<T>& wp) : pointer(wp.pointer), references(wp.references)
 	{
 		AddWeakReference();
