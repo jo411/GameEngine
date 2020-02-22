@@ -3,9 +3,10 @@
 #include <iostream>
 #include <unordered_map>
 #include "SpriteRenderer.h"
-#include ""
 
-void JsonHandler::PopulateGameObjectFromJson(SmartPointer<GameObject> obj, const char * filePath, (void(*customBindings)(SmartPointer<GameObject> obj, json j))
+
+
+void JsonHandler::PopulateGameObjectFromJson(SmartPointer<GameObject> obj, const char * filePath)
 {
 	std::map<char*, Component*> dependencies;//save all components incase another needs a reference
 	std::ifstream ifs(filePath);
@@ -27,7 +28,7 @@ void JsonHandler::PopulateGameObjectFromJson(SmartPointer<GameObject> obj, const
 	if (j.contains("SpriteRenderer"))
 	{
 		json j2 = j["SpriteRenderer"];
-		Sprite
+		//Sprite
 	}
 	
 		

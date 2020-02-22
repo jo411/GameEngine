@@ -88,7 +88,7 @@ void CreateAndSaveGameObjects(GameScene& Scene)
 	myfile.close();
 }
 void loadGameObjects(GameScene& Scene)
-{
+{	
 	Scene.CreateGameObject("Data/Json/player.json");
 }
 
