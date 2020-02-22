@@ -27,6 +27,7 @@
 using json = nlohmann::json;
 
 #include <fstream>
+#include <unordered_map>
 
 
 
@@ -87,9 +88,39 @@ void CreateAndSaveGameObjects(GameScene& Scene)
 	myfile << j;
 	myfile.close();
 }
+
+void nonEngineJsonCallBack(SmartPointer<GameObject> obj, json j, std::map<std::string, Component*>& dependencies)
+{
+	if (j.contains("PlayerController"))
+	{
+		json j2 = j["PlayerController"];
+		float forceMagnitude = j2["forceMagnitude"];
+		float timeToApplyForce = j2["timeToApplyForce"];
+		PlayerController* pc = new PlayerController(forceMagnitude);
+		pc->timeToApplyForce = timeToApplyForce;
+		pc->rb = dynamic_cast<RigidBody2d*>(dependencies.at("RigidBody2d"));
+		obj->addComponent(pc);
+
+		dependencies.emplace("PlayerController", pc);
+	}
+
+	if (j.contains("RandomPosition"))
+	{
+		json j2 = j["RandomPosition"];
+		randomPosition* rp = new randomPosition(j["xRange"], j["yRange"]);
+		obj->addComponent(rp);
+	}
+
+	if (j.contains("Walker"))
+	{
+		json j2 = j["Walker"];
+		Walker* = new Walker(j2["speed"]);
+	}
+}
+
 void loadGameObjects(GameScene& Scene)
 {	
-	Scene.CreateGameObject("Data/Json/player.json");
+	Scene.CreateGameObject("Data/Json/player.json",nonEngineJsonCallBack);
 }
 
 

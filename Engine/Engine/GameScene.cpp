@@ -41,10 +41,10 @@ WeakPointer<GameObject> GameScene::CreateGameObject()
 	return newGameObject;
 }
 
-WeakPointer<GameObject> GameScene::CreateGameObject(const char * AssetFilePath)
+WeakPointer<GameObject> GameScene::CreateGameObject(const char * AssetFilePath, void(*callback) (SmartPointer<GameObject> obj, json j, std::map<std::string, Component*>& dependencies))
 {
 	SmartPointer<GameObject> newObject(CreateGameObject());
-	JsonHandler::PopulateGameObjectFromJson(newObject, AssetFilePath);
+	JsonHandler::PopulateGameObjectFromJson(newObject, AssetFilePath,callback);
 	return newObject;
 }
 
