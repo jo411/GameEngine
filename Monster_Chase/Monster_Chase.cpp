@@ -49,44 +49,45 @@ using json = nlohmann::json;
 //
 //
 
+//Only used to create initial json objects
 void CreateAndSaveGameObjects(GameScene& Scene)
 {
-	//Create game objects for the scene
-	SmartPointer<GameObject> player = Scene.CreateGameObject();
-	player->name->fromCharArray("Player");
-	player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
+	////Create game objects for the scene
+	//SmartPointer<GameObject> player = Scene.CreateGameObject();
+	//player->name->fromCharArray("Player");
+	//player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
 
-	RigidBody2d* rb = new RigidBody2d();
-	rb->mass = 10;
-	rb->drag = .8f;
-	rb->minGroundingSpeed = .01f;
+	//RigidBody2d* rb = new RigidBody2d();
+	//rb->mass = 10;
+	//rb->drag = .8f;
+	//rb->minGroundingSpeed = .01f;
 
-	player->addComponent(rb);
+	//player->addComponent(rb);
 
-	PlayerController* pc = new PlayerController(.01f);
-	pc->timeToApplyForce = 1000.0f;
-	pc->rb = rb;//This is really bad but I couldnt get a template function for getComponent<type> working
-	player->addComponent(pc);
+	//PlayerController* pc = new PlayerController(.01f);
+	//pc->timeToApplyForce = 1000.0f;
+	//pc->rb = rb;//This is really bad but I couldnt get a template function for getComponent<type> working
+	//player->addComponent(pc);
 
-	SmartPointer<GameObject> enemy = Scene.CreateGameObject();
-	enemy->name->fromCharArray("Enemy");
-	enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));
-	enemy->addComponent(new randomPosition(50, 50));
-	enemy->addComponent(new Walker(1));
+	//SmartPointer<GameObject> enemy = Scene.CreateGameObject();
+	//enemy->name->fromCharArray("Enemy");
+	//enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));
+	//enemy->addComponent(new randomPosition(50, 50));
+	//enemy->addComponent(new Walker(1));
 
-	json j;
-	std::ofstream myfile;
+	//json j;
+	//std::ofstream myfile;
 
-	enemy->Serialize(j);	
-	myfile.open("Data/Json/enemy.json");
-	myfile << j;
-	myfile.close();	
+	//enemy->Serialize(j);	
+	//myfile.open("Data/Json/enemy.json");
+	//myfile << j;
+	//myfile.close();	
 
-	j.clear();
-	player->Serialize(j);
-	myfile.open("Data/Json/player.json");
-	myfile << j;
-	myfile.close();
+	//j.clear();
+	//player->Serialize(j);
+	//myfile.open("Data/Json/player.json");
+	//myfile << j;
+	//myfile.close();
 }
 
 void nonEngineJsonCallBack(SmartPointer<GameObject> obj, json j, std::map<std::string, Component*>& dependencies)
@@ -107,20 +108,22 @@ void nonEngineJsonCallBack(SmartPointer<GameObject> obj, json j, std::map<std::s
 	if (j.contains("RandomPosition"))
 	{
 		json j2 = j["RandomPosition"];
-		randomPosition* rp = new randomPosition(j["xRange"], j["yRange"]);
+		randomPosition* rp = new randomPosition(j2["xRange"], j2["yRange"]);
 		obj->addComponent(rp);
 	}
 
 	if (j.contains("Walker"))
 	{
 		json j2 = j["Walker"];
-		Walker* = new Walker(j2["speed"]);
+		Walker* walkComp = new Walker(j2["speed"]);
+		obj->addComponent(walkComp);
 	}
 }
 
 void loadGameObjects(GameScene& Scene)
 {	
 	Scene.CreateGameObject("Data/Json/player.json",nonEngineJsonCallBack);
+	Scene.CreateGameObject("Data/Json/enemy.json", nonEngineJsonCallBack);
 }
 
 
@@ -137,9 +140,8 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		UpdateParams updateParams;
 		HighResolutionTimer gameTimer;
 		
-		loadGameObjects(Scene);
+		loadGameObjects(Scene);	
 		
-		return 0;
 
 		if (bSuccess)
 		{
