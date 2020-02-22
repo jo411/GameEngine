@@ -1,12 +1,20 @@
 # u0936149
------------------------------------------------Assignment 2.0(4/5) notes---------------------------------------------------------------
+-----------------------------------------------Assignment 2.6 notes---------------------------------------------------------------
 
 Monster_Chase.cpp is where all the main startup code is located for this assignment. 
  
-SmartPointer.h and WeakPointer.h inside the engine hold the pointers
+There is a unused funtion called "CreateAndSaveGameObjects" that I used to generate the json at first from existing GameObjects.
 
-RefCounter.h in the engine holds the reference counter
+Inside Monster_Chase.cpp the function "loadGameObjects" is what starts the json reading. Using a GameScene object it calls the new 
+create game object function that takes a file path to json data and returns a weak pointer to the gameobject that was just added to 
+the scene.
 
-Monster_Chase.cpp holds the tests I created. I turned off the display for this assignment. 
+The function inside a GameScene calls the engine specific json parsing inside JsonHandler.h/cpp This class holds deserialization patterns
+for engine built in components and types like the sprite renderer or the rigid body. It also takes a callback that the user can supply to 
+define their own deserialization patterns for their own custom components. It also takes a smart pointer to the gameobject currently
+being constructed.
 
-Person.h is a simple class I use in my tests. A person holds a name and age and can speak it to the output buffer.
+"nonEngineJsonCallBack" inside Monster_Chase.cpp is my callback for Monster_chase specific components like the PlayerController or the Random-
+Position components. 
+
+The json asset files are located in ...Monster_Chase\Data\Json there are currently 2 files: player and enemy. 
