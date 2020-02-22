@@ -3,12 +3,13 @@
 #include <iostream>
 #include <unordered_map>
 #include "SpriteRenderer.h"
+#include "RigidBody2d.h"
 
 
 
-void JsonHandler::PopulateGameObjectFromJson(SmartPointer<GameObject> obj, const char * filePath)
+void JsonHandler::PopulateGameObjectFromJson(SmartPointer<GameObject> obj, const char * filePath, void(*callback) (SmartPointer<GameObject> obj, json j, std::map<std::string, Component*>& dependencies))
 {
-	std::map<char*, Component*> dependencies;//save all components incase another needs a reference
+	std::map<std::string, Component*> dependencies;//save all components incase another needs a reference
 	std::ifstream ifs(filePath);
 	json j = json::parse(ifs);	
 
@@ -28,9 +29,29 @@ void JsonHandler::PopulateGameObjectFromJson(SmartPointer<GameObject> obj, const
 	if (j.contains("SpriteRenderer"))
 	{
 		json j2 = j["SpriteRenderer"];
-		//Sprite
+		std::string file = j2["FileName"];		
+		SpriteRenderer* newComp = new SpriteRenderer(file.c_str());
+		dependencies.emplace("SpriteRenderer", newComp);
+		obj->addComponent(newComp);
 	}
 	
-		
+	if (j.contains("RigidBody2d"))
+	{
+		json j2 = j["RigidBody2d"];
+		float drag = j2["drag"];
+		float mass = j2["mass"];
+		float minGroundingSpeed = j2["minGroundingSpeed"];
+
+		RigidBody2d* rb = new RigidBody2d();
+		rb->drag = drag;
+		rb->mass = mass;
+		rb->minGroundingSpeed = minGroundingSpeed;
+
+		dependencies.emplace("RigidBody2d", rb);
+
+		obj->addComponent(rb);		
+	}
+	
+	callback(obj, j,dependencies);
 	
 }
