@@ -179,8 +179,12 @@
     <ClInclude Include="Floats.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="HashedString\HashedString-inl.h" />
+    <ClInclude Include="HashedString\HashedString.h" />
     <ClInclude Include="HighResolutionTimer.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Job System\JobSystem.h" />
+    <ClInclude Include="JobSystem.h" />
     <ClInclude Include="JsonHandler.h" />
     <ClInclude Include="ListPointer.h" />
     <ClInclude Include="MyMalloc.h" />
@@ -204,8 +208,11 @@
     <ClCompile Include="Floats.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="HashedString\HashedString.cpp" />
     <ClCompile Include="HighResolutionTimer.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Job System\JobSystem.cpp" />
+    <ClCompile Include="JobSystem.cpp" />
     <ClCompile Include="JsonHandler.cpp" />
     <ClCompile Include="ListPointer.cpp" />
     <ClCompile Include="MyMalloc.cpp" />
