@@ -50,13 +50,21 @@ namespace Engine
 			LeaveCriticalSection(&m_QueueAccess);
 		}
 
+		void SharedJobQueue::shutDown()
+		{
+			m_ShutdownRequested = true;
+			WakeAllConditionVariable(&m_WakeAndCheck);
+		}
+
 		struct JobData* SharedJobQueue::GetWhenAvailable()
 		{
 			EnterCriticalSection(&m_QueueAccess);
 
 			if (m_Jobs.empty() && (m_ShutdownRequested == false))
 			{
+				DEBUG_PRINT("Sleeping on aquire\n");
 				BOOL result = SleepConditionVariableCS(&m_WakeAndCheck, &m_QueueAccess, INFINITE);
+				DEBUG_PRINT("WOKE UP!\n");
 				assert(result != 0);
 
 				if (m_ShutdownRequested == true)

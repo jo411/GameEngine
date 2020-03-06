@@ -40,6 +40,7 @@ namespace Engine
 			std::map<HashedString, JobQueueData*>::iterator iter = Queues.begin();
 			while (iter != Queues.end())
 			{
+				iter->second->m_SharedQueue.shutDown();
 
 				if (iter->second)
 				{

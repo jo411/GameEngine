@@ -137,7 +137,7 @@ void loadGameObjects(GameScene& Scene, const char* jsonPath)
 //do any setup the engine needs
 void initEngine()
 {
-	Engine::JobSystem::CreateQueue("Default", 2);
+	Engine::JobSystem::CreateQueue("Default", 4);
 }
 
 //do anything that the engine needs to do for shutdown before unloading

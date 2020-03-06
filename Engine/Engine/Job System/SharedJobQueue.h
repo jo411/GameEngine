@@ -23,6 +23,8 @@ namespace Engine
 			bool HasJobs() const;
 			struct JobData* GetWhenAvailable();
 			void JobFinished();
+
+			void shutDown();
 		private:
 			SharedJobQueue(const SharedJobQueue&) = delete;
 			SharedJobQueue& operator=(const SharedJobQueue&) = delete;
