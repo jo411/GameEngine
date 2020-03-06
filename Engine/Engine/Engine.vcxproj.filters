@@ -84,9 +84,6 @@
     <ClInclude Include="JsonHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JobSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="HashedString\HashedString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -94,6 +91,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Job System\JobSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Job System\JobSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsolePrint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Job System\JobRunner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Job System\SharedJobQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Job System\INamed.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -164,13 +176,22 @@
     <ClCompile Include="JsonHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JobSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HashedString\HashedString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Job System\JobSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Job System\JobSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Job System\JobRunner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsolePrint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Job System\SharedJobQueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -31,5 +31,5 @@ void InputManager::KeyCallback(unsigned int i_VKeyID, bool bWentDown)
 
 inline bool InputManager::isValidKey(int keyId)
 {
-	return (keyId <= Key::Z && keyId >= Key::A) | keyId == 0x00;
+	return (keyId <= Key::Z && keyId >= Key::A) | (keyId == 0x00);
 }

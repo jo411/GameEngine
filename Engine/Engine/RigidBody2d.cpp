@@ -14,7 +14,7 @@ void RigidBody2d::update(UpdateParams * params)
 {
 	//Slightly modified verlet called Velocity Verlet
 
-	float dt = params->deltaTime;
+	float dt =(float)params->deltaTime;
 	acc = force / mass;
 
 	//Check for min speed and ground the object if needed
@@ -33,8 +33,8 @@ void RigidBody2d::update(UpdateParams * params)
 	Vector2 newPos = gameObject->position + velocity * dt + acc * (dt*dt*.5);
 	
 	Vector2 dragForce;
-	dragForce.x = 0.5 * drag * (velocity.x * abs(velocity.x));
-	dragForce.y = 0.5 * drag * (velocity.y * abs(velocity.y));
+	dragForce.x = (float)(0.5 * drag * (velocity.x * abs(velocity.x)));
+	dragForce.y = (float)(0.5 * drag * (velocity.y * abs(velocity.y)));
 	Vector2 dragAcc = dragForce / mass;
 
 	Vector2 gravity;

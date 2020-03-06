@@ -175,6 +175,7 @@
     <ClInclude Include="BitArray.h" />
     <ClInclude Include="CombinedAllocators.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ConsolePrint.h" />
     <ClInclude Include="FixedSizeAllocator.h" />
     <ClInclude Include="Floats.h" />
     <ClInclude Include="GameObject.h" />
@@ -183,13 +184,15 @@
     <ClInclude Include="HashedString\HashedString.h" />
     <ClInclude Include="HighResolutionTimer.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Job System\INamed.h" />
     <ClInclude Include="Job System\JobSystem.h" />
-    <ClInclude Include="JobSystem.h" />
+    <ClInclude Include="Job System\JobRunner.h" />
     <ClInclude Include="JsonHandler.h" />
     <ClInclude Include="ListPointer.h" />
     <ClInclude Include="MyMalloc.h" />
     <ClInclude Include="RefCounter.h" />
     <ClInclude Include="RigidBody2d.h" />
+    <ClInclude Include="Job System\SharedJobQueue.h" />
     <ClInclude Include="SimpleString.h" />
     <ClInclude Include="SmartPointer.h" />
     <ClInclude Include="SpriteRenderer.h" />
@@ -204,6 +207,7 @@
     <ClCompile Include="BitArray.cpp" />
     <ClCompile Include="CombinedAllocators.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ConsolePrint.cpp" />
     <ClCompile Include="FixedSizeAllocator.cpp" />
     <ClCompile Include="Floats.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -212,12 +216,13 @@
     <ClCompile Include="HighResolutionTimer.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Job System\JobSystem.cpp" />
-    <ClCompile Include="JobSystem.cpp" />
+    <ClCompile Include="Job System\JobRunner.cpp" />
     <ClCompile Include="JsonHandler.cpp" />
     <ClCompile Include="ListPointer.cpp" />
     <ClCompile Include="MyMalloc.cpp" />
     <ClCompile Include="RefCounter.cpp" />
     <ClCompile Include="RigidBody2d.cpp" />
+    <ClCompile Include="Job System\SharedJobQueue.cpp" />
     <ClCompile Include="SimpleString.cpp" />
     <ClCompile Include="SmartPointer.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
