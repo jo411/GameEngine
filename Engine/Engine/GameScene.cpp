@@ -34,20 +34,15 @@ WeakPointer<GameObject> GameScene::CreateGameObject()
 	return newGameObject;
 }
 
-WeakPointer<GameObject> GameScene::CreateGameObjectFromJsonAsync(const char * AssetFilePath, void(*callback) (SmartPointer<GameObject> obj, json j, std::map<std::string, Component*>& dependencies))
-{
-	SmartPointer<GameObject> newObject(CreateGameObject());
-	JsonHandler::PopulateGameObjectFromJson(newObject, AssetFilePath,callback);
-
-	
+void GameScene::CreateGameObjectFromJsonAsync(const char * AssetFilePath, void(*callback) (SmartPointer<GameObject> obj, json j, std::map<std::string, Component*>& dependencies))
+{	
 	SmartPointer<GameObject> newGameObject(new GameObject(this));
+	JsonHandler::PopulateGameObjectFromJson(newGameObject, AssetFilePath, callback);
 
 	Engine::ScopeLock Lock(addBufferMutex);
 	addBufferVector.push_back(newGameObject);
 
 	dirtyBuffer = true;//mark the buffers dirty	
-
-	return newObject;
 }
 
 //Removes the specified gameobject from the scene forever
@@ -141,6 +136,7 @@ void GameScene::Release()
 	//delete scene;
 	//delete addBuffer;
 	//delete removeBuffer;
+
 	Engine::ScopeLock Lock(addBufferMutex);
 	sceneVector.clear();
 	addBufferVector.clear();

@@ -137,7 +137,7 @@ void loadGameObjects(GameScene& Scene, const char* jsonPath)
 //do any setup the engine needs
 void initEngine()
 {
-	Engine::JobSystem::CreateQueue("Default", 4);
+	Engine::JobSystem::CreateQueue("Default", 2);
 }
 
 //do anything that the engine needs to do for shutdown before unloading
@@ -148,7 +148,14 @@ void shutdownEngine()
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {	
+	//Force memory leak detection to run automatically at program termination
+	int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
+	flag |= _CRTDBG_LEAK_CHECK_DF;
+	_CrtSetDbgFlag(flag);
+
+
 	initEngine();
+	
 	{
 		// IMPORTANT: first we need to initialize GLib		
 		bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600);
@@ -180,8 +187,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 			//(updateParams.getInput())			
 			GLib::SetKeyStateChangeCallback(InputManager::KeyCallback);
 
-			// Create a couple of sprites using our own helper routine CreateSprite		
-
+			
 			bool bQuit = false;
 
 			updateParams.deltaTime = 16.68;//60fps in miliseconds default
@@ -218,9 +224,6 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 			GLib::Shutdown();
 		}
 	}
-#if defined _DEBUG
-	_CrtDumpMemoryLeaks();
-#endif // _DEBUG
 	return 0;
 }
 

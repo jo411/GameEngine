@@ -40,8 +40,6 @@ namespace Engine
 			std::map<HashedString, JobQueueData*>::iterator iter = Queues.begin();
 			while (iter != Queues.end())
 			{
-				iter->second->m_SharedQueue.shutDown();
-
 				if (iter->second)
 				{
 					const size_t count = iter->second->m_Runners.size();
@@ -52,6 +50,7 @@ namespace Engine
 							AllThreads.push_back(pRunner->m_ThreadHandle);
 					}
 				}
+				iter->second->m_SharedQueue.shutDown();
 				++iter;
 			}
 
@@ -79,8 +78,8 @@ namespace Engine
 				++iter;
 			}
 
-			Queues.clear();
-
+			Queues.clear();	
+			AllThreads.clear();
 		}
 
 		bool ShutdownRequested()

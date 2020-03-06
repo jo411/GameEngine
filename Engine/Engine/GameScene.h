@@ -26,7 +26,7 @@ public:
 	GameScene();
 	~GameScene();
 	WeakPointer<GameObject> CreateGameObject();//Creates and returns a pointer to a new gameobject that is, or will be, in this scene
-	WeakPointer<GameObject> CreateGameObjectFromJsonAsync(const char* AssetFilePath, void(*callback) (SmartPointer<GameObject> obj, json j, std::map<std::string, Component*>& dependencies));
+	void CreateGameObjectFromJsonAsync(const char* AssetFilePath, void(*callback) (SmartPointer<GameObject> obj, json j, std::map<std::string, Component*>& dependencies));
 	void RemoveGameObject(SmartPointer<GameObject> go);//Removes the specified gameobject from the scene forever
 	void update(UpdateParams* params);//Updates all the enabled gameobjects in this scene
 	void draw(UpdateParams* params);//Draws all the enabled gameobjects in this scene

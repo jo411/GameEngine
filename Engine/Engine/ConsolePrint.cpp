@@ -27,7 +27,10 @@ namespace Engine
 
 		va_end(args);
 
+#ifdef _DEBUG
 		OutputDebugStringA(strOutput);
+#endif
+		
 	}
 
 }
