@@ -30,27 +30,27 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -189,14 +189,17 @@
     <ClInclude Include="Job System\JobRunner.h" />
     <ClInclude Include="JsonHandler.h" />
     <ClInclude Include="ListPointer.h" />
+    <ClInclude Include="Synchronization\Mutex.h" />
     <ClInclude Include="MyMalloc.h" />
     <ClInclude Include="RefCounter.h" />
     <ClInclude Include="RigidBody2d.h" />
     <ClInclude Include="Job System\SharedJobQueue.h" />
+    <ClInclude Include="Synchronization\ScopeLock.h" />
     <ClInclude Include="SimpleString.h" />
     <ClInclude Include="SmartPointer.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="SpriteSystem.h" />
+    <ClInclude Include="Synchronization\WaitableObject.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UpdateParams.h" />
     <ClInclude Include="Vector2.h" />
@@ -218,6 +221,7 @@
     <ClCompile Include="Job System\JobRunner.cpp" />
     <ClCompile Include="JsonHandler.cpp" />
     <ClCompile Include="ListPointer.cpp" />
+    <ClCompile Include="Synchronization\Mutex.cpp" />
     <ClCompile Include="MyMalloc.cpp" />
     <ClCompile Include="RigidBody2d.cpp" />
     <ClCompile Include="Job System\SharedJobQueue.cpp" />
