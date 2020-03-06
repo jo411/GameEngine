@@ -147,12 +147,13 @@ void shutdownEngine()
 }
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
-{	
+{
+#ifdef _DEBUG
 	//Force memory leak detection to run automatically at program termination
 	int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
 	flag |= _CRTDBG_LEAK_CHECK_DF;
 	_CrtSetDbgFlag(flag);
-
+#endif
 
 	initEngine();
 	
