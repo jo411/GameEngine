@@ -45,6 +45,7 @@ namespace Engine
 #ifdef _DEBUG
 			DEBUG_PRINT("JobRunner \"%s\": Shutting down.\n", pInput->m_ThreadName.c_str());
 #endif
+		
 			return 0;
 		}
 

@@ -140,7 +140,7 @@ void initEngine()
 	Engine::JobSystem::CreateQueue("Default", 2);
 }
 
-//do anything that the engine needs to do for shutdown
+//do anything that the engine needs to do for shutdown before unloading
 void shutdownEngine()
 {
 	Engine::JobSystem::RequestShutdown();
@@ -167,12 +167,12 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		, "Default");
 
 
-		//Engine::JobSystem::RunJob("LoadEnemy", [&Scene]()
-		//{
-		//	loadGameObjects(Scene, "Data/Json/enemy.json");
-		//}
-		//, "Default");		
-		//
+		Engine::JobSystem::RunJob("LoadEnemy", [&Scene]()
+		{
+			loadGameObjects(Scene, "Data/Json/enemy.json");
+		}
+		, "Default");		
+		
 
 		if (bSuccess)
 		{
@@ -210,14 +210,10 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 				}
 			} while (bQuit == false);
 
-			if (Engine::JobSystem::HasJobs("Default"))
-			{
-				shutdownEngine();
-			}
-
+			shutdownEngine();
 			//Tell the scene to release all resources
 			Scene.Release();
-			shutdownEngine();		
+					
 			// IMPORTANT:  Tell GLib to shutdown, releasing resources.
 			GLib::Shutdown();
 		}
