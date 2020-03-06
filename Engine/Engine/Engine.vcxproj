@@ -209,7 +209,6 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConsolePrint.cpp" />
     <ClCompile Include="FixedSizeAllocator.cpp" />
-    <ClCompile Include="Floats.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="HashedString\HashedString.cpp" />
@@ -220,16 +219,13 @@
     <ClCompile Include="JsonHandler.cpp" />
     <ClCompile Include="ListPointer.cpp" />
     <ClCompile Include="MyMalloc.cpp" />
-    <ClCompile Include="RefCounter.cpp" />
     <ClCompile Include="RigidBody2d.cpp" />
     <ClCompile Include="Job System\SharedJobQueue.cpp" />
     <ClCompile Include="SimpleString.cpp" />
-    <ClCompile Include="SmartPointer.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="SpriteSystem.cpp" />
     <ClCompile Include="UpdateParams.cpp" />
     <ClCompile Include="Vector2.cpp" />
-    <ClCompile Include="WeakPointer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
