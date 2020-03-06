@@ -23,8 +23,15 @@
 #include "RigidBody2d.h"
 #pragma endregion
 
+#pragma region JSON
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
+#pragma endregion
+
+#pragma region JobSystem
+#include "Job System/JobSystem.h"
+
+#pragma endregion
 
 #include <fstream>
 #include <unordered_map>
@@ -39,10 +46,15 @@ using json = nlohmann::json;
 #endif // _DEBUG
 
 #include "GLib.h"
+
+
+using namespace std::placeholders;
+
+
 //Josh Nelson
 //u0936149
 
-//---------------------------------------------- - Assignment 2.6 notes-------------------------------------------------------------- -
+//---------------------------------------------- - Assignment 2.7 notes-------------------------------------------------------------- -
 //
 //
 
@@ -117,15 +129,26 @@ void nonEngineJsonCallBack(SmartPointer<GameObject> obj, json j, std::map<std::s
 	}
 }
 
-void loadGameObjects(GameScene& Scene)
+void loadGameObjects(GameScene& Scene, const char* jsonPath)
 {	
-	Scene.CreateGameObject("Data/Json/player.json",nonEngineJsonCallBack);
-	Scene.CreateGameObject("Data/Json/enemy.json", nonEngineJsonCallBack);
+	Scene.CreateGameObjectFromJsonAsync(jsonPath,nonEngineJsonCallBack);	
 }
 
+//do any setup the engine needs
+void initEngine()
+{
+	Engine::JobSystem::CreateQueue("Default", 2);
+}
+
+//do anything that the engine needs to do for shutdown
+void shutdownEngine()
+{
+	Engine::JobSystem::RequestShutdown();
+}
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {	
+	initEngine();
 	{
 		// IMPORTANT: first we need to initialize GLib		
 		bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600);
@@ -137,8 +160,19 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		UpdateParams updateParams;
 		HighResolutionTimer gameTimer;
 		
-		loadGameObjects(Scene);	
-		
+		Engine::JobSystem::RunJob("LoadPlayer", [&Scene]() 
+		{
+			loadGameObjects(Scene, "Data/Json/player.json");
+		}
+		, "Default");
+
+
+		//Engine::JobSystem::RunJob("LoadEnemy", [&Scene]()
+		//{
+		//	loadGameObjects(Scene, "Data/Json/enemy.json");
+		//}
+		//, "Default");		
+		//
 
 		if (bSuccess)
 		{
@@ -176,10 +210,14 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 				}
 			} while (bQuit == false);
 
-
+			if (Engine::JobSystem::HasJobs("Default"))
+			{
+				shutdownEngine();
+			}
 
 			//Tell the scene to release all resources
 			Scene.Release();
+			shutdownEngine();		
 			// IMPORTANT:  Tell GLib to shutdown, releasing resources.
 			GLib::Shutdown();
 		}
