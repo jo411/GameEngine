@@ -11,13 +11,14 @@ public:
 	Matrix4(const Vector4& v1, const Vector4& v2, const Vector4& v3, const Vector4& v4);
 	
 	
-	float operator[] (unsigned row, unsigned col) const;	
+	float operator() (unsigned row, unsigned col) const;	
 
 	static Matrix4 createTranslation(float x, float y, float z);
 	static Matrix4 createScale(float x, float y, float z);
-	static Matrix4 createRotationX(float angle);
-	static Matrix4 createRotationY(float angle);
-	static Matrix4 createRotationZ(float angle);
+	static Matrix4 createRotationX(float theta);
+	static Matrix4 createRotationY(float theta);
+	static Matrix4 createRotationZ(float theta);
+	static Matrix4 Identity();
 		
 	Matrix4 getTranspose();
 

@@ -1,26 +1,27 @@
 #include "Matrix4.h"
-
+#include <cmath>
 Matrix4::Matrix4()
 {
-	m[0][0] = 1.0f;
-	m[0][1] = 0.0f;
-	m[0][2] = 0.0f;
-	m[0][3] = 0.0f;
+	//m[0][0] = 1.0f;
+	//m[0][1] = 0.0f;
+	//m[0][2] = 0.0f;
+	//m[0][3] = 0.0f;
 
-	m[1][0] = 0.0f;
-	m[1][1] = 1.0f;
-	m[1][2] = 0.0f;
-	m[1][3] = 0.0f;
+	//m[1][0] = 0.0f;
+	//m[1][1] = 1.0f;
+	//m[1][2] = 0.0f;
+	//m[1][3] = 0.0f;
 
-	m[2][0] = 0.0f;
-	m[2][1] = 0.0f;
-	m[2][2] = 1.0f;
-	m[2][3] = 0.0f;
+	//m[2][0] = 0.0f;
+	//m[2][1] = 0.0f;
+	//m[2][2] = 1.0f;
+	//m[2][3] = 0.0f;
 
-	m[3][0] = 0.0f;
-	m[3][1] = 0.0f;
-	m[3][2] = 0.0f;
-	m[3][3] = 1.0f;
+	//m[3][0] = 0.0f;
+	//m[3][1] = 0.0f;
+	//m[3][2] = 0.0f;
+	//m[3][3] = 1.0f;
+	(*this) = Identity();
 
 }
 
@@ -77,27 +78,68 @@ float Matrix4::operator()(unsigned row, unsigned col) const
 
 Matrix4 Matrix4::createTranslation(float x, float y, float z)
 {
-	return Matrix4();
+	return Matrix4
+	(
+		0,0,0,x,
+		0,0,0,y,
+		0,0,0,z,
+		0,0,0,1.0f
+	);
 }
 
 Matrix4 Matrix4::createScale(float x, float y, float z)
 {
-	return Matrix4();
+	return Matrix4
+	(
+		x, 0, 0, 0,
+		0, y, 0, 0,
+		0, 0, z, 0,
+		0, 0, 0, 1.0f
+	);
 }
 
-Matrix4 Matrix4::createRotationX(float angle)
+Matrix4 Matrix4::createRotationX(float theta)
 {
-	return Matrix4();
+	return Matrix4
+	(
+		1.0f,	0,			0,		0,
+		0, cos(theta), sin(theta),	0,
+		0, -sin(theta), cos(theta), 0,
+		0,		0,			0,		1.0f
+	);
 }
 
-Matrix4 Matrix4::createRotationY(float angle)
+Matrix4 Matrix4::createRotationY(float theta)
 {
-	return Matrix4();
+	return Matrix4
+	(
+		cos(theta), 0,	-sin(theta),	0,
+		0,			1.0f,	0,			0,
+		sin(theta), 0,	cos(theta),		0,
+		0,			0,		0,			1.0f
+	);
 }
 
-Matrix4 Matrix4::createRotationZ(float angle)
+Matrix4 Matrix4::createRotationZ(float theta)
 {
-	return Matrix4();
+	return Matrix4
+	(
+		cos(theta), -sin(theta),0,		0,
+		sin(theta), cos(theta), 0,		0,
+		0,				0,		1.0f,	0,
+		0,				0,		0,		1.0f
+	);
+}
+
+Matrix4 Matrix4::Identity()
+{
+	return Matrix4
+	(
+		1.0f, 0, 0, 0,
+		0, 1.0f, 0, 0,
+		0, 0, 1.0f, 0,
+		0, 0, 0, 1.0f
+	);
 }
 
 Matrix4 Matrix4::getTranspose()
