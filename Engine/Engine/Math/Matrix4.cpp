@@ -22,7 +22,6 @@ Matrix4::Matrix4()
 	//m[3][2] = 0.0f;
 	//m[3][3] = 1.0f;
 	(*this) = Identity();
-
 }
 
 Matrix4::Matrix4(float i_11, float i_12, float i_13, float i_14, float i_21, float i_22, float i_23, float i_24, float i_31, float i_32, float i_33, float i_34, float i_41, float i_42, float i_43, float i_44)
@@ -71,9 +70,19 @@ Matrix4::Matrix4(const Vector4 & v1, const Vector4 & v2, const Vector4 & v3, con
 	m[3][3] = v4.W();
 }
 
-float Matrix4::operator()(unsigned row, unsigned col) const
+float& Matrix4::operator() (unsigned row, unsigned col)
 {
 	return m[row][col];
+}
+
+float Matrix4::operator()(unsigned int row, unsigned int col) const
+{
+	return m[row][col];
+}
+
+Vector4 Matrix4::operator()(unsigned row) const
+{
+	return Vector4(m[row][0],m[row][1],m[row][2]);
 }
 
 Matrix4 Matrix4::createTranslation(float x, float y, float z)
@@ -144,7 +153,14 @@ Matrix4 Matrix4::Identity()
 
 Matrix4 Matrix4::getTranspose()
 {
-	return Matrix4();
+	Matrix4 trans;
+	for (unsigned int i = 0; i < 4; i++)
+	{
+		for (unsigned int j = 0; j < 4; j++)
+		{
+			trans(j, i) = m[i][j];
+		}
+	}
 }
 
 // Allows us to use V = M * V (i.e. column vector)

@@ -10,8 +10,9 @@ public:
 			float i_41, float i_42, float i_43, float i_44);
 	Matrix4(const Vector4& v1, const Vector4& v2, const Vector4& v3, const Vector4& v4);
 	
-	
-	float operator() (unsigned row, unsigned col) const;	
+	float&	operator() (unsigned row, unsigned col);
+	float	operator() (unsigned int row, unsigned int col)  const;
+	Vector4 operator() (unsigned row) const;
 
 	static Matrix4 createTranslation(float x, float y, float z);
 	static Matrix4 createScale(float x, float y, float z);
