@@ -189,6 +189,7 @@
     <ClInclude Include="Job System\JobRunner.h" />
     <ClInclude Include="JsonHandler.h" />
     <ClInclude Include="ListPointer.h" />
+    <ClInclude Include="Math\Matrix4.h" />
     <ClInclude Include="Synchronization\Mutex.h" />
     <ClInclude Include="MyMalloc.h" />
     <ClInclude Include="RefCounter.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UpdateParams.h" />
     <ClInclude Include="Vector2.h" />
+    <ClInclude Include="Math\Vector4.h" />
     <ClInclude Include="WeakPointer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +223,7 @@
     <ClCompile Include="Job System\JobRunner.cpp" />
     <ClCompile Include="JsonHandler.cpp" />
     <ClCompile Include="ListPointer.cpp" />
+    <ClCompile Include="Math\Matrix4.cpp" />
     <ClCompile Include="Synchronization\Mutex.cpp" />
     <ClCompile Include="MyMalloc.cpp" />
     <ClCompile Include="RigidBody2d.cpp" />
@@ -230,6 +233,7 @@
     <ClCompile Include="SpriteSystem.cpp" />
     <ClCompile Include="UpdateParams.cpp" />
     <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="Math\Vector4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
