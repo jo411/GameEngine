@@ -11,7 +11,7 @@ public:
 	Matrix4(const Vector4& v1, const Vector4& v2, const Vector4& v3, const Vector4& v4);
 	
 	
-	float operator() (unsigned row, unsigned col) const;	
+	float operator[] (unsigned row, unsigned col) const;	
 
 	static Matrix4 createTranslation(float x, float y, float z);
 	static Matrix4 createScale(float x, float y, float z);
