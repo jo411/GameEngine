@@ -332,5 +332,16 @@ namespace MatrixVectorTests
 			Assert::IsTrue(identity == other);
 
 		}
+
+		TEST_METHOD(RotateX)
+		{
+			Matrix4 rotation = Matrix4::createRotationX(45);			
+			Vector4 pos(1, 2, 3, 1);
+			Vector4 transformed = rotation * pos;
+			Vector4 result(1, -0.7071068, 3.535534);
+
+			Assert::IsTrue(transformed == result);
+		}
+
 	};
 }
