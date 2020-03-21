@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include "Matrix4.h"
 #include <cmath>
 #include "../Floats.h"
@@ -78,7 +79,7 @@ const bool Matrix4::operator==(const Matrix4 & M) const
 		for (unsigned int col = 0; col < 4; col++)
 		{
 			
-			if (!(Floats::RelativeEpsilonEqual(m[row][col], M(row, col))))
+			if (!(Floats::RelativeEpsilonEqual(m[row][col], M(row, col), .000001)))
 			{
 				return false;
 			}
@@ -138,28 +139,31 @@ Matrix4 Matrix4::createScale(float x, float y, float z)
 
 Matrix4 Matrix4::createRotationX(float theta)
 {
+	theta = theta * M_PI/180;
 	return Matrix4
 	(
 		1.0f,	0,			0,		0,
-		0, cos(theta), sin(theta),	0,
-		0, -sin(theta), cos(theta), 0,
+		0, cos(theta), -sin(theta),	0,
+		0, sin(theta), cos(theta), 0,
 		0,		0,			0,		1.0f
 	);
 }
 
 Matrix4 Matrix4::createRotationY(float theta)
 {
+	theta = theta * M_PI / 180;
 	return Matrix4
 	(
-		cos(theta), 0,	-sin(theta),	0,
+		cos(theta), 0,sin(theta),	0,
 		0,			1.0f,	0,			0,
-		sin(theta), 0,	cos(theta),		0,
+		-sin(theta), 0,	cos(theta),		0,
 		0,			0,		0,			1.0f
 	);
 }
 
 Matrix4 Matrix4::createRotationZ(float theta)
 {
+	theta = theta * M_PI / 180;
 	return Matrix4
 	(
 		cos(theta), -sin(theta),0,		0,
@@ -193,20 +197,35 @@ Matrix4 Matrix4::getTranspose()
 	return trans;
 }
 
+std::ostream & operator<<(std::ostream & os, const Matrix4 & m4)
+{
+	for (unsigned int row = 0; row < 4; row++)
+	{
+		for (unsigned int col = 0; col < 4; col++)
+		{
+			os << m4(row, col) << ",";
+		}
+		os << "\n";
+	}
+	return os;
+}
+
 // Allows us to use V = M * V (i.e. column vector)
-inline Vector4 operator*(const Matrix4 & i_mtx, const Vector4 & i_vec)
+Vector4 operator*(const Matrix4 & i_mtx, const Vector4 & i_vec)
 {
 	float result[4];
 
-	for (int i = 0; i < 0; ++i)
+	for (int i = 0; i < 4; ++i)
 	{
 		float sum = 0;
 		for (int j = 0; j < 4; ++j)
 		{
 			sum += i_mtx(i, j)*i_vec(j);
 		}
+		result[i] = sum;
 	}
 	Vector4 resultVec(result);	
+	return resultVec;
 }
 
 const Matrix4 operator*(const Matrix4 & RHS, const Matrix4 & LHS)

@@ -8,6 +8,7 @@ public:
 			float i_21, float i_22, float i_23, float i_24,
 			float i_31, float i_32, float i_33, float i_34,
 			float i_41, float i_42, float i_43, float i_44);
+
 	Matrix4(const Vector4& v1, const Vector4& v2, const Vector4& v3, const Vector4& v4);
 
 	const bool operator ==(const Matrix4& M) const;
@@ -26,14 +27,15 @@ public:
 		
 	Matrix4 getTranspose();
 
+
+	friend std::ostream& operator<<(std::ostream& os, const Matrix4& m4);
 private:
 
 	float m[4][4];
 	
 };
 // Allows us to use V = M * V (i.e. column vector)
-inline Vector4 operator*(const Matrix4 & i_mtx, const Vector4 & i_vec);
-// Allows us to use V = V * M; (i.e. row vector)
-inline Vector4 operator*(const Vector4 & i_vec, const Matrix4 & i_mtx);
+Vector4 operator*(const Matrix4& i_mtx, const Vector4& i_vec);
 
 const Matrix4 operator* (const Matrix4 &RHS, const Matrix4 &LHS);
+

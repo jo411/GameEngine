@@ -2,10 +2,12 @@
 #include <iostream>
 class Vector4
 {
-public:
+public:	
 	Vector4();
-	Vector4(float i_x, float i_y, float i_z, float i_w = 0.0f);
+	Vector4(float i_x, float i_y, float i_z, float i_w = 1.0f);
 	Vector4(float values[4]);
+	Vector4(const Vector4& v4);
+
 	const bool operator ==(const Vector4& v4) const;
 	Vector4 operator= (const Vector4& v);
 

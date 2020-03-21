@@ -9,17 +9,27 @@ Vector4::Vector4(float i_x, float i_y, float i_z, float i_w) : px(i_x), py(i_y),
 {
 }
 
-Vector4::Vector4(float values[4]):px(values[0]), py(values[0]), pz(values[0]), pw(values[0])
+Vector4::Vector4(float values[4]):px(values[0]), py(values[1]), pz(values[2]), pw(values[3])
 {
 }
 
-const bool Vector4::operator==(const Vector4 & v4) const
+Vector4::Vector4(const Vector4 & v4)
 {
-	return (
-		Floats::RelativeEpsilonEqual(px, v4.X()) &&
-		Floats::RelativeEpsilonEqual(py, v4.Y()) &&
-		Floats::RelativeEpsilonEqual(pz, v4.Z()) &&
-		Floats::RelativeEpsilonEqual(pw, v4.W()));
+	px = v4.X();
+	py = v4.Y();
+	pz = v4.Z();
+	pw = v4.W();
+}
+
+const bool Vector4::operator==(const Vector4 & v4) const
+{	
+	bool X = Floats::RelativeEpsilonEqual(px, v4.X(),.000001);
+	bool Y = Floats::RelativeEpsilonEqual(py, v4.Y(), .000001);
+	bool Z = Floats::RelativeEpsilonEqual(pz, v4.Z(), .000001);
+	bool W = Floats::RelativeEpsilonEqual(pw, v4.W(), .000001);
+
+	return (X && Y && Z && W);
+		
 }
 
 Vector4 Vector4::operator=(const Vector4 & v)
