@@ -342,6 +342,87 @@ namespace MatrixVectorTests
 
 			Assert::IsTrue(transformed == result);
 		}
+		TEST_METHOD(RotateY)
+		{
+			Matrix4 rotation = Matrix4::createRotationY(45);
+			Vector4 pos(1, 3, 5, 1);
+			Vector4 transformed = rotation * pos;
+			Vector4 result(4.2426408, 3, 2.8284272);
+
+			Assert::IsTrue(transformed == result);
+		}
+		TEST_METHOD(Scale)
+		{
+			Matrix4 scale = Matrix4::createScale(2, 2, 2);
+			Vector4 pos(1, 1, 1, 1);
+			Vector4 transformed = scale * pos;
+			Vector4 result(2, 2, 2);
+			Assert::IsTrue(transformed == result);
+		}
+		TEST_METHOD(Translate)
+		{
+			Matrix4 translation = Matrix4::createTranslation(10, 0, 0);
+			Vector4 pos(10, 10, 10, 1);
+			Vector4 transformed = translation * pos;
+			Vector4 result(20, 10, 10);
+			Assert::IsTrue(transformed == result);
+		}
+		TEST_METHOD(MxI)
+		{
+			Matrix4 I;
+			Matrix4 random(1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7);
+			Matrix4 multiply = I * random;
+			Assert::IsTrue(multiply == random);
+		}
+		TEST_METHOD(transpose)
+		{
+			Matrix4 random(1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7);			
+			Matrix4 transpose = random.getTranspose(false);
+			Matrix4 result(1,5,9,4,2,6,1,5,3,7,2,6,4,8,3,7);
+			Assert::IsTrue(transpose == result);
+		}
+		TEST_METHOD(InvertRotation)
+		{
+			Matrix4 rotation = Matrix4::createRotationX(45);
+			Matrix4 invert = rotation.getTranspose(true);
+			Vector4 pos(1, 2, 3, 1);
+			Vector4 transformed = rotation * pos;
+			Vector4 invertedPoint = invert * transformed;			
+
+			Assert::IsTrue(invertedPoint == pos);
+		}
+		TEST_METHOD(InvertTranslation)
+		{
+			Vector4 point(1, 2, 3, 1);
+
+			Matrix4 mTrans = Matrix4::createTranslation(12, 3, 5.5);
+			Matrix4 mTransInverse = mTrans.getTranspose(true);
+			
+			Vector4 pointTranslate = mTrans * point; 
+
+			Vector4 invertedPoint = mTransInverse *pointTranslate;
+
+			Assert::IsTrue(invertedPoint == point);
+		}
+
+		TEST_METHOD(InvertOperationComplex)
+		{
+			Vector4 pointShip(1, 2, 3, 1);
+
+			Matrix4 mRot = Matrix4::createRotationX(45);
+			mRot = mRot* Matrix4::createRotationY(13);
+			mRot = mRot * Matrix4::createRotationY(180);
+
+			Matrix4 mTrans = Matrix4::createTranslation(12, 3, 5.5);			
+			Matrix4 mShipToWorld = mTrans * mRot;
+			
+
+			Vector4 pointWorld = mShipToWorld * pointShip;
+
+			Vector4 invertedPoint = (mShipToWorld.getTranspose(true)) * pointWorld;
+
+			Assert::IsTrue(invertedPoint == pointShip);
+		}
 
 	};
 }
