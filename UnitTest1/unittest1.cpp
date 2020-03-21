@@ -308,3 +308,15 @@ namespace FloatTests
 
 	};
 }
+
+namespace MatrixVectorTests
+{
+	TEST_CLASS(MatrixVectorTests)
+	{
+	public:
+		TEST_METHOD(Template)
+		{
+			Assert::IsTrue(true);
+		}
+	};
+}
