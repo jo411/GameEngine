@@ -4,6 +4,8 @@
 #include "Floats.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include"Math/Matrix4.h"
+#include "Math/Vector4.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -317,6 +319,18 @@ namespace MatrixVectorTests
 		TEST_METHOD(Template)
 		{
 			Assert::IsTrue(true);
+		}
+
+		TEST_METHOD(Equality)
+		{
+			Matrix4 identity;
+
+			Matrix4 other(	1, 0, 0, 0,
+							0, 1, 0, 0,
+							0, 0, 1, 0,
+							0, 0, 0, 1);
+			Assert::IsTrue(identity == other);
+
 		}
 	};
 }

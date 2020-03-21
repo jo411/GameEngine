@@ -1,5 +1,6 @@
 #include "Matrix4.h"
 #include <cmath>
+#include "../Floats.h"
 Matrix4::Matrix4()
 {
 	//m[0][0] = 1.0f;
@@ -76,7 +77,8 @@ const bool Matrix4::operator==(const Matrix4 & M) const
 	{
 		for (unsigned int col = 0; col < 4; col++)
 		{
-			if (m[row][col] != M(row, col))
+			
+			if (!(Floats::RelativeEpsilonEqual(m[row][col], M(row, col))))
 			{
 				return false;
 			}

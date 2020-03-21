@@ -1,4 +1,5 @@
 #include "Vector4.h"
+#include "../Floats.h"
 
 Vector4::Vector4():px(0.0f), py(0.0f),pz(0.0f),pw(0.0f)
 {	
@@ -10,6 +11,15 @@ Vector4::Vector4(float i_x, float i_y, float i_z, float i_w) : px(i_x), py(i_y),
 
 Vector4::Vector4(float values[4]):px(values[0]), py(values[0]), pz(values[0]), pw(values[0])
 {
+}
+
+const bool Vector4::operator==(const Vector4 & v4) const
+{
+	return (
+		Floats::RelativeEpsilonEqual(px, v4.X()) &&
+		Floats::RelativeEpsilonEqual(py, v4.Y()) &&
+		Floats::RelativeEpsilonEqual(pz, v4.Z()) &&
+		Floats::RelativeEpsilonEqual(pw, v4.W()));
 }
 
 Vector4 Vector4::operator=(const Vector4 & v)
