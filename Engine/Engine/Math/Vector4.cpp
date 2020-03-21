@@ -8,6 +8,10 @@ Vector4::Vector4(float i_x, float i_y, float i_z, float i_w) : px(i_x), py(i_y),
 {
 }
 
+Vector4::Vector4(float values[4]):px(values[0]), py(values[0]), pz(values[0]), pw(values[0])
+{
+}
+
 Vector4 Vector4::operator=(const Vector4 & v)
 {
 	if (this != &v) {
@@ -37,6 +41,27 @@ const Vector4 Vector4::operator+(const Vector4 & v) const
 const Vector4 Vector4::Scale(const Vector4 & A, const Vector4 & B) const
 {
 	return Vector4();
+}
+
+const float Vector4::operator()(int index) const
+{
+	switch (index)
+	{
+	case 0:
+		return px;
+		break;
+	case 1:
+		return py;
+		break;
+	case 2:
+		return pz;
+		break;
+	case 3:
+		return pw;
+		break;
+	default:
+		return INFINITY;
+	}
 }
 
 std::ostream & operator<<(std::ostream & os, const Vector4 & v4)
