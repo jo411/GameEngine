@@ -25,7 +25,7 @@ public:
 	static Matrix4 createRotationZ(float theta);
 	static Matrix4 Identity();
 		
-	Matrix4 getTranspose();
+	Matrix4 getTranspose(bool forInverseTransform);
 
 
 	friend std::ostream& operator<<(std::ostream& os, const Matrix4& m4);

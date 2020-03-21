@@ -4,25 +4,6 @@
 #include "../Floats.h"
 Matrix4::Matrix4()
 {
-	//m[0][0] = 1.0f;
-	//m[0][1] = 0.0f;
-	//m[0][2] = 0.0f;
-	//m[0][3] = 0.0f;
-
-	//m[1][0] = 0.0f;
-	//m[1][1] = 1.0f;
-	//m[1][2] = 0.0f;
-	//m[1][3] = 0.0f;
-
-	//m[2][0] = 0.0f;
-	//m[2][1] = 0.0f;
-	//m[2][2] = 1.0f;
-	//m[2][3] = 0.0f;
-
-	//m[3][0] = 0.0f;
-	//m[3][1] = 0.0f;
-	//m[3][2] = 0.0f;
-	//m[3][3] = 1.0f;
 	(*this) = Identity();
 }
 
@@ -184,17 +165,38 @@ Matrix4 Matrix4::Identity()
 	);
 }
 
-Matrix4 Matrix4::getTranspose()
+//Computes the transpose of the matrix.
+//if forInverseTransform is true the returned matrix will be of a form for reversing transformations
+Matrix4 Matrix4::getTranspose(bool forInverseTransform)
 {
-	Matrix4 trans;
+	Matrix4 rTrans;
 	for (unsigned int i = 0; i < 4; i++)
 	{
 		for (unsigned int j = 0; j < 4; j++)
 		{
-			trans(j, i) = m[i][j];
+			rTrans(j, i) = m[i][j];
 		}
 	}
-	return trans;
+
+	Matrix4 translation;
+	if (forInverseTransform)
+	{
+		rTrans(0, 3) = 0;
+		rTrans(1, 3) = 0;
+		rTrans(2, 3) = 0;
+
+		rTrans(3, 0) = 0;
+		rTrans(3, 1) = 0;
+		rTrans(3, 2) = 0;
+
+		rTrans(3, 3) = 1;
+
+		
+		translation(0, 3) = -m[0][3];
+		translation(1, 3) = -m[1][3];
+		translation(2, 3) = -m[2][3];
+	}
+	return (rTrans*translation);
 }
 
 std::ostream & operator<<(std::ostream & os, const Matrix4 & m4)
