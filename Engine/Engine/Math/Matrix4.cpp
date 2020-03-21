@@ -70,13 +70,28 @@ Matrix4::Matrix4(const Vector4 & v1, const Vector4 & v2, const Vector4 & v3, con
 	m[3][3] = v4.W();
 }
 
+const bool Matrix4::operator==(const Matrix4 & M) const
+{
+	for (unsigned int row = 0; row < 4; row++)
+	{
+		for (unsigned int col = 0; col < 4; col++)
+		{
+			if (m[row][col] != M(row, col))
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 Matrix4 & Matrix4::operator=(const Matrix4 & i_M)
 {
-	for (unsigned int Row = 0; Row < 4; Row++)
+	for (unsigned int row = 0; row < 4; row++)
 	{
-		for (unsigned int Col = 0; Col < 4; Col++)
+		for (unsigned int col = 0; col < 4; col++)
 		{
-			m[Row][Col] = i_M(Row,Col);
+			m[row][col] = i_M(row,col);
 		}
 	}
 	return (*this);
@@ -173,6 +188,7 @@ Matrix4 Matrix4::getTranspose()
 			trans(j, i) = m[i][j];
 		}
 	}
+	return trans;
 }
 
 // Allows us to use V = M * V (i.e. column vector)

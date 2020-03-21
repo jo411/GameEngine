@@ -10,6 +10,7 @@ public:
 			float i_41, float i_42, float i_43, float i_44);
 	Matrix4(const Vector4& v1, const Vector4& v2, const Vector4& v3, const Vector4& v4);
 
+	const bool operator ==(const Matrix4& M) const;
 	Matrix4& operator = (const Matrix4 &M);
 	
 	float&	operator() (unsigned row, unsigned col);
