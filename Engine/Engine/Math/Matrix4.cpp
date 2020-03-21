@@ -70,6 +70,18 @@ Matrix4::Matrix4(const Vector4 & v1, const Vector4 & v2, const Vector4 & v3, con
 	m[3][3] = v4.W();
 }
 
+Matrix4 & Matrix4::operator=(const Matrix4 & i_M)
+{
+	for (unsigned int Row = 0; Row < 4; Row++)
+	{
+		for (unsigned int Col = 0; Col < 4; Col++)
+		{
+			m[Row][Col] = i_M(Row,Col);
+		}
+	}
+	return (*this);
+}
+
 float& Matrix4::operator() (unsigned row, unsigned col)
 {
 	return m[row][col];
@@ -80,9 +92,9 @@ float Matrix4::operator()(unsigned int row, unsigned int col) const
 	return m[row][col];
 }
 
-Vector4 Matrix4::operator()(unsigned row) const
+Vector4 Matrix4::operator()(unsigned col) const
 {
-	return Vector4(m[row][0],m[row][1],m[row][2]);
+	return Vector4(m[0][col],m[1][col],m[2][col], m[3][col]);
 }
 
 Matrix4 Matrix4::createTranslation(float x, float y, float z)
@@ -166,15 +178,33 @@ Matrix4 Matrix4::getTranspose()
 // Allows us to use V = M * V (i.e. column vector)
 inline Vector4 operator*(const Matrix4 & i_mtx, const Vector4 & i_vec)
 {
-	return Vector4();
-}
-// Allows us to use V = V * M; (i.e. row vector)
-inline Vector4 operator*(const Vector4 & i_vec, const Matrix4 & i_mtx)
-{
-	return Vector4();
+	float result[4];
+
+	for (int i = 0; i < 0; ++i)
+	{
+		float sum = 0;
+		for (int j = 0; j < 4; ++j)
+		{
+			sum += i_mtx(i, j)*i_vec(j);
+		}
+	}
+	Vector4 resultVec(result);	
 }
 
 const Matrix4 operator*(const Matrix4 & RHS, const Matrix4 & LHS)
 {
-	return Matrix4();
+	Matrix4 result;
+	for (unsigned int row = 0; row < 4; row++)
+	{
+		for (unsigned int col = 0; col < 4; col++)
+		{
+			float sum = 0;
+			for (unsigned int i = 0; i < 4; i++)
+			{
+				sum += RHS(row, i)*LHS(i, col);
+			}
+			result(row, col) = sum;
+		}
+	}
+	return result;
 }
