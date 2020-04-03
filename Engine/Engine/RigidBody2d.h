@@ -16,6 +16,11 @@ public:
 	void Serialize(json & j);
 	void addForce(const Vector2& i_force);
 	void clearForces();
+
+	static const std::string tag; // derived::pic
+	virtual const std::string& getTag() { return tag; }
+	
+
 private: 
 	Vector2 prevPosition;
 	Vector2 force;

@@ -1,6 +1,7 @@
 #include "RigidBody2d.h"
 #include "GameObject.h"
 #include <Windows.h>
+const std::string RigidBody2d::tag = "rigidbody";
 RigidBody2d::RigidBody2d()
 {
 	velocity.x = 0;

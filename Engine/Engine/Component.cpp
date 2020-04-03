@@ -1,5 +1,5 @@
 #include "Component.h"
-
+const std::string Component::tag = "Base Component";
 
 void Component::Serialize(json & j)
 {

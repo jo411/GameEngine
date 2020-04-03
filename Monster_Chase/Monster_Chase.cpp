@@ -146,6 +146,48 @@ void initEngine()
 	Engine::JobSystem::CreateQueue("Default", 2);
 }
 
+
+void loadCollisionScene(GameScene& Scene)
+{
+	////Create game objects for the scene
+	SmartPointer<GameObject> player = Scene.CreateGameObject();
+	player->name->fromCharArray("Player");
+	player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
+	
+	Vector2 CollisionForce;
+	CollisionForce.x = .05;
+	CollisionForce.y = 0;
+
+	RigidBody2d* rb = new RigidBody2d();
+	rb->mass = 10;
+	rb->drag = .8f;
+	rb->minGroundingSpeed = .01f;
+	rb->addForce(CollisionForce);
+
+	RigidBody2d* rb2 = new RigidBody2d();
+	rb2->mass = 10;
+	rb2->drag = .8f;
+	rb2->minGroundingSpeed = .01f;
+	rb2->addForce(-CollisionForce);
+	
+
+	player->addComponent(rb);	
+
+	SmartPointer<GameObject> enemy = Scene.CreateGameObject();
+	enemy->name->fromCharArray("Enemy");
+	enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));	
+	enemy->addComponent(rb2);
+
+	Vector2 startPos;
+	startPos.x = 200;
+
+	player->position = -startPos;
+	enemy->position = startPos;
+	player->rotation = 90;	
+
+	WeakPointer<Component> rbptr = enemy->getComponent(RigidBody2d::tag);
+
+}
 //do anything that the engine needs to do for shutdown before unloading
 void shutdownEngine()
 {
@@ -174,7 +216,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		UpdateParams updateParams;
 		HighResolutionTimer gameTimer;
 		
-		Engine::JobSystem::RunJob("LoadPlayer", [&Scene]() 
+		/*Engine::JobSystem::RunJob("LoadPlayer", [&Scene]() 
 		{
 			loadGameObjects(Scene, "Data/Json/player.json");
 		}
@@ -185,8 +227,9 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		{
 			loadGameObjects(Scene, "Data/Json/enemy.json");
 		}
-		, "Default");		
+		, "Default");	*/	
 		
+		loadCollisionScene(Scene);
 
 		if (bSuccess)
 		{

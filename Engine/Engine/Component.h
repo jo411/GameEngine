@@ -2,6 +2,7 @@
 #include "UpdateParams.h"
 #include "SimpleString.h"
 #include <nlohmann/json.hpp>
+#include <string>
 using json = nlohmann::json;
 class GameObject;
 
@@ -21,6 +22,8 @@ class GameObject;
 		Component(const Component &old);
 		Component& operator=(const Component& other);
 		void registerGameObject(GameObject* obj);//Stores this components attached game object
+		static const std::string tag;
+		virtual const std::string& getTag() { return tag; }
 	};
 
 
