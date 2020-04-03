@@ -180,19 +180,69 @@ void loadCollisionScene(GameScene& Scene)
 	enemy->addComponent(rb2);
 
 	Vector2 startPos;
-	startPos.x = 200;
+	startPos.x = 350;
 	startPos.y = 0;
 
 	player->position = -startPos;
 	enemy->position = startPos;
+
 	player->rotation = 90;	
+	enemy->rotation = 0;
 	
-	AABB* enemyBB = new AABB(0, 0, 82, 94);
-	AABB* playerBB = new AABB(0, 0, 50, 58);
+	Vector2 enemyCenter(0, 94);
+	Vector2 enemyExtents(82, 94);
+
+	AABB* enemyBB = new AABB(enemyCenter.x, enemyCenter.y, enemyExtents.x, enemyExtents.y);
+	AABB* playerBB = new AABB(0, 58, 50, 58);
 
 	player->addComponent(playerBB);
 	enemy->addComponent(enemyBB);
 
+
+	/*Matrix4 enemyToWorld = enemy->ObjectToWorldTransform();
+
+	SmartPointer<GameObject> marker1 = Scene.CreateGameObject();
+	marker1->name->fromCharArray("Marker1");
+	marker1->addComponent(new SpriteRenderer("data\\marker.dds"));
+	
+
+	Vector4 LocalPos(enemyCenter.x - enemyExtents.x, enemyCenter.y + enemyExtents.y, 0, 1);
+	Vector4 transformed = enemyToWorld *LocalPos;
+	marker1->position.x = transformed.X();
+	marker1->position.y = transformed.Y();
+
+	SmartPointer<GameObject> marker2 = Scene.CreateGameObject();
+	marker2->name->fromCharArray("Marker2");
+	marker2->addComponent(new SpriteRenderer("data\\marker.dds"));
+
+	Vector4 LocalPos2(enemyCenter.x + enemyExtents.x, enemyCenter.y + enemyExtents.y, 0, 1);
+	Vector4 transformed2 = enemyToWorld *LocalPos2;
+	marker2->position.x = transformed2.X();
+	marker2->position.y = transformed2.Y();
+
+	SmartPointer<GameObject> marker3 = Scene.CreateGameObject();
+	marker3->name->fromCharArray("Marker3");
+	marker3->addComponent(new SpriteRenderer("data\\marker.dds"));
+
+	Vector4 LocalPos3(enemyCenter.x - enemyExtents.x, enemyCenter.y - enemyExtents.y, 0, 1);
+	Vector4 transformed3 = enemyToWorld *LocalPos3;
+	marker3->position.x = transformed3.X();
+	marker3->position.y = transformed3.Y();
+
+	SmartPointer<GameObject> marker4 = Scene.CreateGameObject();
+	marker4->name->fromCharArray("Marker4");
+	marker4->addComponent(new SpriteRenderer("data\\marker.dds"));
+
+	Vector4 LocalPos4(enemyCenter.x + enemyExtents.x, enemyCenter.y - enemyExtents.y, 0, 1);
+	Vector4 transformed4 = enemyToWorld *LocalPos4;
+	marker4->position.x = transformed4.X();
+	marker4->position.y = transformed4.Y();
+	
+	marker1->rotation = enemy->rotation;
+	marker2->rotation = enemy->rotation;
+	marker3->rotation = enemy->rotation;
+	marker4->rotation = enemy->rotation;*/
+	
 }
 //do anything that the engine needs to do for shutdown before unloading
 void shutdownEngine()

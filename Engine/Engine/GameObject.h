@@ -28,7 +28,7 @@ public:
 	bool enabled = true;//Whether this object recieves or ignores update() from the scene
 	void update(UpdateParams* params);//Called with the parent scene's update()
 	void draw(UpdateParams* params);//Called with the parent scene's draw()
-	Matrix4 WorldToObjectTransform();
+	Matrix4 ObjectToWorldTransform();
 	void Serialize(json& j);
 	WeakPointer<Component> getComponent(const std::string& tag);
 	GameObject(GameScene* scene);

@@ -424,5 +424,24 @@ namespace MatrixVectorTests
 			Assert::IsTrue(invertedPoint == pointShip);
 		}
 
+		TEST_METHOD(TransformationTesting)
+		{
+			Vector4 A(2, 1, 0, 1);
+			Vector4 B(1, 2, 0, 1);			
+			Vector4 CLocal(1, 1, 0, 1);					
+			
+			Matrix4 AToWorld = Matrix4::createTranslation(A.X(), A.Y(), 0);
+			Matrix4 BToWorld = Matrix4::createTranslation(B.X(), B.Y(), 0);
+
+			Vector4 CinWorldA = AToWorld * CLocal;
+			Vector4 CinWorldB = BToWorld * CLocal;
+
+			//Matrix 4 AToB = 
+
+			Assert::IsTrue(true);
+			
+		}
+
+
 	};
 }

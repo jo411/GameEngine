@@ -48,7 +48,7 @@ void GameObject::draw(UpdateParams * params)
 	}
 }
 
-Matrix4 GameObject::WorldToObjectTransform()
+Matrix4 GameObject::ObjectToWorldTransform()
 {
 	Matrix4 transform = Matrix4::createRotationZ(rotation);
 	transform = Matrix4::createTranslation(position.getX(), position.getY(), 0)* transform;
