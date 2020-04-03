@@ -176,17 +176,16 @@ void loadCollisionScene(GameScene& Scene)
 	SmartPointer<GameObject> enemy = Scene.CreateGameObject();
 	enemy->name->fromCharArray("Enemy");
 	enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));	
-	enemy->addComponent(rb2);
+	//enemy->addComponent(rb2);
 
 	Vector2 startPos;
-	startPos.x = 200;
+	startPos.x = 0;
+	startPos.y = 0;
 
 	player->position = -startPos;
 	enemy->position = startPos;
 	player->rotation = 90;	
-
-	WeakPointer<Component> rbptr = enemy->getComponent(RigidBody2d::tag);
-
+	
 }
 //do anything that the engine needs to do for shutdown before unloading
 void shutdownEngine()

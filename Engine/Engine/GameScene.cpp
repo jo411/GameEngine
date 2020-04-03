@@ -146,9 +146,9 @@ void GameScene::checkCollision(UpdateParams * params)
 		}
 	}
 
-	for (int i = 0; i < physObjs.size()-2; i++)
+	for (int i = 0; i < physObjs.size()-1; i++)
 	{
-		for(int j=i+1;j< physObjs.size() - 1;j++)
+		for(int j=i+1;j< physObjs.size() ;j++)
 		{
 			std::string x;
 		}

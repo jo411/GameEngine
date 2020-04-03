@@ -171,6 +171,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Physics\AABB.h" />
     <ClInclude Include="Allocators.h" />
     <ClInclude Include="BitArray.h" />
     <ClInclude Include="CombinedAllocators.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="WeakPointer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Physics\AABB.cpp" />
     <ClCompile Include="Allocators.cpp" />
     <ClCompile Include="BitArray.cpp" />
     <ClCompile Include="CombinedAllocators.cpp" />
