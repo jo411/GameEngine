@@ -1,5 +1,5 @@
 #include "AABB.h"
-
+const std::string AABB::tag = "AABB";
 AABB::AABB(float cX, float cY, float eX, float eY)
 {
 	Extents.x = eX;

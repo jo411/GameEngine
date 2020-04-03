@@ -13,6 +13,9 @@ public:
 	void draw(UpdateParams* params);
 	void onAddToObject();
 
+	static const std::string tag;
+	virtual const std::string& getTag() { return tag; }
+
 private:
 	Vector2 Extents;
 	Vector2 Center;

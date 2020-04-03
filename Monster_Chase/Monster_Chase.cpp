@@ -21,6 +21,7 @@
 #include "Components/Walker.h"
 #include "Components/PlayerController.h"
 #include "RigidBody2d.h"
+#include "Physics/AABB.h"
 #pragma endregion
 
 #pragma region JSON
@@ -176,16 +177,22 @@ void loadCollisionScene(GameScene& Scene)
 	SmartPointer<GameObject> enemy = Scene.CreateGameObject();
 	enemy->name->fromCharArray("Enemy");
 	enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));	
-	//enemy->addComponent(rb2);
+	enemy->addComponent(rb2);
 
 	Vector2 startPos;
-	startPos.x = 0;
+	startPos.x = 200;
 	startPos.y = 0;
 
 	player->position = -startPos;
 	enemy->position = startPos;
 	player->rotation = 90;	
 	
+	AABB* enemyBB = new AABB(0, 0, 82, 94);
+	AABB* playerBB = new AABB(0, 0, 50, 58);
+
+	player->addComponent(playerBB);
+	enemy->addComponent(enemyBB);
+
 }
 //do anything that the engine needs to do for shutdown before unloading
 void shutdownEngine()

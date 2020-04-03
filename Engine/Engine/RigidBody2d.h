@@ -17,7 +17,7 @@ public:
 	void addForce(const Vector2& i_force);
 	void clearForces();
 
-	static const std::string tag; // derived::pic
+	static const std::string tag; 
 	virtual const std::string& getTag() { return tag; }
 	
 
