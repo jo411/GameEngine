@@ -30,6 +30,7 @@ public:
 	void RemoveGameObject(SmartPointer<GameObject> go);//Removes the specified gameobject from the scene forever
 	void update(UpdateParams* params);//Updates all the enabled gameobjects in this scene
 	void draw(UpdateParams* params);//Draws all the enabled gameobjects in this scene
+	void checkCollision(UpdateParams* params);//check for object collision
 	void Release();//Forces all game objects to destruct. This makes the scene unusable so only use on cleanup. 
 };
 

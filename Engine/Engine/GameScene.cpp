@@ -4,7 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include "JsonHandler.h"
-
+#include "RigidBody2d.h"
 //TODO: actually use the rule of three
 
 //Constructs the scene and allocates lists for all the dynamic memory needed
@@ -128,6 +128,31 @@ void GameScene::draw(UpdateParams* params)
 		{
 			obj->draw(params);
 		}
+	}
+}
+
+void GameScene::checkCollision(UpdateParams * params)
+{
+	std::vector<SmartPointer<GameObject>> physObjs;
+
+	for (int i = 0; i < sceneVector.size(); i++)
+	{
+		//GameObject* obj = ((GameObject*)(scene->getAt(i)));
+		SmartPointer<GameObject> obj = sceneVector[i];
+		WeakPointer<Component> wptr(obj->getComponent(RigidBody2d::tag));
+		if (obj->enabled && (wptr.IsAlive()))
+		{
+			physObjs.push_back(obj);
+		}
+	}
+
+	for (int i = 0; i < physObjs.size()-2; i++)
+	{
+		for(int j=i+1;j< physObjs.size() - 1;j++)
+		{
+			std::string x;
+		}
+
 	}
 }
 

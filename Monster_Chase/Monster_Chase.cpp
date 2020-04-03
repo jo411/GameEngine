@@ -262,6 +262,8 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 					GLib::Sprites::EndRendering();
 					GLib::EndRendering();
 
+					Scene.checkCollision(&updateParams);
+
 					updateParams.deltaTime = gameTimer.GetCounter();//get last frame time					
 				}
 			} while (bQuit == false);
