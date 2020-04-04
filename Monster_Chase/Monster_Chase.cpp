@@ -186,7 +186,7 @@ void loadCollisionScene(GameScene& Scene)
 	player->position = -startPos;
 	enemy->position = startPos;
 
-	player->rotation = 90;	
+	player->rotation = 0;	
 	enemy->rotation = 0;
 	
 	Vector2 enemyCenter(0, 94);

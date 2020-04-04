@@ -436,6 +436,9 @@ namespace MatrixVectorTests
 			Vector4 CinWorldA = AToWorld * CLocal;
 			Vector4 CinWorldB = BToWorld * CLocal;
 
+			Matrix4 AToB = AToWorld * BToWorld.getTranspose(true);
+
+			Vector4 CaB = AToB * CLocal;
 			//Matrix 4 AToB = 
 
 			Assert::IsTrue(true);

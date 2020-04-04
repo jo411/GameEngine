@@ -89,32 +89,32 @@ public:
 	}
 
 	//Comparison operators
-	template < class T, class U >
+	template <class U >
 	friend bool operator==(const SmartPointer<T>& lhs, const SmartPointer<U>& rhs)
 	{
 		return lhs.pointer == rhs.pointer;
 	}	
-	template< class T, class U >
+	template<class U >
 	friend bool operator!=(const SmartPointer<T>& lhs, const SmartPointer<U>& rhs)
 	{
 		return !(lhs.pointer == rhs.pointer);
 	}
-	template< class T, class U >
+	template<class U >
 	friend bool operator<(const SmartPointer<T>& lhs, const SmartPointer<U>& rhs)
 	{
 		return lhs.pointer < rhs.pointer;
 	}
-	template< class T, class U >
+	template<class U >
 	friend bool operator>(const SmartPointer<T>& lhs, const SmartPointer<U>& rhs)
 	{
 		return lhs.pointer > rhs.pointer;
 	}
-	template< class T, class U >
+	template<class U >
 	friend bool operator<=(const SmartPointer<T>& lhs, const SmartPointer<U>& rhs)
 	{
 		return lhs.pointer < rhs.pointer | lhs.pointer == rhs.pointer;
 	}
-	template< class T, class U >
+	template<class U >
 	friend bool operator>=(const SmartPointer<T>& lhs, const SmartPointer<U>& rhs)
 	{
 		return lhs.pointer > rhs.pointer | lhs.pointer == rhs.pointer;

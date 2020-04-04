@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "JsonHandler.h"
 #include "RigidBody2d.h"
+#include "Physics/CollisionHandler.h"
 //TODO: actually use the rule of three
 
 //Constructs the scene and allocates lists for all the dynamic memory needed
@@ -150,7 +151,7 @@ void GameScene::checkCollision(UpdateParams * params)
 	{
 		for(int j=i+1;j< physObjs.size() ;j++)
 		{
-			std::string x;
+			CollisionHandler::SweptSeparatingAxisCollisionCheck(physObjs[i], physObjs[j], params->deltaTime);
 		}
 
 	}
