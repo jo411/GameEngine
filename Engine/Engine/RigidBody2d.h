@@ -17,6 +17,8 @@ public:
 	void addForce(const Vector2& i_force);
 	void clearForces();
 
+	const Vector2& getVelocity() { return velocity; }//return the last calculated velocity
+
 	static const std::string tag; 
 	virtual const std::string& getTag() { return tag; }
 	
