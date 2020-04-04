@@ -156,8 +156,8 @@ void loadCollisionScene(GameScene& Scene)
 	player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
 	
 	Vector2 CollisionForce;
-	CollisionForce.x = .05;
-	CollisionForce.y = 0;
+	CollisionForce.x = .02;
+	CollisionForce.y = .02;
 
 	RigidBody2d* rb = new RigidBody2d();
 	rb->mass = 10;
@@ -179,12 +179,13 @@ void loadCollisionScene(GameScene& Scene)
 	enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));	
 	enemy->addComponent(rb2);
 
-	Vector2 startPos;
-	startPos.x = 350;
-	startPos.y = 0;
+	Vector2 startPosEnemy(200,200);	
 
-	player->position = -startPos;
-	enemy->position = startPos;
+	Vector2 startPosPlayer(-200,-200);
+
+
+	player->position = startPosPlayer;
+	enemy->position = startPosEnemy;
 
 	player->rotation = 0;	
 	enemy->rotation = 0;
@@ -198,7 +199,7 @@ void loadCollisionScene(GameScene& Scene)
 	player->addComponent(playerBB);
 	enemy->addComponent(enemyBB);
 
-
+	//Draw debug bounding boxes
 	/*Matrix4 enemyToWorld = enemy->ObjectToWorldTransform();
 
 	SmartPointer<GameObject> marker1 = Scene.CreateGameObject();
