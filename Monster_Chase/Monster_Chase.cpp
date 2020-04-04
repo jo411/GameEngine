@@ -178,8 +178,8 @@ void loadCollisionScene(GameScene& Scene)
 	player->position = startPosPlayer;
 	enemy->position = startPosEnemy;
 
-	player->rotation = 0;	
-	enemy->rotation = 0;
+	player->rotation = 45;	
+	enemy->rotation = -32;
 	
 	Vector2 enemyCenter(0, 94);
 	Vector2 enemyExtents(82, 94);
