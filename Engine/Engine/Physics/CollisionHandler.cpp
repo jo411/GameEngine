@@ -285,14 +285,13 @@ CollisionTimesAndAxis CollisionHandler::SweptAxisCollisionCheck(SmartPointer<Gam
 	Vector4 BExtentsY4(0, B_ExtentsY, 0, 0);
 
 	
-
 	axisX = BToWorld* BExtentsX4;
 	axisY = BToWorld * BExtentsY4;
-	float lenX = (axisX.X()*axisX.X());
-	float lenY = (axisY.Y()*axisY.Y());
+	float lenX = sqrt(axisX.X()*axisX.X());
+	float lenY = sqrt(axisY.Y()*axisY.Y());
 
 	Vector4 BXAxisInWorldNorm(axisX.X() / lenX,0,0,0);
-	Vector4 BYAxisInWorldNorm(axisY.Y() / lenY, 0, 0, 0);
+	Vector4 BYAxisInWorldNorm(0, axisY.Y() / lenY, 0, 0);
 
 	result.axisX = Vector2(BXAxisInWorldNorm.X(),0);
 	result.axisY = Vector2(0, BYAxisInWorldNorm.Y());
