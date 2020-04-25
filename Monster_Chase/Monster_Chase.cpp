@@ -145,10 +145,16 @@ void loadCollisionScene(GameScene& Scene)
 	SmartPointer<GameObject> player = Scene.CreateGameObject();
 	player->name->fromCharArray("Player");
 	player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
+
+	SmartPointer<GameObject> player2 = Scene.CreateGameObject();
+	player2->name->fromCharArray("Player2");
+	player2->addComponent(new SpriteRenderer("data\\pikachu.dds"));
+
+
 	
 	Vector2 CollisionForce;
 	CollisionForce.x = .05;
-	CollisionForce.y = .0;
+	CollisionForce.y = .01;
 
 	RigidBody2d* rb = new RigidBody2d();
 	rb->mass = 10;
@@ -161,14 +167,17 @@ void loadCollisionScene(GameScene& Scene)
 	rb2->drag = .6f;
 	rb2->minGroundingSpeed = .01f;
 
-
-	//rb2->addImpulse(-CollisionForce);
-	//rb->addImpulse(CollisionForce);
+	RigidBody2d* rb3 = new RigidBody2d();
+	rb3->mass = 10;
+	rb3->drag = .6f;
+	rb3->minGroundingSpeed = .01f;
 
 	rb2->addForce(-CollisionForce);
-	//rb->addForce(CollisionForce);
+	rb->addForce(CollisionForce);
+	rb3->addForce(Vector2(0,.1));
 
 	player->addComponent(rb);	
+	player2->addComponent(rb3);
 
 	SmartPointer<GameObject> enemy = Scene.CreateGameObject();
 	enemy->name->fromCharArray("Enemy");
@@ -179,22 +188,26 @@ void loadCollisionScene(GameScene& Scene)
 	Vector2 startPosEnemy(200,0);	
 
 	Vector2 startPosPlayer(-200,0);
+	Vector2 startPosPlayer2(120, -250);
 
-
+	player2->position = startPosPlayer2;
 	player->position = startPosPlayer;
 	enemy->position = startPosEnemy;
 
 	player->rotation = 0;	
 	enemy->rotation = 0;
+	player2->rotation = 0;
 	
 	Vector2 enemyCenter(0, 94);
 	Vector2 enemyExtents(82, 94);
 
 	AABB* enemyBB = new AABB(enemyCenter.x, enemyCenter.y, enemyExtents.x, enemyExtents.y);
 	AABB* playerBB = new AABB(0, 58, 50, 58);
+	AABB* player2BB = new AABB(0, 58, 50, 58);
 
 	player->addComponent(playerBB);
 	enemy->addComponent(enemyBB);
+	player2->addComponent(player2BB);
 
 	//Draw debug bounding boxes
 	/*Matrix4 enemyToWorld = enemy->ObjectToWorldTransform();
