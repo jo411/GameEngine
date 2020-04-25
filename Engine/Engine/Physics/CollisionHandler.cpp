@@ -45,12 +45,12 @@ CollisionData CollisionHandler::SweptSeparatingAxisCollisionCheck(SmartPointer<G
 	if (latestCloseX < latestCloseY)
 	{
 		latestClose = latestCloseY;
-		LatestCLoseWasAxisX = false;
+		LatestCLoseWasAxisX = true;
 	}
 	else
 	{
 		latestClose = latestCloseX;
-		LatestCLoseWasAxisX = true;
+		LatestCLoseWasAxisX = false;
 	}
 
 	float earliestOpen = !(earliestOpenY < earliestOpenX) ? earliestOpenX : earliestOpenY;
@@ -98,13 +98,14 @@ if (!separationAinB && !separationBinA)
 }
 bool CollisionHandler::checkAllObjectsForCollision(const std::vector<SmartPointer<GameObject>>& collidables, const float& dt)
 {
+	//DEBUG_PRINT("DT: %f\n", dt);
 	float totalDt = dt;
 	float remainingDt = dt;
 	while (remainingDt>0)
 	{
 		std::vector<CollisionData> results;
 
-		for (int i = 0; i < collidables.size() - 1; i++)
+		for (int i = 0; i < collidables.size(); i++)
 		{
 			for (int j = i + 1; j < collidables.size(); j++)
 			{
@@ -139,7 +140,7 @@ bool CollisionHandler::checkAllObjectsForCollision(const std::vector<SmartPointe
 			rbB->onCollision(firstCollision);
 
 			//step simulation
-			for (int i = 0; i < collidables.size() - 1; i++)
+			for (int i = 0; i < collidables.size(); i++)
 			{
 				resolveCollisionPosition(collidables[i], firstCollision.cTime);
 			}
@@ -150,7 +151,7 @@ bool CollisionHandler::checkAllObjectsForCollision(const std::vector<SmartPointe
 		}
 		else
 		{
-			for (int i = 0; i < collidables.size() - 1; i++)
+			for (int i = 0; i < collidables.size(); i++)
 			{
 				resolveCollisionPosition(collidables[i], remainingDt);
 			}

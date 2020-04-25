@@ -62,8 +62,8 @@ void RigidBody2d::physicsUpdate(UpdateParams * params)
 	acc = newAcc;
 
 
-	impulse.x *= drag;
-	impulse.y *= drag;
+	impulse.x *= drag*dt;
+	impulse.y *= drag*dt;
 
 }
 
@@ -130,33 +130,38 @@ void RigidBody2d::onCollision(CollisionData hit)
 
 			Vector2 v1Prime;
 			
-			v1Prime.x = ((m1 - m2) / ((m1 + m2))*velocity.getX() + ((2 * m2) / (m1 + m2)*v2.getX()));
-			v1Prime.y = ((m1 - m2) / ((m1 + m2))*velocity.getY() + ((2 * m2) / (m1 + m2)*v2.getY()));
+			v1Prime.x = ((m1 - m2) / ((m1 + m2))*velocity.getX() + ((2 * m2) / ((m1 + m2))*v2.getX()));
+			v1Prime.y = ((m1 - m2) / ((m1 + m2))*velocity.getY() + ((2 * m2) / ((m1 + m2))*v2.getY()));
 
 			float KEX = .5*mass*v1Prime.getX()*v1Prime.getX();
 			float KEY = .5*mass*v1Prime.getY()*v1Prime.getY();
-			float stoppingDistance = .0008;
+			float stoppingDistance = 2;
 
 			Vector2 newForce;
 			newForce.x = KEX / stoppingDistance;
 			newForce.y = KEY / stoppingDistance;
 
 			Vector2 reflectedForce;
+
+			int velocitySignx = signbit(velocity.x) ? -1 : 1; 
+			int velocitySigny = signbit(velocity.y) ? -1 : 1;
 			//the axis is either x or y
 			if (Floats::isZero(hit.CollisionAxis.X()))
 			{
-				reflectedForce.x = -newForce.x;
-				reflectedForce.y = newForce.y;
+				
+				reflectedForce.x = -velocitySignx*newForce.x;
+				reflectedForce.y = velocitySigny*newForce.y;
 			}
 			else
 			{
-				reflectedForce.x = newForce.x;
-				reflectedForce.y = -newForce.y;
+				int velocitySignx = signbit(velocity.x) ? -1 : 1;
+				reflectedForce.x = velocitySignx*newForce.x;
+				reflectedForce.y = -velocitySigny*newForce.y;
 			}
 
 			clearForces();
-			addImpulse(reflectedForce);	
-			//addForce(reflectedForce);
+			//addImpulse(reflectedForce);	
+			addForce(reflectedForce);
 			
 		}
 

@@ -147,21 +147,26 @@ void loadCollisionScene(GameScene& Scene)
 	player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
 	
 	Vector2 CollisionForce;
-	CollisionForce.x = .8;
-	CollisionForce.y = .8;
+	CollisionForce.x = .02;
+	CollisionForce.y = 0;
 
 	RigidBody2d* rb = new RigidBody2d();
 	rb->mass = 10;
 	rb->drag = .6f;
 	rb->minGroundingSpeed = .01f;
-	rb->addImpulse(CollisionForce);
+	
 
 	RigidBody2d* rb2 = new RigidBody2d();
-	rb2->mass = 15;
+	rb2->mass = 20;
 	rb2->drag = .6f;
 	rb2->minGroundingSpeed = .01f;
-	rb2->addImpulse(-CollisionForce);
-	
+
+
+	//rb2->addImpulse(-CollisionForce);
+	//rb->addImpulse(CollisionForce);
+
+	//rb2->addForce(-CollisionForce);
+	rb->addForce(CollisionForce);
 
 	player->addComponent(rb);	
 
@@ -171,9 +176,9 @@ void loadCollisionScene(GameScene& Scene)
 
 	enemy->addComponent(rb2);
 
-	Vector2 startPosEnemy(0,0);	
+	Vector2 startPosEnemy(200,0);	
 
-	Vector2 startPosPlayer(-205,-200);
+	Vector2 startPosPlayer(-200,0);
 
 
 	player->position = startPosPlayer;
@@ -289,7 +294,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 			
 			bool bQuit = false;
 
-			updateParams.deltaTime = 16.68;//60fps in miliseconds default
+			updateParams.deltaTime = 1 / 60;//60fps in miliseconds default
 				
 			do
 			{
@@ -313,8 +318,9 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 					GLib::EndRendering();					
 
 					updateParams.deltaTime = gameTimer.GetCounter();//get last frame time	
+					
 #ifdef _DEBUG
-					if (updateParams.deltaTime > 500) {updateParams.deltaTime = 16.68;}
+					if (updateParams.deltaTime > 500) {updateParams.deltaTime = 1/60;}
 #endif // DEBUG
 
 				}
