@@ -148,7 +148,7 @@ void loadCollisionScene(GameScene& Scene)
 	
 	Vector2 CollisionForce;
 	CollisionForce.x = .05;
-	CollisionForce.y = .02;
+	CollisionForce.y = .0;
 
 	RigidBody2d* rb = new RigidBody2d();
 	rb->mass = 10;
@@ -157,7 +157,7 @@ void loadCollisionScene(GameScene& Scene)
 	
 
 	RigidBody2d* rb2 = new RigidBody2d();
-	rb2->mass = 20;
+	rb2->mass = 10;
 	rb2->drag = .6f;
 	rb2->minGroundingSpeed = .01f;
 
@@ -166,7 +166,7 @@ void loadCollisionScene(GameScene& Scene)
 	//rb->addImpulse(CollisionForce);
 
 	rb2->addForce(-CollisionForce);
-	rb->addForce(CollisionForce);
+	//rb->addForce(CollisionForce);
 
 	player->addComponent(rb);	
 

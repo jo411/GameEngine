@@ -7,8 +7,9 @@ class RigidBody2d : public Component
 public:
 	RigidBody2d();
 	void update(UpdateParams* params);
-
+	bool canCollide = true;
 	void physicsUpdate(UpdateParams* params);
+	void refresh();//refresh all values without moving the rigidbody.
 
 	void draw(UpdateParams* params);
 	void onAddToObject();

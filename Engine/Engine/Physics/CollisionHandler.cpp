@@ -247,18 +247,22 @@ CollisionTimesAndAxis CollisionHandler::SweptAxisCollisionCheck(SmartPointer<Gam
 	float tOpenY = dOpenY / VelARelToB.y;
 
 	float swap;		
+	bool swappedX = false;
+	bool swappedY = false;
 
 	if (tOpenX < tCloseX)
 	{		
 		swap = tOpenX;
 		tOpenX = tCloseX;
 		tCloseX = swap;
+		swappedX = true;
 	}
 	if (tOpenY < tCloseY)
 	{
 		swap = tOpenY;
 		tOpenY = tCloseY;
 		tCloseY = swap;
+		swappedY = true;
 	}
 
 	if (tCloseX > deltaTime || tCloseY > deltaTime)
@@ -297,6 +301,16 @@ CollisionTimesAndAxis CollisionHandler::SweptAxisCollisionCheck(SmartPointer<Gam
 
 	result.axisX = Vector2(BXAxisInWorldNorm.X(),0);
 	result.axisY = Vector2(0, BYAxisInWorldNorm.Y());
+
+	//if (!swappedX)
+	//{
+	//	result.axisX.x = -result.axisX.x;
+	//}
+	//if (!swappedY)
+	//{
+	//	result.axisY.y = -result.axisY.y;
+	//}
+
 
 	return result;
 

@@ -20,6 +20,7 @@ void RigidBody2d::update(UpdateParams * params)
 
 void RigidBody2d::physicsUpdate(UpdateParams * params)
 {
+	
 	//Slightly modified verlet called Velocity Verlet
 
 	float dt = (float)params->deltaTime;
@@ -67,6 +68,50 @@ void RigidBody2d::physicsUpdate(UpdateParams * params)
 
 }
 
+void RigidBody2d::refresh()
+{
+	
+	float dt = .001;
+	acc = getTotalCurrentForce() / mass;
+
+	//Check for min speed and ground the object if needed
+	if (abs(velocity.x) < minGroundingSpeed &&abs(acc.x) < .0001)
+	{
+		velocity.x = 0;
+		impulse.x = 0;
+	}
+
+	if (abs(velocity.y) < minGroundingSpeed && abs(acc.y) < .0001)
+	{
+		velocity.y = 0;
+		impulse.y = 0;
+	}
+
+	//verlet integration
+
+	Vector2 newPos = gameObject->position + velocity * dt + acc * (dt*dt*.5);
+
+	Vector2 dragForce;
+	dragForce.x = (float)(0.5 * drag * (velocity.x * abs(velocity.x)));
+	dragForce.y = (float)(0.5 * drag * (velocity.y * abs(velocity.y)));
+	Vector2 dragAcc = dragForce / mass;
+
+	Vector2 gravity;
+	gravity.x = 0;
+	gravity.y = 0;
+
+	Vector2 newAcc = gravity - dragAcc;
+
+	Vector2 newVel = velocity + (acc + newAcc)*(dt*.5);	
+
+	velocity = newVel;
+	acc = newAcc;
+
+
+	impulse.x *= drag * dt;
+	impulse.y *= drag * dt;
+}
+
 void RigidBody2d::draw(UpdateParams * params)
 {
 }
@@ -103,6 +148,8 @@ void RigidBody2d::Serialize(json & j)
 
 void RigidBody2d::onCollision(CollisionData hit)
 {
+	if (!canCollide) { return; }
+	canCollide = false;
 	if (onCollideCallback)
 	{
 		(*onCollideCallback)(hit);
@@ -152,6 +199,7 @@ void RigidBody2d::onCollision(CollisionData hit)
 		int velocitySignx = signbit(velocity.x) ? -1 : 1;
 		int velocitySigny = signbit(velocity.y) ? -1 : 1;
 		//the axis is either x or y
+
 		if (Floats::isZero(hit.CollisionAxis.X()))
 		{
 
@@ -159,16 +207,16 @@ void RigidBody2d::onCollision(CollisionData hit)
 			reflectedForce.y = velocitySigny * newForce.y;
 		}
 		else
-		{
-			int velocitySignx = signbit(velocity.x) ? -1 : 1;
+		{			
 			reflectedForce.x = velocitySignx * newForce.x;
 			reflectedForce.y = -velocitySigny * newForce.y;
 		}
 
 		clearForces();
+		//velocity = v1Prime;
 		//addImpulse(reflectedForce);	
 		addForce(reflectedForce);
-
+		refresh();
 	}
 
 
