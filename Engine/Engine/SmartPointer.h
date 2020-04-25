@@ -88,6 +88,11 @@ public:
 		return pointer;
 	}
 
+	friend bool operator==(const SmartPointer<T>& lhs, void* rhs)
+	{
+		return lhs.pointer == rhs;
+	}
+
 	//Comparison operators
 	template <class U >
 	friend bool operator==(const SmartPointer<T>& lhs, const SmartPointer<U>& rhs)
