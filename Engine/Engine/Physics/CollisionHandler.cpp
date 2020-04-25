@@ -3,43 +3,82 @@
 #include "AABB.h"
 #include "../RigidBody2d.h"
 
-bool CollisionHandler::SweptSeparatingAxisCollisionCheck(SmartPointer<GameObject> A, SmartPointer<GameObject> B, float deltaTime)
+struct CollisionTimesAndAxis
 {
-	std::array<float,4> AinBTimes = SweptAxisCollisionCheck(A, B, deltaTime);
-	std::array<float, 4> BinATimes;
-	if (AinBTimes[0] != FLT_MAX)//We don't have a guaranteed non collision
+	std::array<float, 4> times;
+	Vector2 axisX;
+	Vector2 axisY;
+};
+
+
+
+CollisionData CollisionHandler::SweptSeparatingAxisCollisionCheck(SmartPointer<GameObject> A, SmartPointer<GameObject> B, float deltaTime)
+{
+	CollisionData result;
+	result.A = A;
+	result.B = B;	
+	result.didCollide = false;
+
+	CollisionTimesAndAxis AinBTimes = SweptAxisCollisionCheck(A, B, deltaTime);
+	CollisionTimesAndAxis BinATimes = SweptAxisCollisionCheck(B, A, deltaTime);	
+	if (AinBTimes.times[0] != FLT_MAX)//We don't have a guaranteed non collision
 	{
 		BinATimes = SweptAxisCollisionCheck(B, A, deltaTime);
 	}
 	else
-	{
-		return false;
+	{		
+		return result;
 	}
-	if (BinATimes[0] == FLT_MAX)//We have guaranteed non collision
-	{
-		return false;
+	if (BinATimes.times[0] == FLT_MAX)//We have guaranteed non collision
+	{		
+		return result;
 	}
 
-	float latestCloseX = (AinBTimes[0]<BinATimes[0]? BinATimes[0]: AinBTimes[0]);
-	float earliestOpenX = !(BinATimes[1] < AinBTimes[1]) ? AinBTimes[1] : BinATimes[1];
+	float latestCloseX = (AinBTimes.times[0]<BinATimes.times[0]? BinATimes.times[0]: AinBTimes.times[0]);
+	float earliestOpenX = !(BinATimes.times[1] < AinBTimes.times[1]) ? AinBTimes.times[1] : BinATimes.times[1];
 	
-	float latestCloseY = (AinBTimes[2] < BinATimes[2] ? BinATimes[2] : AinBTimes[2]);
-	float earliestOpenY = !(BinATimes[3] < AinBTimes[3]) ? AinBTimes[3] : BinATimes[3];
+	float latestCloseY = (AinBTimes.times[2] < BinATimes.times[2] ? BinATimes.times[2] : AinBTimes.times[2]);
+	float earliestOpenY = !(BinATimes.times[3] < AinBTimes.times[3]) ? AinBTimes.times[3] : BinATimes.times[3];
 	
-	float latestClose = (latestCloseX < latestCloseY) ? latestCloseY : latestCloseX;
+	bool LatestCLoseWasAxisX = false;
+	float latestClose;
+	if (latestCloseX < latestCloseY)
+	{
+		latestClose = latestCloseY;
+		LatestCLoseWasAxisX = false;
+	}
+	else
+	{
+		latestCloseY = latestCloseX;
+		LatestCLoseWasAxisX = true;
+	}
+
 	float earliestOpen = !(earliestOpenY < earliestOpenX) ? earliestOpenX : earliestOpenY;
 
 	if (latestClose > earliestOpen)
-	{
-		return false;
+	{		
+		return result;
 	}
 	else if(latestClose<earliestOpen)
-	{
-		DEBUG_PRINT("Object: \"%s\" just collided with Object: \"%s\" \n", A->name->getCharArray(), B->name->getCharArray());		
-		return true;
+	{			
+		result.cTime = latestClose;
+		result.didCollide = true;
+
+		if (LatestCLoseWasAxisX)
+		{
+			 
+		}
+		else
+		{
+
+			
+		}
+
+		return result;
 	}
 
-	return false;
+	
+	return result;
 
 
 	//No velocity interpolation version
@@ -57,6 +96,69 @@ if (!separationAinB && !separationBinA)
 {
 	DEBUG_PRINT("Object: \"%s\" just collided with Object: \"%s\" \n", A->name->getCharArray(), B->name->getCharArray());
 }*/
+}
+bool CollisionHandler::checkAllObjectsForCollision(const std::vector<SmartPointer<GameObject>>& collidables, const float& dt)
+{
+	float totalDt = dt;
+	float remainingDt = dt;
+	while (remainingDt>0)
+	{
+		std::vector<CollisionData> results;
+
+		for (int i = 0; i < collidables.size() - 1; i++)
+		{
+			for (int j = i + 1; j < collidables.size(); j++)
+			{
+				CollisionData out = SweptSeparatingAxisCollisionCheck(collidables[i], collidables[j], remainingDt);
+				if (out.didCollide)
+				{
+					results.push_back(out);
+				}
+			}
+
+		}
+		CollisionData firstCollision;
+
+		if (results.size() > 0)
+		{
+			firstCollision = results[0];
+			for (int i = 0; i < results.size(); i++)
+			{
+				if (results[i].cTime < firstCollision.cTime)
+				{
+					firstCollision = results[i];
+				}
+			}
+
+			//step simulation
+			for (int i = 0; i < collidables.size() - 1; i++)
+			{
+				resolveCollisionPosition(collidables[i], firstCollision.cTime);
+			}
+
+			//handle collision
+			RigidBody2d* rbA = dynamic_cast<RigidBody2d*>(firstCollision.A->getComponent(RigidBody2d::tag).getRawPointer());
+			RigidBody2d* rbB = dynamic_cast<RigidBody2d*>(firstCollision.B->getComponent(RigidBody2d::tag).getRawPointer());
+
+			rbA->onCollision(firstCollision);
+			rbB->onCollision(firstCollision);
+
+			remainingDt -= firstCollision.cTime;
+
+			DEBUG_PRINT("Object: \"%s\" just collided with Object: \"%s\" \n", firstCollision.A->name->getCharArray(), firstCollision.B->name->getCharArray());
+		}
+		else
+		{
+			for (int i = 0; i < collidables.size() - 1; i++)
+			{
+				resolveCollisionPosition(collidables[i], remainingDt);
+			}
+			remainingDt = 0;
+		}
+
+	}	
+	
+	return false;
 }
 //Check if A collides with B in B's coordinate system. No velocity interpolation
 bool CollisionHandler::staticCollisionCheck(SmartPointer<GameObject> A, SmartPointer<GameObject> B)
@@ -89,8 +191,10 @@ bool CollisionHandler::staticCollisionCheck(SmartPointer<GameObject> A, SmartPoi
 
 //Check if A collides or did collide with B in B's coordinate system in the last frame time. Returns open and close times for the
 //separations in the form:[tCloseX,tOpenX, tCloseY,tOpenY]
-std::array<float, 4> CollisionHandler::SweptAxisCollisionCheck(SmartPointer<GameObject> A, SmartPointer<GameObject> B, float deltaTime)
+CollisionTimesAndAxis CollisionHandler::SweptAxisCollisionCheck(SmartPointer<GameObject> A, SmartPointer<GameObject> B, float deltaTime)
 {
+	CollisionTimesAndAxis result;
+
 	AABB* bbA = dynamic_cast<AABB*>(A->getComponent(AABB::tag).getRawPointer());
 	AABB* bbB = dynamic_cast<AABB*>(B->getComponent(AABB::tag).getRawPointer());
 
@@ -168,6 +272,42 @@ std::array<float, 4> CollisionHandler::SweptAxisCollisionCheck(SmartPointer<Game
 		return { FLT_MAX,FLT_MAX,FLT_MAX,FLT_MAX };
 	}
 
-	return { tCloseX,tOpenX,tCloseY,tOpenY };
+	result.times = { tCloseX,tOpenX,tCloseY,tOpenY };
+
+	Vector4 axisX;
+	Vector4 axisY;
+
+	Matrix4 BToWorld = B->ObjectToWorldTransform();
+	Vector2 BXAxis(B_ExtentsX, 0);
+	Vector2 BYAxis(0, B_ExtentsY);
+
+	Vector4 BExtentsX4(B_ExtentsX,0,0,0);
+	Vector4 BExtentsY4(0, B_ExtentsY, 0, 0);
+
+	
+
+	axisX = BToWorld* BExtentsX4;
+	axisY = BToWorld * BExtentsY4;
+	float lenX = (axisX.X()*axisX.X());
+	float lenY = (axisY.Y()*axisY.Y());
+
+	Vector4 BXAxisInWorldNorm(axisX.X() / lenX,0,0,0);
+	Vector4 BYAxisInWorldNorm(axisY.Y() / lenY, 0, 0, 0);
+
+	result.axisX = Vector2(BXAxisInWorldNorm.X(),0);
+	result.axisY = Vector2(0, BYAxisInWorldNorm.Y());
+
+	return result;
+
+}
+
+void CollisionHandler::resolveCollisionPosition(SmartPointer<GameObject> A, const float cTime)
+{
+	RigidBody2d* rbA = dynamic_cast<RigidBody2d*>(A->getComponent(RigidBody2d::tag).getRawPointer());
+
+	//A->position += rbA->getVelocity()*cTime;
+	UpdateParams dummy;
+	dummy.deltaTime = cTime;
+	rbA->physicsUpdate(&dummy);
 }
 
