@@ -1,6 +1,8 @@
 #pragma once
 #include "../Component.h"
 #include "../Vector2.h"
+
+
 class AABB :public Component
 {
 public:
@@ -13,6 +15,7 @@ public:
 	void draw(UpdateParams* params);
 	void onAddToObject();
 
+	
 	static const std::string tag;
 	virtual const std::string& getTag() { return tag; }
 
