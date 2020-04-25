@@ -6,6 +6,7 @@
 #include "JsonHandler.h"
 #include "RigidBody2d.h"
 #include "Physics/CollisionHandler.h"
+#include "Physics/AABB.h"
 //TODO: actually use the rule of three
 
 //Constructs the scene and allocates lists for all the dynamic memory needed
@@ -140,21 +141,17 @@ void GameScene::checkCollision(UpdateParams * params)
 	{
 		//GameObject* obj = ((GameObject*)(scene->getAt(i)));
 		SmartPointer<GameObject> obj = sceneVector[i];
-		WeakPointer<Component> wptr(obj->getComponent(RigidBody2d::tag));
+		WeakPointer<Component> wptr(obj->getComponent(AABB::tag));
 		if (obj->enabled && (wptr.IsAlive()))
 		{
 			physObjs.push_back(obj);
 		}
 	}
-
-	for (int i = 0; i < physObjs.size()-1; i++)
+	if (physObjs.size() > 1)
 	{
-		for(int j=i+1;j< physObjs.size() ;j++)
-		{
-			CollisionHandler::SweptSeparatingAxisCollisionCheck(physObjs[i], physObjs[j], params->deltaTime);
-		}
-
+		CollisionHandler::checkAllObjectsForCollision(physObjs, params->deltaTime);
 	}
+	
 }
 
 void GameScene::Release()
