@@ -147,8 +147,8 @@ void loadCollisionScene(GameScene& Scene)
 	player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
 	
 	Vector2 CollisionForce;
-	CollisionForce.x = .02;
-	CollisionForce.y = 0;
+	CollisionForce.x = .05;
+	CollisionForce.y = .02;
 
 	RigidBody2d* rb = new RigidBody2d();
 	rb->mass = 10;
@@ -165,7 +165,7 @@ void loadCollisionScene(GameScene& Scene)
 	//rb2->addImpulse(-CollisionForce);
 	//rb->addImpulse(CollisionForce);
 
-	//rb2->addForce(-CollisionForce);
+	rb2->addForce(-CollisionForce);
 	rb->addForce(CollisionForce);
 
 	player->addComponent(rb);	
