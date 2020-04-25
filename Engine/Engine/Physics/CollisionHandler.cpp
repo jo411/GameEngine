@@ -20,7 +20,7 @@ CollisionData CollisionHandler::SweptSeparatingAxisCollisionCheck(SmartPointer<G
 	result.didCollide = false;
 
 	CollisionTimesAndAxis AinBTimes = SweptAxisCollisionCheck(A, B, deltaTime);
-	CollisionTimesAndAxis BinATimes = SweptAxisCollisionCheck(B, A, deltaTime);	
+	CollisionTimesAndAxis BinATimes;	
 	if (AinBTimes.times[0] != FLT_MAX)//We don't have a guaranteed non collision
 	{
 		BinATimes = SweptAxisCollisionCheck(B, A, deltaTime);
@@ -49,7 +49,7 @@ CollisionData CollisionHandler::SweptSeparatingAxisCollisionCheck(SmartPointer<G
 	}
 	else
 	{
-		latestCloseY = latestCloseX;
+		latestClose = latestCloseX;
 		LatestCLoseWasAxisX = true;
 	}
 
@@ -66,12 +66,11 @@ CollisionData CollisionHandler::SweptSeparatingAxisCollisionCheck(SmartPointer<G
 
 		if (LatestCLoseWasAxisX)
 		{
-			 
+			result.CollisionAxis = Vector4(AinBTimes.axisX.x, AinBTimes.axisX.y, 0, 0);
 		}
 		else
 		{
-
-			
+			result.CollisionAxis = Vector4(AinBTimes.axisY.x, AinBTimes.axisY.y, 0, 0);			
 		}
 
 		return result;
@@ -110,7 +109,7 @@ bool CollisionHandler::checkAllObjectsForCollision(const std::vector<SmartPointe
 			for (int j = i + 1; j < collidables.size(); j++)
 			{
 				CollisionData out = SweptSeparatingAxisCollisionCheck(collidables[i], collidables[j], remainingDt);
-				if (out.didCollide)
+				if (out.didCollide && out.cTime>0)
 				{
 					results.push_back(out);
 				}
@@ -130,11 +129,7 @@ bool CollisionHandler::checkAllObjectsForCollision(const std::vector<SmartPointe
 				}
 			}
 
-			//step simulation
-			for (int i = 0; i < collidables.size() - 1; i++)
-			{
-				resolveCollisionPosition(collidables[i], firstCollision.cTime);
-			}
+		
 
 			//handle collision
 			RigidBody2d* rbA = dynamic_cast<RigidBody2d*>(firstCollision.A->getComponent(RigidBody2d::tag).getRawPointer());
@@ -142,6 +137,12 @@ bool CollisionHandler::checkAllObjectsForCollision(const std::vector<SmartPointe
 
 			rbA->onCollision(firstCollision);
 			rbB->onCollision(firstCollision);
+
+			//step simulation
+			for (int i = 0; i < collidables.size() - 1; i++)
+			{
+				resolveCollisionPosition(collidables[i], firstCollision.cTime);
+			}
 
 			remainingDt -= firstCollision.cTime;
 
@@ -244,7 +245,7 @@ CollisionTimesAndAxis CollisionHandler::SweptAxisCollisionCheck(SmartPointer<Gam
 	float tCloseY = dCloseY / VelARelToB.y;
 	float tOpenY = dOpenY / VelARelToB.y;
 
-	float swap;	
+	float swap;		
 
 	if (tOpenX < tCloseX)
 	{		

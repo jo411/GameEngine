@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include "Physics/CollisionHandler.h"
 #include "../GLib/_Console/ConsolePrint.h"
+#include "Floats.h"
 const std::string RigidBody2d::tag = "rigidbody";
 RigidBody2d::RigidBody2d()
 {
@@ -129,22 +130,34 @@ void RigidBody2d::onCollision(CollisionData hit)
 
 			Vector2 v1Prime;
 			
-			v1Prime.x = ((m1 - m1) / (m1 + m2))*velocity.getX() + ((2 * m2) / (m1 + m2)*v2.getX());
-			v1Prime.y = ((m1 - m1) / (m1 + m2))*velocity.getY() + ((2 * m2) / (m1 + m2)*v2.getY());
+			v1Prime.x = ((m1 - m2) / ((m1 + m2))*velocity.getX() + ((2 * m2) / (m1 + m2)*v2.getX()));
+			v1Prime.y = ((m1 - m2) / ((m1 + m2))*velocity.getY() + ((2 * m2) / (m1 + m2)*v2.getY()));
 
 			float KEX = .5*mass*v1Prime.getX()*v1Prime.getX();
 			float KEY = .5*mass*v1Prime.getY()*v1Prime.getY();
-			float stoppingDistance = .1;
+			float stoppingDistance = .0008;
 
 			Vector2 newForce;
 			newForce.x = KEX / stoppingDistance;
 			newForce.y = KEY / stoppingDistance;
 
-			//clearForces();
-			addImpulse(newForce);
+			Vector2 reflectedForce;
+			//the axis is either x or y
+			if (Floats::isZero(hit.CollisionAxis.X()))
+			{
+				reflectedForce.x = -newForce.x;
+				reflectedForce.y = newForce.y;
+			}
+			else
+			{
+				reflectedForce.x = newForce.x;
+				reflectedForce.y = -newForce.y;
+			}
+
+			clearForces();
+			addImpulse(reflectedForce);	
+			//addForce(reflectedForce);
 			
-			//addForce(force);
-			//force = -force;
 		}
 
 

@@ -157,7 +157,7 @@ void loadCollisionScene(GameScene& Scene)
 	rb->addImpulse(CollisionForce);
 
 	RigidBody2d* rb2 = new RigidBody2d();
-	rb2->mass = 10;
+	rb2->mass = 15;
 	rb2->drag = .6f;
 	rb2->minGroundingSpeed = .01f;
 	rb2->addImpulse(-CollisionForce);
