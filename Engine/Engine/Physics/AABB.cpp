@@ -1,4 +1,6 @@
 #include "AABB.h"
+#include "CollisionHandler.h"
+#include "../RigidBody2d.h"
 const std::string AABB::tag = "AABB";
 AABB::AABB(float cX, float cY, float eX, float eY)
 {
@@ -30,3 +32,5 @@ void AABB::draw(UpdateParams * params)
 void AABB::onAddToObject()
 {
 }
+
+
