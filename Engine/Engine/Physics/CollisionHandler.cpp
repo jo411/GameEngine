@@ -138,6 +138,8 @@ bool CollisionHandler::checkAllObjectsForCollision(const std::vector<SmartPointe
 
 			rbA->onCollision(firstCollision);
 			rbB->onCollision(firstCollision);
+			rbA->refresh();
+			rbB->refresh();
 
 			//step simulation
 			for (int i = 0; i < collidables.size(); i++)
@@ -302,14 +304,14 @@ CollisionTimesAndAxis CollisionHandler::SweptAxisCollisionCheck(SmartPointer<Gam
 	result.axisX = Vector2(BXAxisInWorldNorm.X(),0);
 	result.axisY = Vector2(0, BYAxisInWorldNorm.Y());
 
-	//if (!swappedX)
-	//{
-	//	result.axisX.x = -result.axisX.x;
-	//}
-	//if (!swappedY)
-	//{
-	//	result.axisY.y = -result.axisY.y;
-	//}
+	if (swappedX)
+	{
+		result.axisX.x = -result.axisX.x;
+	}
+	if (swappedY)
+	{
+		result.axisY.y = -result.axisY.y;
+	}
 
 
 	return result;

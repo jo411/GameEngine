@@ -39,5 +39,8 @@ private:
 	Vector2 velocity;
 	Vector2 acc;
 	Vector2 impulse;
+
+	Vector2 SavedForce;
+	Vector2 SavedVelocity;
 };
 

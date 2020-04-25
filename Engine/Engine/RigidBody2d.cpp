@@ -70,46 +70,50 @@ void RigidBody2d::physicsUpdate(UpdateParams * params)
 
 void RigidBody2d::refresh()
 {
-	
-	float dt = .001;
-	acc = getTotalCurrentForce() / mass;
+	clearForces();
+	velocity = SavedVelocity;
+	//addImpulse(reflectedForce);	
+	addForce(SavedForce);	
 
-	//Check for min speed and ground the object if needed
-	if (abs(velocity.x) < minGroundingSpeed &&abs(acc.x) < .0001)
-	{
-		velocity.x = 0;
-		impulse.x = 0;
-	}
+	//float dt = .001;
+	//acc = getTotalCurrentForce() / mass;
 
-	if (abs(velocity.y) < minGroundingSpeed && abs(acc.y) < .0001)
-	{
-		velocity.y = 0;
-		impulse.y = 0;
-	}
+	////Check for min speed and ground the object if needed
+	//if (abs(velocity.x) < minGroundingSpeed &&abs(acc.x) < .0001)
+	//{
+	//	velocity.x = 0;
+	//	impulse.x = 0;
+	//}
 
-	//verlet integration
+	//if (abs(velocity.y) < minGroundingSpeed && abs(acc.y) < .0001)
+	//{
+	//	velocity.y = 0;
+	//	impulse.y = 0;
+	//}
 
-	Vector2 newPos = gameObject->position + velocity * dt + acc * (dt*dt*.5);
+	////verlet integration
 
-	Vector2 dragForce;
-	dragForce.x = (float)(0.5 * drag * (velocity.x * abs(velocity.x)));
-	dragForce.y = (float)(0.5 * drag * (velocity.y * abs(velocity.y)));
-	Vector2 dragAcc = dragForce / mass;
+	//Vector2 newPos = gameObject->position + velocity * dt + acc * (dt*dt*.5);
 
-	Vector2 gravity;
-	gravity.x = 0;
-	gravity.y = 0;
+	//Vector2 dragForce;
+	//dragForce.x = (float)(0.5 * drag * (velocity.x * abs(velocity.x)));
+	//dragForce.y = (float)(0.5 * drag * (velocity.y * abs(velocity.y)));
+	//Vector2 dragAcc = dragForce / mass;
 
-	Vector2 newAcc = gravity - dragAcc;
+	//Vector2 gravity;
+	//gravity.x = 0;
+	//gravity.y = 0;
 
-	Vector2 newVel = velocity + (acc + newAcc)*(dt*.5);	
+	//Vector2 newAcc = gravity - dragAcc;
 
-	velocity = newVel;
-	acc = newAcc;
+	//Vector2 newVel = velocity + (acc + newAcc)*(dt*.5);	
+
+	//velocity = newVel;
+	//acc = newAcc;
 
 
-	impulse.x *= drag * dt;
-	impulse.y *= drag * dt;
+	//impulse.x *= drag * dt;
+	//impulse.y *= drag * dt;
 }
 
 void RigidBody2d::draw(UpdateParams * params)
@@ -149,7 +153,7 @@ void RigidBody2d::Serialize(json & j)
 void RigidBody2d::onCollision(CollisionData hit)
 {
 	if (!canCollide) { return; }
-	canCollide = false;
+	//canCollide = false;
 	if (onCollideCallback)
 	{
 		(*onCollideCallback)(hit);
@@ -171,8 +175,12 @@ void RigidBody2d::onCollision(CollisionData hit)
 			m2 = rbOther->mass;
 			v1 = velocity;
 			v2 = rbOther->getVelocity();
-			v1Prime.x = ((m1 - m2) / ((m1 + m2))*velocity.getX() + ((2 * m2) / ((m1 + m2))*v2.getX()));
-			v1Prime.y = ((m1 - m2) / ((m1 + m2))*velocity.getY() + ((2 * m2) / ((m1 + m2))*v2.getY()));
+			float partA = (m1 - m2) / (m1 + m2);
+			float partB = (2 * m2) / (m1 + m2);
+
+			v1Prime.x = partA * v1.x + partB * v2.x;			
+
+			v1Prime.y = partA * v1.y + partB * v2.y;
 
 		}
 		else
@@ -182,8 +190,13 @@ void RigidBody2d::onCollision(CollisionData hit)
 			m2 = mass;
 			v1 = rbOther->getVelocity();
 			v2 = velocity;
-			v1Prime.x = (((2 * m1) / (m1 + m2))*v1.getX() + (((m2 - m1) / (m1 + m2))*v2.getX()));
-			v1Prime.y = (((2 * m1) / (m1 + m2))*v1.getY() + (((m2 - m1) / (m1 + m2))*v2.getY()));
+
+			float partA = (2 * m1) / (m1 + m2);
+			float partB = (m2 - m1) / (m1 + m2);
+
+			v1Prime.x = partA * v1.x + partB*v2.x;
+
+			v1Prime.y = partA * v1.y + partB * v2.y;
 		}
 
 		float KEX = .5*mass*v1Prime.getX()*v1Prime.getX();
@@ -211,12 +224,9 @@ void RigidBody2d::onCollision(CollisionData hit)
 			reflectedForce.x = velocitySignx * newForce.x;
 			reflectedForce.y = -velocitySigny * newForce.y;
 		}
-
-		clearForces();
-		//velocity = v1Prime;
-		//addImpulse(reflectedForce);	
-		addForce(reflectedForce);
-		refresh();
+		SavedVelocity = v1Prime;
+		SavedForce = reflectedForce;
+		
 	}
 
 
