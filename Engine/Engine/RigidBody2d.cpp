@@ -71,49 +71,8 @@ void RigidBody2d::physicsUpdate(UpdateParams * params)
 void RigidBody2d::refresh()
 {
 	clearForces();
-	velocity = SavedVelocity;
-	//addImpulse(reflectedForce);	
+	velocity = SavedVelocity;	
 	addForce(SavedForce);	
-
-	//float dt = .001;
-	//acc = getTotalCurrentForce() / mass;
-
-	////Check for min speed and ground the object if needed
-	//if (abs(velocity.x) < minGroundingSpeed &&abs(acc.x) < .0001)
-	//{
-	//	velocity.x = 0;
-	//	impulse.x = 0;
-	//}
-
-	//if (abs(velocity.y) < minGroundingSpeed && abs(acc.y) < .0001)
-	//{
-	//	velocity.y = 0;
-	//	impulse.y = 0;
-	//}
-
-	////verlet integration
-
-	//Vector2 newPos = gameObject->position + velocity * dt + acc * (dt*dt*.5);
-
-	//Vector2 dragForce;
-	//dragForce.x = (float)(0.5 * drag * (velocity.x * abs(velocity.x)));
-	//dragForce.y = (float)(0.5 * drag * (velocity.y * abs(velocity.y)));
-	//Vector2 dragAcc = dragForce / mass;
-
-	//Vector2 gravity;
-	//gravity.x = 0;
-	//gravity.y = 0;
-
-	//Vector2 newAcc = gravity - dragAcc;
-
-	//Vector2 newVel = velocity + (acc + newAcc)*(dt*.5);	
-
-	//velocity = newVel;
-	//acc = newAcc;
-
-
-	//impulse.x *= drag * dt;
-	//impulse.y *= drag * dt;
 }
 
 void RigidBody2d::draw(UpdateParams * params)
@@ -150,10 +109,10 @@ void RigidBody2d::Serialize(json & j)
 	j["RigidBody2d"] = { {"mass",mass},{"drag", drag},{"minGroundingSpeed",minGroundingSpeed } };
 }
 
-void RigidBody2d::onCollision(CollisionData hit)
+void RigidBody2d::onCollision(CollisionData& hit)
 {
 	if (!canCollide) { return; }
-	//canCollide = false;
+	
 	if (onCollideCallback)
 	{
 		(*onCollideCallback)(hit);
@@ -199,8 +158,8 @@ void RigidBody2d::onCollision(CollisionData hit)
 			v1Prime.y = partA * v1.y + partB * v2.y;
 		}
 
-		float KEX = .5*mass*v1Prime.getX()*v1Prime.getX();
-		float KEY = .5*mass*v1Prime.getY()*v1Prime.getY();
+		float KEX = .5f*mass*v1Prime.getX()*v1Prime.getX();
+		float KEY = .5f*mass*v1Prime.getY()*v1Prime.getY();
 		float stoppingDistance = 2;
 
 		Vector2 newForce;
@@ -225,12 +184,17 @@ void RigidBody2d::onCollision(CollisionData hit)
 			reflectedForce.y = -velocitySigny * newForce.y;
 		}
 		SavedVelocity = v1Prime;
-		SavedForce = reflectedForce;
-		
+		SavedForce = reflectedForce;		
 	}
 
 
 
+}
+
+
+
+void RigidBody2d::onCollideSimpleReflect(CollisionData hit)
+{
 }
 
 Vector2 RigidBody2d::getTotalCurrentForce()

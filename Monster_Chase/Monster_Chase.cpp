@@ -22,6 +22,7 @@
 #include "Components/PlayerController.h"
 #include "RigidBody2d.h"
 #include "Physics/AABB.h"
+#include "BallController.h"
 #pragma endregion
 
 #pragma region JSON
@@ -99,7 +100,7 @@ void CreateAndSaveGameObjects(GameScene& Scene)
 
 void nonEngineJsonCallBack(SmartPointer<GameObject> obj, json j, std::map<std::string, Component*>& dependencies)
 {
-	if (j.contains("PlayerController"))
+	/*if (j.contains("PlayerController"))
 	{
 		json j2 = j["PlayerController"];
 		float forceMagnitude = j2["forceMagnitude"];
@@ -124,7 +125,7 @@ void nonEngineJsonCallBack(SmartPointer<GameObject> obj, json j, std::map<std::s
 		json j2 = j["Walker"];
 		Walker* walkComp = new Walker(j2["speed"]);
 		obj->addComponent(walkComp);
-	}
+	}*/
 }
 
 void loadGameObjects(GameScene& Scene, const char* jsonPath)
@@ -144,23 +145,105 @@ void loadPongScene(GameScene& Scene)
 	SmartPointer<GameObject> player2 = Scene.CreateGameObject();
 	SmartPointer<GameObject> ball = Scene.CreateGameObject();
 
+	SmartPointer<GameObject> barrierTop = Scene.CreateGameObject();
+	SmartPointer<GameObject> barrierBottom = Scene.CreateGameObject();
+
 	player1->name->fromCharArray("Player1");
-	player1->addComponent(new SpriteRenderer("data\\bumper.dds"));
+	player1->addComponent(new SpriteRenderer("data\\bumperL.dds"));
 
 	player2->name->fromCharArray("Player1");
-	player2->addComponent(new SpriteRenderer("data\\bumper.dds"));
+	player2->addComponent(new SpriteRenderer("data\\bumperR.dds"));
 
 	ball->name->fromCharArray("Ball");
 	ball->addComponent(new SpriteRenderer("data\\ball.dds"));
+
+	barrierTop->name->fromCharArray("TopWall");
+	barrierTop->addComponent(new SpriteRenderer("data\\barrier.dds"));
+
+	barrierBottom->name->fromCharArray("BottomWall");
+	barrierBottom->addComponent(new SpriteRenderer("data\\barrier.dds"));
+
 
 	Vector2 playerOffset(350, 0);
 	Vector2 ballOffset(0, 0);
 
 	player1->position = -playerOffset+ Vector2(0,-64);
-	player2->position = playerOffset + Vector2(0, 64);
-	ball->position = 0, 0;
+	player2->position = playerOffset + Vector2(0, -64);
+	ball->position = 0, 0;	
+	barrierTop->position = Vector2(0, 268);
+	barrierBottom->position = Vector2(0, -300);
 
-	player2->rotation = 180;
+	RigidBody2d* rbP1 = new RigidBody2d();
+	RigidBody2d* rbP2 = new RigidBody2d();
+	RigidBody2d* rbBall = new RigidBody2d();
+
+	RigidBody2d* rbWallTop = new RigidBody2d();
+	RigidBody2d* rbWallBottom = new RigidBody2d();
+
+	rbP1->mass = 10;
+	rbP1->drag = .6f;
+	rbP1->minGroundingSpeed = .01f;
+	rbP1->canCollide = false;
+
+	rbP2->mass = 10;
+	rbP2->drag = .6f;
+	rbP2->minGroundingSpeed = .01f;
+	rbP2->canCollide = false;
+
+	rbBall->mass = 5;
+	rbBall->drag = .2f;
+	rbBall->minGroundingSpeed = .01f;
+	rbBall->addForce(Vector2(.007f, .001f));
+
+	rbWallTop->mass = 5000;
+	rbWallTop->drag = 1.0f;
+	rbWallTop->minGroundingSpeed = 10.0f;
+	rbWallTop->canCollide = false;
+	
+	rbWallBottom->mass = 5000;
+	rbWallBottom->drag = 1.0f;
+	rbWallBottom->minGroundingSpeed = 10.0f;
+	rbWallBottom->canCollide = false;
+	
+	float moveforce = .01f;
+	PlayerController* pc1 = new PlayerController(moveforce, InputManager::W, InputManager::S);
+	PlayerController* pc2 = new PlayerController(moveforce, InputManager::I, InputManager::K);
+	
+	BallController* bc = new BallController();
+
+
+
+	AABB* ballBB = new AABB(0, 32, 32, 32);
+	AABB* player1BB = new AABB(0, 64, 32, 64);
+	AABB* player2BB = new AABB(0, 64, 32, 64);
+	AABB* wallTopBB = new AABB(0, 16, 400, 16);
+	AABB* wallBotBB = new AABB(0, 16, 400, 16);
+
+	pc1->rb = rbP1;
+	pc2->rb = rbP2;
+	bc->rb = rbBall;
+
+	rbBall->onCollideCallback = &RigidBody2d::onCollideSimpleReflect;
+
+
+	player1->addComponent(rbP1);
+	player2->addComponent(rbP2);
+	ball->addComponent(rbBall);
+
+	barrierTop->addComponent(rbWallTop);
+	barrierBottom->addComponent(rbWallBottom);
+
+	player1->addComponent(pc1);
+	player2->addComponent(pc2);
+	ball->addComponent(bc);
+
+	player1->addComponent(player1BB);
+	player2->addComponent(player2BB);
+	ball->addComponent(ballBB);
+	barrierTop->addComponent(wallTopBB);
+	barrierBottom->addComponent(wallBotBB);
+	
+
 }
 
 void loadCollisionScene(GameScene& Scene)
@@ -177,8 +260,8 @@ void loadCollisionScene(GameScene& Scene)
 
 	
 	Vector2 CollisionForce;
-	CollisionForce.x = .05;
-	CollisionForce.y = .01;
+	CollisionForce.x = .05f;
+	CollisionForce.y = .01f;
 
 	RigidBody2d* rb = new RigidBody2d();
 	rb->mass = 10;
@@ -198,7 +281,7 @@ void loadCollisionScene(GameScene& Scene)
 
 	rb2->addForce(-CollisionForce);
 	rb->addForce(CollisionForce);
-	rb3->addForce(Vector2(0,.1));
+	rb3->addForce(Vector2(0,.1f));
 
 	player->addComponent(rb);	
 	player2->addComponent(rb3);

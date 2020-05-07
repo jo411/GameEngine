@@ -23,7 +23,7 @@ public:
 	void addImpulse(const Vector2& i_force);	
 	void clearForces();	
 
-	void onCollision(CollisionData hit);
+	void onCollision(CollisionData& hit);
 	void(*onCollideCallback)(CollisionData) = nullptr;
 
 	const Vector2& getVelocity() { return velocity; }//return the last calculated velocity
@@ -31,6 +31,7 @@ public:
 	static const std::string tag; 
 	virtual const std::string& getTag() { return tag; }
 	
+	static void onCollideSimpleReflect(CollisionData hit);
 
 private: 
 	Vector2 getTotalCurrentForce();

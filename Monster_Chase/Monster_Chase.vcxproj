@@ -171,6 +171,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BallController.h" />
     <ClInclude Include="Components\Talker.h" />
     <ClInclude Include="Components\PlayerController.h" />
     <ClInclude Include="Components\randomPosition.h" />
@@ -178,12 +179,15 @@
     <ClInclude Include="Components\Spawner.h" />
     <ClInclude Include="Components\RottingEntity.h" />
     <ClInclude Include="Components\TargetFollow.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Person.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BallController.cpp" />
     <ClCompile Include="Components\PlayerController.cpp" />
     <ClCompile Include="Components\randomPosition.cpp" />
     <ClCompile Include="Components\RottingEntity.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Monster_Chase.cpp" />
     <ClCompile Include="Components\Talker.cpp" />
     <ClCompile Include="Components\Walker.cpp" />

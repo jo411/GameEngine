@@ -7,7 +7,6 @@
 #include "RigidBody2d.h"
 #include "Physics/CollisionHandler.h"
 #include "Physics/AABB.h"
-//TODO: actually use the rule of three
 
 //Constructs the scene and allocates lists for all the dynamic memory needed
 GameScene::GameScene()
@@ -149,7 +148,7 @@ void GameScene::checkCollision(UpdateParams * params)
 	}
 	if (physObjs.size() > 1)
 	{
-		CollisionHandler::checkAllObjectsForCollision(physObjs, params->deltaTime);
+		CollisionHandler::checkAllObjectsForCollision(physObjs, (float)params->deltaTime);
 	}
 	
 }
