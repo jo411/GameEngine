@@ -193,7 +193,7 @@ void loadPongScene(GameScene& Scene)
 	rbBall->mass = 1.0f;
 	rbBall->drag = .2f;
 	rbBall->minGroundingSpeed = .01f;
-	rbBall->addForce(Vector2(.007f, .00f));
+	
 
 	rbWallTop->mass = 1.0f;
 	rbWallTop->drag = 1.0f;
@@ -206,6 +206,7 @@ void loadPongScene(GameScene& Scene)
 	rbWallBottom->canCollide = false;
 	
 	float moveforce = .01f;
+
 	PlayerController* pc1 = new PlayerController(moveforce, InputManager::W, InputManager::S);
 	PlayerController* pc2 = new PlayerController(moveforce, InputManager::I, InputManager::K);
 	
@@ -243,7 +244,7 @@ void loadPongScene(GameScene& Scene)
 	barrierTop->addComponent(wallTopBB);
 	barrierBottom->addComponent(wallBotBB);
 	
-
+	bc->launch();
 }
 
 void loadCollisionScene(GameScene& Scene)
