@@ -138,6 +138,30 @@ void initEngine()
 	Engine::JobSystem::CreateQueue("Default", 2);
 }
 
+void loadPongScene(GameScene& Scene)
+{
+	SmartPointer<GameObject> player1 = Scene.CreateGameObject();
+	SmartPointer<GameObject> player2 = Scene.CreateGameObject();
+	SmartPointer<GameObject> ball = Scene.CreateGameObject();
+
+	player1->name->fromCharArray("Player1");
+	player1->addComponent(new SpriteRenderer("data\\bumper.dds"));
+
+	player2->name->fromCharArray("Player1");
+	player2->addComponent(new SpriteRenderer("data\\bumper.dds"));
+
+	ball->name->fromCharArray("Ball");
+	ball->addComponent(new SpriteRenderer("data\\ball.dds"));
+
+	Vector2 playerOffset(350, 0);
+	Vector2 ballOffset(0, 0);
+
+	player1->position = -playerOffset+ Vector2(0,-64);
+	player2->position = playerOffset + Vector2(0, 64);
+	ball->position = 0, 0;
+
+	player2->rotation = 180;
+}
 
 void loadCollisionScene(GameScene& Scene)
 {
@@ -296,7 +320,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		}
 		, "Default");	*/	
 		
-		loadCollisionScene(Scene);
+		loadPongScene(Scene);
 
 		if (bSuccess)
 		{
@@ -328,7 +352,8 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 					Scene.draw(&updateParams);//draw the scene
 
 					GLib::Sprites::EndRendering();
-					GLib::EndRendering();					
+					GLib::EndRendering();
+					
 
 					updateParams.deltaTime = gameTimer.GetCounter();//get last frame time	
 					
