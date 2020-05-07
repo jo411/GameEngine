@@ -2,7 +2,7 @@
 #include "InputManager.h"
 #include "GameObject.h"
 #include "RigidBody2d.h"
-const std::string RigidBody2d::tag = "playercontroller";
+const std::string PlayerController::tag = "playercontroller";
 PlayerController::PlayerController(float i_forceMagnitude, InputManager::Key i_up, InputManager::Key i_down)
 {
 	forceMagnitude = i_forceMagnitude;

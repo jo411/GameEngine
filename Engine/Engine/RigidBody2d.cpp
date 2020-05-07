@@ -70,9 +70,9 @@ void RigidBody2d::physicsUpdate(UpdateParams * params)
 
 void RigidBody2d::refresh()
 {
-	clearForces();
-	velocity = SavedVelocity;	
-	addForce(SavedForce);	
+		clearForces();
+		velocity = SavedVelocity;
+		addForce(SavedForce);	
 }
 
 void RigidBody2d::draw(UpdateParams * params)
@@ -112,14 +112,9 @@ void RigidBody2d::Serialize(json & j)
 void RigidBody2d::onCollision(CollisionData& hit)
 {
 	if (!canCollide) { return; }
-	
-	if (onCollideCallback)
-	{
-		(*onCollideCallback)(hit);
-	}
-	else
-	{
 
+	if (physicsType == 0)//full conservation
+	{
 		float m1;
 		float m2;
 
@@ -137,7 +132,7 @@ void RigidBody2d::onCollision(CollisionData& hit)
 			float partA = (m1 - m2) / (m1 + m2);
 			float partB = (2 * m2) / (m1 + m2);
 
-			v1Prime.x = partA * v1.x + partB * v2.x;			
+			v1Prime.x = partA * v1.x + partB * v2.x;
 
 			v1Prime.y = partA * v1.y + partB * v2.y;
 
@@ -153,7 +148,7 @@ void RigidBody2d::onCollision(CollisionData& hit)
 			float partA = (2 * m1) / (m1 + m2);
 			float partB = (m2 - m1) / (m1 + m2);
 
-			v1Prime.x = partA * v1.x + partB*v2.x;
+			v1Prime.x = partA * v1.x + partB * v2.x;
 
 			v1Prime.y = partA * v1.y + partB * v2.y;
 		}
@@ -179,23 +174,85 @@ void RigidBody2d::onCollision(CollisionData& hit)
 			reflectedForce.y = velocitySigny * newForce.y;
 		}
 		else
-		{			
+		{
 			reflectedForce.x = velocitySignx * newForce.x;
 			reflectedForce.y = -velocitySigny * newForce.y;
 		}
 		SavedVelocity = v1Prime;
-		SavedForce = reflectedForce;		
+		SavedForce = reflectedForce;
+
 	}
+	else if (physicsType == 1)//simple pure reflection
+	{
+		RigidBody2d* rbOther;
+		if (hit.A == gameObject)
+		{
+			rbOther = dynamic_cast<RigidBody2d*>(hit.B->getComponent(RigidBody2d::tag).getRawPointer());
+		}
+		else
+		{
+			rbOther = dynamic_cast<RigidBody2d*>(hit.A->getComponent(RigidBody2d::tag).getRawPointer());
+		}
 
+		Vector2 reflectedForce;
 
+		Vector2 newForce = Vector2(abs(force.x), abs(force.y));
 
+		int velocitySignx = signbit(force.x) ? -1 : 1;
+		int velocitySigny = signbit(force.y) ? -1 : 1;
+		if (Floats::isZero(hit.CollisionAxis.X()))
+		{
+
+			reflectedForce.x = -velocitySignx * newForce.x;
+			reflectedForce.y = velocitySigny * newForce.y;
+		}
+		else
+		{
+			reflectedForce.x = velocitySignx * newForce.x;
+			reflectedForce.y = -velocitySigny * newForce.y;
+		}
+		float additionalForce = .1f*rbOther->force.y;
+
+		SavedVelocity = Vector2(0, 0);
+		SavedForce = reflectedForce + Vector2(0, additionalForce);
+
+	}
 }
+
 
 
 
 void RigidBody2d::onCollideSimpleReflect(CollisionData hit)
 {
+	RigidBody2d* rb = dynamic_cast<RigidBody2d*>(hit.A->getComponent(RigidBody2d::tag).getRawPointer());
+	RigidBody2d* rbOther = dynamic_cast<RigidBody2d*>(hit.B->getComponent(RigidBody2d::tag).getRawPointer());
+	RigidBody2d* collider = nullptr;
+	if (rb->canCollide)
+	{
+		collider = rb;
+		Vector2 reflectedForce;
+
+		Vector2 newForce = collider->velocity;
+
+		int velocitySignx = signbit(collider->velocity.x) ? -1 : 1;
+		int velocitySigny = signbit(collider->velocity.y) ? -1 : 1;
+		if (Floats::isZero(hit.CollisionAxis.X()))
+		{
+
+			reflectedForce.x = -velocitySignx * newForce.x;
+			reflectedForce.y = velocitySigny * newForce.y;
+		}
+		else
+		{
+			reflectedForce.x = velocitySignx * newForce.x;
+			reflectedForce.y = -velocitySigny * newForce.y;
+		}
+		collider->SavedVelocity = Vector2(0, 0);
+		collider->SavedForce = reflectedForce;
+	}
 }
+	
+	
 
 Vector2 RigidBody2d::getTotalCurrentForce()
 {

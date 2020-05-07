@@ -1,6 +1,6 @@
 #include "BallController.h"
 #include "../Engine/Physics/CollisionHandler.h"
-const std::string RigidBody2d::tag = "ballcontroller";
+const std::string BallController::tag = "ballcontroller";
 BallController::BallController()
 {
 }

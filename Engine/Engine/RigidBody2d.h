@@ -10,6 +10,7 @@ public:
 	bool canCollide = true;
 	void physicsUpdate(UpdateParams* params);
 	void refresh();//refresh all values without moving the rigidbody.
+	int physicsType = 0;
 
 	void draw(UpdateParams* params);
 	void onAddToObject();
@@ -31,7 +32,7 @@ public:
 	static const std::string tag; 
 	virtual const std::string& getTag() { return tag; }
 	
-	static void onCollideSimpleReflect(CollisionData hit);
+	void onCollideSimpleReflect(CollisionData hit);
 
 private: 
 	Vector2 getTotalCurrentForce();

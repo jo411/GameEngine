@@ -14,7 +14,7 @@ public:
 	RigidBody2d* rb;//the rigid body to control
 	float timeToApplyForce;
 	float forceTimer;//how many miliseconds to apply force for
-	void Serialize(json & j);
+	void Serialize(json & j);	
 	static const std::string tag;
 	virtual const std::string& getTag() { return tag; }
 

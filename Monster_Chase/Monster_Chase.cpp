@@ -151,7 +151,7 @@ void loadPongScene(GameScene& Scene)
 	player1->name->fromCharArray("Player1");
 	player1->addComponent(new SpriteRenderer("data\\bumperL.dds"));
 
-	player2->name->fromCharArray("Player1");
+	player2->name->fromCharArray("Player2");
 	player2->addComponent(new SpriteRenderer("data\\bumperR.dds"));
 
 	ball->name->fromCharArray("Ball");
@@ -180,27 +180,27 @@ void loadPongScene(GameScene& Scene)
 	RigidBody2d* rbWallTop = new RigidBody2d();
 	RigidBody2d* rbWallBottom = new RigidBody2d();
 
-	rbP1->mass = 10;
+	rbP1->mass = 1.0f;
 	rbP1->drag = .6f;
 	rbP1->minGroundingSpeed = .01f;
 	rbP1->canCollide = false;
 
-	rbP2->mass = 10;
+	rbP2->mass = 1.0f;
 	rbP2->drag = .6f;
 	rbP2->minGroundingSpeed = .01f;
 	rbP2->canCollide = false;
 
-	rbBall->mass = 5;
+	rbBall->mass = 1.0f;
 	rbBall->drag = .2f;
 	rbBall->minGroundingSpeed = .01f;
-	rbBall->addForce(Vector2(.007f, .001f));
+	rbBall->addForce(Vector2(.007f, .00f));
 
-	rbWallTop->mass = 5000;
+	rbWallTop->mass = 1.0f;
 	rbWallTop->drag = 1.0f;
 	rbWallTop->minGroundingSpeed = 10.0f;
 	rbWallTop->canCollide = false;
 	
-	rbWallBottom->mass = 5000;
+	rbWallBottom->mass = 1.0f;
 	rbWallBottom->drag = 1.0f;
 	rbWallBottom->minGroundingSpeed = 10.0f;
 	rbWallBottom->canCollide = false;
@@ -223,7 +223,7 @@ void loadPongScene(GameScene& Scene)
 	pc2->rb = rbP2;
 	bc->rb = rbBall;
 
-	rbBall->onCollideCallback = &RigidBody2d::onCollideSimpleReflect;
+	rbBall->physicsType = 1;
 
 
 	player1->addComponent(rbP1);
