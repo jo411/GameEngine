@@ -251,6 +251,12 @@ void RigidBody2d::onCollideSimpleReflect(CollisionData hit)
 		collider->SavedForce = reflectedForce;
 	}
 }
+
+void RigidBody2d::freeze()
+{
+	clearForces();
+	velocity = Vector2(0, 0);
+}
 	
 	
 

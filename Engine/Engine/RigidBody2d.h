@@ -33,7 +33,7 @@ public:
 	virtual const std::string& getTag() { return tag; }
 	
 	void onCollideSimpleReflect(CollisionData hit);
-
+	void freeze();//Stop everything on this object
 private: 
 	Vector2 getTotalCurrentForce();
 	Vector2 prevPosition;
