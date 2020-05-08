@@ -1,7 +1,7 @@
 #define _USE_MATH_DEFINES
 #include "Matrix4.h"
 #include <cmath>
-#include "../Floats.h"
+#include "Math/Floats.h"
 Matrix4::Matrix4()
 {
 	(*this) = Identity();
@@ -60,7 +60,7 @@ const bool Matrix4::operator==(const Matrix4 & M) const
 		for (unsigned int col = 0; col < 4; col++)
 		{
 			
-			if (!(Floats::RelativeEpsilonEqual(m[row][col], M(row, col), .000001)))
+			if (!(Floats::RelativeEpsilonEqual(m[row][col], M(row, col), .000001f)))
 			{
 				return false;
 			}
@@ -120,7 +120,7 @@ Matrix4 Matrix4::createScale(float x, float y, float z)
 
 Matrix4 Matrix4::createRotationX(float theta)
 {
-	theta = theta * M_PI/180;
+	theta = theta * (float)(M_PI/180);
 	return Matrix4
 	(
 		1.0f,	0,			0,		0,
@@ -132,7 +132,7 @@ Matrix4 Matrix4::createRotationX(float theta)
 
 Matrix4 Matrix4::createRotationY(float theta)
 {
-	theta = theta * M_PI / 180;
+	theta = theta * (float)(M_PI / 180);
 	return Matrix4
 	(
 		cos(theta), 0,sin(theta),	0,
@@ -144,7 +144,7 @@ Matrix4 Matrix4::createRotationY(float theta)
 
 Matrix4 Matrix4::createRotationZ(float theta)
 {
-	theta = theta * M_PI / 180;
+	theta = theta * (float)(M_PI / 180);
 	return Matrix4
 	(
 		cos(theta), -sin(theta),0,		0,

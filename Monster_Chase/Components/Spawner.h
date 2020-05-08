@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "Entity Component System/Component/Component.h"
 //This component will spawn creaters at its location at a configurable rate
 class Spawner : public Component
 {

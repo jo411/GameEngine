@@ -1,6 +1,6 @@
 #pragma once
-#include "GameObject.h"
-#include "RigidBody2d.h"
+#include "Entity Component System/GameObject/GameObject.h"
+#include "Physics/RigidBody2d/RigidBody2d.h"
 //This component allows for keyboard input to move a Game Object
 class PlayerController: public Component
 {

@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include <map>
 
-#include "..\ConsolePrint.h"
+#include "DebugTools/ConsolePrint.h"
 #include "..\HashedString\HashedString.h"
 
 #include "JobRunner.h"

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "Vector2.h"
-#include "Floats.h"
+#include "Math/Vector2.h"
+#include "Math/Floats.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include"Math/Matrix4.h"

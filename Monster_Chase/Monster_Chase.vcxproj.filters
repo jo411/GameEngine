@@ -36,20 +36,14 @@
     <ClInclude Include="Components\TargetFollow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Person.h">
+    <ClInclude Include="Components\BallController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BallController.h">
+    <ClInclude Include="Components\GameManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Monster_Chase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Components\Talker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -71,13 +65,13 @@
     <ClCompile Include="Components\TargetFollow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Person.cpp">
+    <ClCompile Include="Pong.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
+    <ClCompile Include="Components\BallController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BallController.cpp">
+    <ClCompile Include="Components\GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

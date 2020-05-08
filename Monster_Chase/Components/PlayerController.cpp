@@ -1,7 +1,7 @@
 #include "PlayerController.h"
-#include "InputManager.h"
-#include "GameObject.h"
-#include "RigidBody2d.h"
+#include "Input/InputManager.h"
+#include "Entity Component System/GameObject/GameObject.h"
+#include "Physics/RigidBody2d/RigidBody2d.h"
 const std::string PlayerController::tag = "playercontroller";
 PlayerController::PlayerController(float i_forceMagnitude, InputManager::Key i_up, InputManager::Key i_down)
 {

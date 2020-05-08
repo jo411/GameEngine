@@ -91,7 +91,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GLib;$(SolutionDir)Engine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -111,7 +111,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GLib;$(SolutionDir)Engine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -133,7 +133,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GLib;$(SolutionDir)Engine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -157,7 +157,7 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GLib;$(SolutionDir)Engine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -171,72 +171,72 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Physics\CollisionHandler.h" />
-    <ClInclude Include="Physics\AABB.h" />
-    <ClInclude Include="Allocators.h" />
-    <ClInclude Include="BitArray.h" />
-    <ClInclude Include="CombinedAllocators.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="ConsolePrint.h" />
-    <ClInclude Include="FixedSizeAllocator.h" />
-    <ClInclude Include="Floats.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameScene.h" />
+    <ClInclude Include="Physics\Collision\CollisionHandler.h" />
+    <ClInclude Include="Physics\AABB\AABB.h" />
+    <ClInclude Include="Memory\Allocators.h" />
+    <ClInclude Include="Memory\BitArray.h" />
+    <ClInclude Include="Memory\CombinedAllocators.h" />
+    <ClInclude Include="Entity Component System\Component\Component.h" />
+    <ClInclude Include="DebugTools\ConsolePrint.h" />
+    <ClInclude Include="Memory\FixedSizeAllocator.h" />
+    <ClInclude Include="Math\Floats.h" />
+    <ClInclude Include="Entity Component System\GameObject\GameObject.h" />
+    <ClInclude Include="Entity Component System\Game Scene\GameScene.h" />
     <ClInclude Include="HashedString\HashedString-inl.h" />
     <ClInclude Include="HashedString\HashedString.h" />
-    <ClInclude Include="HighResolutionTimer.h" />
-    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Synchronization\HighResolutionTimer.h" />
+    <ClInclude Include="Input\InputManager.h" />
     <ClInclude Include="Job System\INamed.h" />
     <ClInclude Include="Job System\JobSystem.h" />
     <ClInclude Include="Job System\JobRunner.h" />
-    <ClInclude Include="JsonHandler.h" />
-    <ClInclude Include="ListPointer.h" />
+    <ClInclude Include="Json\JsonHandler.h" />
+    <ClInclude Include="DataStructures\Lists\ListPointer.h" />
     <ClInclude Include="Math\Matrix4.h" />
     <ClInclude Include="Synchronization\Mutex.h" />
-    <ClInclude Include="MyMalloc.h" />
-    <ClInclude Include="RefCounter.h" />
-    <ClInclude Include="RigidBody2d.h" />
+    <ClInclude Include="Memory\MyMalloc.h" />
+    <ClInclude Include="DataStructures\Pointer\RefCounter.h" />
+    <ClInclude Include="Physics\RigidBody2d\RigidBody2d.h" />
     <ClInclude Include="Job System\SharedJobQueue.h" />
     <ClInclude Include="Synchronization\ScopeLock.h" />
-    <ClInclude Include="SimpleString.h" />
-    <ClInclude Include="SmartPointer.h" />
-    <ClInclude Include="SpriteRenderer.h" />
-    <ClInclude Include="SpriteSystem.h" />
+    <ClInclude Include="DataStructures\Strings\SimpleString.h" />
+    <ClInclude Include="DataStructures\Pointer\SmartPointer.h" />
+    <ClInclude Include="Rendering\RenderingComponent\SpriteRenderer.h" />
+    <ClInclude Include="Rendering\SpriteSystem.h" />
     <ClInclude Include="Synchronization\WaitableObject.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="UpdateParams.h" />
-    <ClInclude Include="Vector2.h" />
+    <ClInclude Include="Entity Component System\Misc data structures\UpdateParams.h" />
+    <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector4.h" />
-    <ClInclude Include="WeakPointer.h" />
+    <ClInclude Include="DataStructures\Pointer\WeakPointer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Physics\CollisionHandler.cpp" />
-    <ClCompile Include="Physics\AABB.cpp" />
-    <ClCompile Include="Allocators.cpp" />
-    <ClCompile Include="BitArray.cpp" />
-    <ClCompile Include="CombinedAllocators.cpp" />
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="ConsolePrint.cpp" />
-    <ClCompile Include="FixedSizeAllocator.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="Physics\Collision\CollisionHandler.cpp" />
+    <ClCompile Include="Physics\AABB\AABB.cpp" />
+    <ClCompile Include="Memory\Allocators.cpp" />
+    <ClCompile Include="Memory\BitArray.cpp" />
+    <ClCompile Include="Memory\CombinedAllocators.cpp" />
+    <ClCompile Include="Entity Component System\Component\Component.cpp" />
+    <ClCompile Include="DebugTools\ConsolePrint.cpp" />
+    <ClCompile Include="Memory\FixedSizeAllocator.cpp" />
+    <ClCompile Include="Entity Component System\GameObject\GameObject.cpp" />
+    <ClCompile Include="Entity Component System\Game Scene\GameScene.cpp" />
     <ClCompile Include="HashedString\HashedString.cpp" />
-    <ClCompile Include="HighResolutionTimer.cpp" />
-    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Synchronization\HighResolutionTimer.cpp" />
+    <ClCompile Include="Input\InputManager.cpp" />
     <ClCompile Include="Job System\JobSystem.cpp" />
     <ClCompile Include="Job System\JobRunner.cpp" />
-    <ClCompile Include="JsonHandler.cpp" />
-    <ClCompile Include="ListPointer.cpp" />
+    <ClCompile Include="Json\JsonHandler.cpp" />
+    <ClCompile Include="DataStructures\Lists\ListPointer.cpp" />
     <ClCompile Include="Math\Matrix4.cpp" />
     <ClCompile Include="Synchronization\Mutex.cpp" />
-    <ClCompile Include="MyMalloc.cpp" />
-    <ClCompile Include="RigidBody2d.cpp" />
+    <ClCompile Include="Memory\MyMalloc.cpp" />
+    <ClCompile Include="Physics\RigidBody2d\RigidBody2d.cpp" />
     <ClCompile Include="Job System\SharedJobQueue.cpp" />
-    <ClCompile Include="SimpleString.cpp" />
-    <ClCompile Include="SpriteRenderer.cpp" />
-    <ClCompile Include="SpriteSystem.cpp" />
-    <ClCompile Include="UpdateParams.cpp" />
-    <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="DataStructures\Strings\SimpleString.cpp" />
+    <ClCompile Include="Rendering\RenderingComponent\SpriteRenderer.cpp" />
+    <ClCompile Include="Rendering\SpriteSystem.cpp" />
+    <ClCompile Include="Entity Component System\Misc data structures\UpdateParams.cpp" />
+    <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
   </ItemGroup>
   <ItemGroup>

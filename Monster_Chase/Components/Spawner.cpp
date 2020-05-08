@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Spawner.h"
-#include "GameObject.h"
-#include "GameScene.h"
+#include "Entity Component System/GameObject/GameObject.h"
+#include "Entity Component System/Game Scene/GameScene.h"
 #include "Talker.h"
 #include "Spawner.h"
 #include "Walker.h"

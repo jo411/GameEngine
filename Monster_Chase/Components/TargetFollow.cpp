@@ -1,5 +1,5 @@
 #include "TargetFollow.h"
-#include "Vector2.h"
+#include "Math/Vector2.h"
 
 
 TargetFollow::TargetFollow(int moveSpeed, GameObject* target)

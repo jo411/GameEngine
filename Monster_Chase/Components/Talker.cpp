@@ -1,5 +1,5 @@
 #include "Talker.h"
-#include "GameObject.h"
+#include "Entity Component System/GameObject/GameObject.h"
 #include <iostream>
 Talker::Talker()
 {

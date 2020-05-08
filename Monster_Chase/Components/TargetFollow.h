@@ -1,6 +1,6 @@
 #pragma once
-#include "Component.h"
-#include "GameObject.h"
+#include "Entity Component System/Component/Component.h"
+#include "Entity Component System/GameObject/GameObject.h"
 class TargetFollow : public Component
 {
 public:

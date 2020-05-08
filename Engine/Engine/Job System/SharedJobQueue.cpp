@@ -2,7 +2,7 @@
 
 #include <assert.h>
 
-#include "../ConsolePrint.h"
+#include "DebugTools/ConsolePrint.h"
 
 namespace Engine
 {

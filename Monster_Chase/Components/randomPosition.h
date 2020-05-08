@@ -1,6 +1,6 @@
 #pragma once
-#include "GameObject.h"
-#include "Component.h"
+#include "Entity Component System/GameObject/GameObject.h"
+#include "Entity Component System/Component/Component.h"
 //This component starts a GameObject at a random location 
 class randomPosition : public Component
 {
