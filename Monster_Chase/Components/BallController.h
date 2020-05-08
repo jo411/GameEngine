@@ -4,7 +4,7 @@
 class BallController : public Component
 {
 public:
-	BallController();
+	BallController(float i_speedX, float i_speedY);
 	~BallController();
 
 	void update(UpdateParams* params);

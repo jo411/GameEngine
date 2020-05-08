@@ -33,4 +33,7 @@ void AABB::onAddToObject()
 {
 }
 
-
+void AABB::Serialize(json & j)
+{
+	j["AABB"] = { {"EX",Extents.x},{"EY", Extents.y},{"CX",Center.x },{"CY",Center.y}};
+}

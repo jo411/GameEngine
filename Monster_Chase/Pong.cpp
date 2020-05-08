@@ -55,56 +55,17 @@ using namespace std::placeholders;
 //Josh Nelson
 //u0936149
 
-
-//Only used to create initial json objects
-void CreateAndSaveGameObjects(GameScene& Scene)
-{
-	////Create game objects for the scene
-	//SmartPointer<GameObject> player = Scene.CreateGameObject();
-	//player->name->fromCharArray("Player");
-	//player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
-
-	//RigidBody2d* rb = new RigidBody2d();
-	//rb->mass = 10;
-	//rb->drag = .8f;
-	//rb->minGroundingSpeed = .01f;
-
-	//player->addComponent(rb);
-
-	//PlayerController* pc = new PlayerController(.01f);
-	//pc->timeToApplyForce = 1000.0f;
-	//pc->rb = rb;//This is really bad but I couldnt get a template function for getComponent<type> working
-	//player->addComponent(pc);
-
-	//SmartPointer<GameObject> enemy = Scene.CreateGameObject();
-	//enemy->name->fromCharArray("Enemy");
-	//enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));
-	//enemy->addComponent(new randomPosition(50, 50));
-	//enemy->addComponent(new Walker(1));
-
-	//json j;
-	//std::ofstream myfile;
-
-	//enemy->Serialize(j);	
-	//myfile.open("Data/Json/enemy.json");
-	//myfile << j;
-	//myfile.close();	
-
-	//j.clear();
-	//player->Serialize(j);
-	//myfile.open("Data/Json/player.json");
-	//myfile << j;
-	//myfile.close();
-}
-
 void nonEngineJsonCallBack(SmartPointer<GameObject> obj, json j, std::map<std::string, Component*>& dependencies)
 {
-	/*if (j.contains("PlayerController"))
+	if (j.contains("PlayerController"))
 	{
 		json j2 = j["PlayerController"];
 		float forceMagnitude = j2["forceMagnitude"];
 		float timeToApplyForce = j2["timeToApplyForce"];
-		PlayerController* pc = new PlayerController(forceMagnitude);
+		InputManager::Key downKey = j2["downKey"];
+		InputManager::Key upKey = j2["upKey"];
+
+		PlayerController* pc = new PlayerController(forceMagnitude,upKey,downKey);
 		pc->timeToApplyForce = timeToApplyForce;
 		pc->rb = dynamic_cast<RigidBody2d*>(dependencies.at("RigidBody2d"));
 		obj->addComponent(pc);
@@ -112,19 +73,33 @@ void nonEngineJsonCallBack(SmartPointer<GameObject> obj, json j, std::map<std::s
 		dependencies.emplace("PlayerController", pc);
 	}
 
-	if (j.contains("RandomPosition"))
+	if (j.contains("GameManager"))
 	{
-		json j2 = j["RandomPosition"];
-		randomPosition* rp = new randomPosition(j2["xRange"], j2["yRange"]);
-		obj->addComponent(rp);
-	}
+		json j2 = j["GameManager"];
+		float timeToReset = j2["timeToReset"];
+		float screenWidth = j2["screenWidth"];
 
-	if (j.contains("Walker"))
+		GameManager* GM = new GameManager(timeToReset, screenWidth);
+
+		dependencies.emplace("GameManager", GM);
+
+		obj->addComponent(GM);
+
+	}
+	if (j.contains("BallController"))
 	{
-		json j2 = j["Walker"];
-		Walker* walkComp = new Walker(j2["speed"]);
-		obj->addComponent(walkComp);
-	}*/
+		json j2 = j["BallController"];
+		float speedX = j2["speedX"];
+		float speedY = j2["speedY"];
+
+		BallController* bc = new BallController(speedX,speedY);		
+
+		dependencies.emplace("BallController", bc);
+		bc->rb = dynamic_cast<RigidBody2d*>(dependencies.at("RigidBody2d"));
+
+		obj->addComponent(bc);
+	}
+	
 }
 
 void loadGameObjects(GameScene& Scene, const char* jsonPath)
@@ -132,13 +107,48 @@ void loadGameObjects(GameScene& Scene, const char* jsonPath)
 	Scene.CreateGameObjectFromJsonAsync(jsonPath,nonEngineJsonCallBack);	
 }
 
-//do any setup the engine needs
-void initEngine()
+void loadPongSceneFromFile(GameScene& Scene)
 {
-	Engine::JobSystem::CreateQueue("Default", 2);
+	Engine::JobSystem::RunJob("LoadPlayer1", [&Scene]()
+		{
+			loadGameObjects(Scene, "Data/Json/Pong/p1.json");
+		}
+		, "Default");
+
+	Engine::JobSystem::RunJob("LoadPlayer2", [&Scene]()
+	{
+		loadGameObjects(Scene, "Data/Json/Pong/p2.json");
+	}
+	, "Default");
+
+	Engine::JobSystem::RunJob("LoadBall", [&Scene]()
+	{
+		loadGameObjects(Scene, "Data/Json/Pong/ball.json");
+	}
+	, "Default");
+
+	Engine::JobSystem::RunJob("LoadBarrierTop", [&Scene]()
+	{
+		loadGameObjects(Scene, "Data/Json/Pong/bTop.json");
+	}
+	, "Default");
+
+	Engine::JobSystem::RunJob("LoadBarrierBot", [&Scene]()
+	{
+		loadGameObjects(Scene, "Data/Json/Pong/bBot.json");
+	}
+	, "Default");
+
+	Engine::JobSystem::RunJob("LoadGameManager", [&Scene]()
+	{
+		loadGameObjects(Scene, "Data/Json/Pong/GM.json");
+	}
+	, "Default");
+
 }
 
-void loadPongScene(GameScene& Scene)
+//Not being called. This is only left in for reference on working with the ECS
+void loadAndSavePongScene(GameScene& Scene)
 {
 	SmartPointer<GameObject> player1 = Scene.CreateGameObject();
 	SmartPointer<GameObject> player2 = Scene.CreateGameObject();
@@ -211,9 +221,8 @@ void loadPongScene(GameScene& Scene)
 	float moveforce = .01f;
 
 	PlayerController* pc1 = new PlayerController(moveforce, InputManager::W, InputManager::S);
-	PlayerController* pc2 = new PlayerController(moveforce, InputManager::I, InputManager::K);
-	
-	BallController* bc = new BallController();
+	PlayerController* pc2 = new PlayerController(moveforce, InputManager::I, InputManager::K);	
+	BallController* bc = new BallController(.05f, .001f);
 
 
 
@@ -247,124 +256,49 @@ void loadPongScene(GameScene& Scene)
 	barrierTop->addComponent(wallTopBB);
 	barrierBottom->addComponent(wallBotBB);
 
-	
+	json j;
+	std::ofstream myfile;
+
+	player1->Serialize(j);	
+	myfile.open("Data/Json/Pong/p1.json");
+	myfile << j;
+	myfile.close();	
+
+	j.clear();
+	player2->Serialize(j);
+	myfile.open("Data/Json/Pong/p2.json");
+	myfile << j;
+	myfile.close();
+
+	j.clear();
+	ball->Serialize(j);
+	myfile.open("Data/Json/Pong/ball.json");
+	myfile << j;
+	myfile.close();
+
+	j.clear();
+	barrierTop->Serialize(j);
+	myfile.open("Data/Json/Pong/bTop.json");
+	myfile << j;
+	myfile.close();
+	j.clear();
+
+	barrierBottom->Serialize(j);
+	myfile.open("Data/Json/Pong/bBot.json");
+	myfile << j;
+	myfile.close();
+
+	j.clear();
+	gameManager->Serialize(j);
+	myfile.open("Data/Json/Pong/GM.json");
+	myfile << j;
+	myfile.close();
 }
 
-void loadCollisionScene(GameScene& Scene)
+//do any setup the engine needs
+void initEngine()
 {
-	////Create game objects for the scene
-	SmartPointer<GameObject> player = Scene.CreateGameObject();
-	player->name->fromCharArray("Player");
-	player->addComponent(new SpriteRenderer("data\\pikachu.dds"));
-
-	SmartPointer<GameObject> player2 = Scene.CreateGameObject();
-	player2->name->fromCharArray("Player2");
-	player2->addComponent(new SpriteRenderer("data\\pikachu.dds"));
-
-
-	
-	Vector2 CollisionForce;
-	CollisionForce.x = .05f;
-	CollisionForce.y = .01f;
-
-	RigidBody2d* rb = new RigidBody2d();
-	rb->mass = 10;
-	rb->drag = .6f;
-	rb->minGroundingSpeed = .01f;
-	
-
-	RigidBody2d* rb2 = new RigidBody2d();
-	rb2->mass = 10;
-	rb2->drag = .6f;
-	rb2->minGroundingSpeed = .01f;
-
-	RigidBody2d* rb3 = new RigidBody2d();
-	rb3->mass = 10;
-	rb3->drag = .6f;
-	rb3->minGroundingSpeed = .01f;
-
-	rb2->addForce(-CollisionForce);
-	rb->addForce(CollisionForce);
-	rb3->addForce(Vector2(0,.1f));
-
-	player->addComponent(rb);	
-	player2->addComponent(rb3);
-
-	SmartPointer<GameObject> enemy = Scene.CreateGameObject();
-	enemy->name->fromCharArray("Enemy");
-	enemy->addComponent(new SpriteRenderer("data\\flygon.dds"));	
-
-	enemy->addComponent(rb2);
-
-	Vector2 startPosEnemy(200,0);	
-
-	Vector2 startPosPlayer(-200,0);
-	Vector2 startPosPlayer2(120, -250);
-
-	player2->position = startPosPlayer2;
-	player->position = startPosPlayer;
-	enemy->position = startPosEnemy;
-
-	player->rotation = 0;	
-	enemy->rotation = 0;
-	player2->rotation = 0;
-	
-	Vector2 enemyCenter(0, 94);
-	Vector2 enemyExtents(82, 94);
-
-	AABB* enemyBB = new AABB(enemyCenter.x, enemyCenter.y, enemyExtents.x, enemyExtents.y);
-	AABB* playerBB = new AABB(0, 58, 50, 58);
-	AABB* player2BB = new AABB(0, 58, 50, 58);
-
-	player->addComponent(playerBB);
-	enemy->addComponent(enemyBB);
-	player2->addComponent(player2BB);
-
-	//Draw debug bounding boxes
-	/*Matrix4 enemyToWorld = enemy->ObjectToWorldTransform();
-
-	SmartPointer<GameObject> marker1 = Scene.CreateGameObject();
-	marker1->name->fromCharArray("Marker1");
-	marker1->addComponent(new SpriteRenderer("data\\marker.dds"));
-	
-
-	Vector4 LocalPos(enemyCenter.x - enemyExtents.x, enemyCenter.y + enemyExtents.y, 0, 1);
-	Vector4 transformed = enemyToWorld *LocalPos;
-	marker1->position.x = transformed.X();
-	marker1->position.y = transformed.Y();
-
-	SmartPointer<GameObject> marker2 = Scene.CreateGameObject();
-	marker2->name->fromCharArray("Marker2");
-	marker2->addComponent(new SpriteRenderer("data\\marker.dds"));
-
-	Vector4 LocalPos2(enemyCenter.x + enemyExtents.x, enemyCenter.y + enemyExtents.y, 0, 1);
-	Vector4 transformed2 = enemyToWorld *LocalPos2;
-	marker2->position.x = transformed2.X();
-	marker2->position.y = transformed2.Y();
-
-	SmartPointer<GameObject> marker3 = Scene.CreateGameObject();
-	marker3->name->fromCharArray("Marker3");
-	marker3->addComponent(new SpriteRenderer("data\\marker.dds"));
-
-	Vector4 LocalPos3(enemyCenter.x - enemyExtents.x, enemyCenter.y - enemyExtents.y, 0, 1);
-	Vector4 transformed3 = enemyToWorld *LocalPos3;
-	marker3->position.x = transformed3.X();
-	marker3->position.y = transformed3.Y();
-
-	SmartPointer<GameObject> marker4 = Scene.CreateGameObject();
-	marker4->name->fromCharArray("Marker4");
-	marker4->addComponent(new SpriteRenderer("data\\marker.dds"));
-
-	Vector4 LocalPos4(enemyCenter.x + enemyExtents.x, enemyCenter.y - enemyExtents.y, 0, 1);
-	Vector4 transformed4 = enemyToWorld *LocalPos4;
-	marker4->position.x = transformed4.X();
-	marker4->position.y = transformed4.Y();
-	
-	marker1->rotation = enemy->rotation;
-	marker2->rotation = enemy->rotation;
-	marker3->rotation = enemy->rotation;
-	marker4->rotation = enemy->rotation;*/
-	
+	Engine::JobSystem::CreateQueue("Default", 4);
 }
 //do anything that the engine needs to do for shutdown before unloading
 void shutdownEngine()
@@ -393,21 +327,10 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		GameScene Scene;
 		UpdateParams updateParams;
 		HighResolutionTimer gameTimer;
-		
-		/*Engine::JobSystem::RunJob("LoadPlayer", [&Scene]() 
-		{
-			loadGameObjects(Scene, "Data/Json/player.json");
-		}
-		, "Default");
 
+		//loadAndSavePongScene(Scene);
 
-		Engine::JobSystem::RunJob("LoadEnemy", [&Scene]()
-		{
-			loadGameObjects(Scene, "Data/Json/enemy.json");
-		}
-		, "Default");	*/	
-		
-		loadPongScene(Scene);
+		loadPongSceneFromFile(Scene);
 
 		if (bSuccess)
 		{
@@ -445,7 +368,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 					updateParams.deltaTime = gameTimer.GetCounter();//get last frame time	
 					
 #ifdef _DEBUG
-					if (updateParams.deltaTime > 500) {updateParams.deltaTime = 1/60;}
+					if (updateParams.deltaTime > 500) {updateParams.deltaTime = 1/60;}//Allow debugging with constant frametimes
 #endif // DEBUG
 
 				}

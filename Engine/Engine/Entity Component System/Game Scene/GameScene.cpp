@@ -11,15 +11,13 @@
 //Constructs the scene and allocates lists for all the dynamic memory needed
 GameScene::GameScene()
 {	
-	//scene = new ListPointer(1);
-	//addBuffer = new ListPointer(1);
-	//removeBuffer = new ListPointer(1);
+	
 }
 
 //Clears any dynamic memory allocated
 GameScene::~GameScene()
 {
-	//Temporarily using explicit destroy calls for now to avoid weird heap issues
+
 }
 
 //Creates and returns a pointer to a new gameobject that is, or will be, in this scene
@@ -51,13 +49,10 @@ void GameScene::RemoveGameObject(SmartPointer<GameObject> gameObject)
 {
 	if (!inUpdate)
 	{
-		//scene->remove(gameObject);	
 		sceneVector.erase(std::remove(sceneVector.begin(), sceneVector.end(), gameObject), sceneVector.end());
 	}
 	else//if this scene is currently updating the object is added to the buffer for later
 	{
-		//removeBuffer->add(gameObject);
-
 		removeBufferVector.push_back(gameObject);
 		
 		dirtyBuffer = true;//mark the buffers dirty
@@ -70,22 +65,16 @@ void GameScene::clearBuffers()
 	Engine::ScopeLock Lock(addBufferMutex);
 	for (int i = 0; i < addBufferVector.size(); i++)
 	{
-		//scene->add(addBuffer->getAt(i));
-
-		sceneVector.push_back(addBufferVector[i]);
-		
+		sceneVector.push_back(addBufferVector[i]);		
 	}
-	//addBuffer->clearNonDestructive();//clear the objects from the list bur keep the memory for more objects later
+	
 	addBufferVector.clear();
 
 	for (int i = 0; i < removeBufferVector.size(); i++)
-	{
-		//scene->remove(removeBuffer->getAt(i));
-
-		sceneVector.erase(std::remove(sceneVector.begin(), sceneVector.end(), removeBufferVector[i]), sceneVector.end());
-	
+	{		
+		sceneVector.erase(std::remove(sceneVector.begin(), sceneVector.end(), removeBufferVector[i]), sceneVector.end());	
 	}
-	//removeBuffer->clearNonDestructive();//clear the objects from the list bur keep the memory for more objects later
+	
 	removeBufferVector.clear();
 	dirtyBuffer = false;//mark the buffers clean
 }
@@ -100,8 +89,7 @@ void GameScene::update(UpdateParams* params)
 
 	inUpdate = true;//lock the gameobject list
 	for (int i = 0; i < sceneVector.size(); i++)//update all enabled Gameobjects in the scene
-	{
-//		GameObject* obj =((GameObject*)(scene->getAt(i)));
+	{		
 		SmartPointer<GameObject> obj = sceneVector[i];
 
 		if (obj->enabled)
@@ -167,7 +155,7 @@ void GameScene::Release()
 
 SmartPointer<GameObject> GameScene::getGameObjectByName(std::string name)
 {
-	SmartPointer<GameObject> obj;
+	SmartPointer<GameObject> obj;	
 	for (int i = 0; i < sceneVector.size(); i++)
 	{		
 		 obj = sceneVector[i];

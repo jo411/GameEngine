@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include "Rendering/RenderingComponent/SpriteRenderer.h"
 #include "Physics/RigidBody2d/RigidBody2d.h"
+#include "Physics/AABB/AABB.h"
 
 
 
@@ -41,17 +42,41 @@ void JsonHandler::PopulateGameObjectFromJson(SmartPointer<GameObject> obj, const
 		float drag = j2["drag"];
 		float mass = j2["mass"];
 		float minGroundingSpeed = j2["minGroundingSpeed"];
+		bool canCollide = j2["canCollide"];
+		int physicsType = j2["physicsType"];
 
 		RigidBody2d* rb = new RigidBody2d();
 		rb->drag = drag;
 		rb->mass = mass;
 		rb->minGroundingSpeed = minGroundingSpeed;
+		rb->physicsType = physicsType;
+		rb->canCollide = canCollide;
 
 		dependencies.emplace("RigidBody2d", rb);
 
 		obj->addComponent(rb);		
 	}
 	
+	if (j.contains("AABB"))
+	{
+		json j2 = j["AABB"];
+
+		float EX = j2["EX"];
+		float EY = j2["EY"];
+
+		float CX = j2["CX"];
+		float CY = j2["CY"];
+
+
+		AABB* aabb = new AABB(CX, CY, EX, EY);
+
+		dependencies.emplace("AABB", aabb);
+
+		obj->addComponent(aabb);
+
+	}
+
+
 	callback(obj, j,dependencies);
 	
 }

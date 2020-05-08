@@ -77,12 +77,20 @@ void GameManager::onAddToObject()
 
 void GameManager::Serialize(json & j)
 {
+	j["GameManager"] = { {"timeToReset",m_timeToReset},{"screenWidth",m_screenWidth} };
 }
 
 void GameManager::onStart()
 {
-	DEBUG_PRINT("Initializing Game Manager");
+	DEBUG_PRINT("Initializing Game Manager\n");
 	ball = gameObject->scene->getGameObjectByName("Ball");
+	if (ball == nullptr)
+	{
+		DEBUG_PRINT("Initialization failed no ball found in scene\n");
+		return;
+	}
+
+
 	splash = gameObject->scene->CreateGameObject();
 
 	p1Help = gameObject->scene->CreateGameObject();

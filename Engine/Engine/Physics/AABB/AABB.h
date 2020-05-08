@@ -15,7 +15,8 @@ public:
 	void draw(UpdateParams* params);
 	void onAddToObject();
 
-	
+	void Serialize(json & j);
+
 	static const std::string tag;
 	virtual const std::string& getTag() { return tag; }
 

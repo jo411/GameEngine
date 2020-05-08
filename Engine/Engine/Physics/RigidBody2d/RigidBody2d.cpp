@@ -106,7 +106,7 @@ void RigidBody2d::clearForces()
 
 void RigidBody2d::Serialize(json & j)
 {
-	j["RigidBody2d"] = { {"mass",mass},{"drag", drag},{"minGroundingSpeed",minGroundingSpeed } };
+	j["RigidBody2d"] = { {"mass",mass},{"drag", drag},{"minGroundingSpeed",minGroundingSpeed },{"physicsType",physicsType},{"canCollide",canCollide} };
 }
 
 void RigidBody2d::onCollision(CollisionData& hit)

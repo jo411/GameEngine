@@ -14,12 +14,6 @@ void GameObject::addComponent(Component * newComponent)
 	componentMap.insert(std::pair<std::string, SmartPointer<Component>>(sptr->getTag(), sptr));
 }
 
-////Remove the given object from the list
-//void GameObject::RemoveComponent(GameObject * go)
-//{
-//	//components.erase(go);
-//	//components->remove(go);
-//}
 
 //Updates all enabled components on this gameobject 
 void GameObject::update(UpdateParams* params)

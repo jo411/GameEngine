@@ -11,6 +11,7 @@ public:
 	void draw(UpdateParams* params);
 	void onAddToObject();		
 	void Serialize(json & j);	
+
 	bool m_initialized = false;
 	bool m_matchIsRunning = false;
 	void onStart();

@@ -68,5 +68,5 @@ void PlayerController::onAddToObject()
 
 void PlayerController::Serialize(json & j)
 {
-	j["PlayerController"] = { {"timeToApplyForce",timeToApplyForce},{"forceMagnitude",forceMagnitude} };
+	j["PlayerController"] = { {"timeToApplyForce",timeToApplyForce},{"forceMagnitude",forceMagnitude},{"downKey",m_downKey},{"upKey",m_upKey} };
 }
