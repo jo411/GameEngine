@@ -75,21 +75,25 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>./Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Exports\D3D11\x86;$(SolutionDir)Exports\D3D11\x86;$(SolutionDir)Exports\GLib;$(LibraryPath)</LibraryPath>
+    <IntDir>$(Configuration)\Pong\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>./Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Exports\D3D11\x64;$(SolutionDir)Exports\D3D11\x64;$(SolutionDir)Exports\GLib;$(LibraryPath)</LibraryPath>
+    <IntDir>$(Configuration)\Pong\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>./Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Exports\D3D11\x86;$(SolutionDir)Exports\GLib;$(LibraryPath)</LibraryPath>
+    <IntDir>$(Configuration)\Pong\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>./Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Exports\D3D11\x64;$(SolutionDir)Exports\GLib;$(LibraryPath)</LibraryPath>
+    <IntDir>$(Configuration)\Pong\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

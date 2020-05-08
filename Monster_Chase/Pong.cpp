@@ -1,3 +1,5 @@
+//Josh Nelson
+//u0936149
 #pragma region Windows
 #include <iostream>
 #include "conio.h"
@@ -52,8 +54,7 @@ using json = nlohmann::json;
 using namespace std::placeholders;
 
 
-//Josh Nelson
-//u0936149
+
 
 void nonEngineJsonCallBack(SmartPointer<GameObject> obj, json j, std::map<std::string, Component*>& dependencies)
 {
@@ -333,8 +334,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 
 		if (bSuccess)
 		{
-			// IMPORTANT (if we want keypress info from GLib): Set a callback for notification of key presses
-			//(updateParams.getInput())			
+			// IMPORTANT (if we want keypress info from GLib): Set a callback for notification of key presses					
 			GLib::SetKeyStateChangeCallback(InputManager::KeyCallback);
 			
 			bool bQuit = false;
