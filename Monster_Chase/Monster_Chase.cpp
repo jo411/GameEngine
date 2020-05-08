@@ -249,6 +249,7 @@ void loadPongScene(GameScene& Scene)
 	barrierTop->addComponent(wallTopBB);
 	barrierBottom->addComponent(wallBotBB);
 
+	
 }
 
 void loadCollisionScene(GameScene& Scene)
