@@ -25,8 +25,7 @@ void SpriteRenderer::update(UpdateParams * params)
 void SpriteRenderer::draw(UpdateParams * params)
 {	
 	GLib::Point2D	Offset = { gameObject->position.getX(), gameObject->position.getY() };
-	GLib::Sprites::RenderSprite(*sprite, Offset, gameObject->rotation*(float)(M_PI/180));
-	
+	GLib::Sprites::RenderSprite(*sprite, Offset, gameObject->rotation*(float)(M_PI/180));	
 }
 
 void SpriteRenderer::onAddToObject()

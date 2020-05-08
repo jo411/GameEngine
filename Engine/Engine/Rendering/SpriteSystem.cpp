@@ -5,9 +5,12 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <Windows.h>
+#include"Synchronization/ScopeLock.h"
 
+Engine::Mutex SpriteSystem::spriteSystemMutex;
 GLib::Sprites::Sprite * SpriteSystem::CreateSprite(const char * i_pFilename)
 {
+	Engine::ScopeLock Lock(spriteSystemMutex);
 	assert(i_pFilename);
 
 	size_t sizeTextureFile = 0;
@@ -56,6 +59,7 @@ GLib::Sprites::Sprite * SpriteSystem::CreateSprite(const char * i_pFilename)
 
 void * SpriteSystem::LoadFile(const char * i_pFilename, size_t & o_sizeFile)
 {
+	Engine::ScopeLock Lock(spriteSystemMutex);
 	assert(i_pFilename != NULL);
 
 	FILE * pFile = NULL;
