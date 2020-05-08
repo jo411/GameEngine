@@ -23,6 +23,7 @@
 #include "RigidBody2d.h"
 #include "Physics/AABB.h"
 #include "BallController.h"
+#include "GameManager.h"
 #pragma endregion
 
 #pragma region JSON
@@ -147,6 +148,10 @@ void loadPongScene(GameScene& Scene)
 
 	SmartPointer<GameObject> barrierTop = Scene.CreateGameObject();
 	SmartPointer<GameObject> barrierBottom = Scene.CreateGameObject();
+	
+	SmartPointer<GameObject> gameManager = Scene.CreateGameObject();
+
+	gameManager->addComponent(new GameManager(2000,400));
 
 	player1->name->fromCharArray("Player1");
 	player1->addComponent(new SpriteRenderer("data\\bumperL.dds"));
@@ -243,8 +248,7 @@ void loadPongScene(GameScene& Scene)
 	ball->addComponent(ballBB);
 	barrierTop->addComponent(wallTopBB);
 	barrierBottom->addComponent(wallBotBB);
-	
-	bc->launch();
+
 }
 
 void loadCollisionScene(GameScene& Scene)

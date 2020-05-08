@@ -3,7 +3,7 @@
 const std::string BallController::tag = "ballcontroller";
 BallController::BallController()
 {
-	speed = Vector2(.07f, .001f);
+	speed = Vector2(.05f, .001f);
 }
 
 BallController::~BallController()
@@ -28,7 +28,7 @@ void BallController::Serialize(json & j)
 
 void BallController::reset()
 {
-	rb->clearForces();
+	rb->freeze();
 	gameObject->position = Vector2(0, 0);
 }
 

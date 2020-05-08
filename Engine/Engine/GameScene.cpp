@@ -172,10 +172,12 @@ SmartPointer<GameObject> GameScene::getGameObjectByName(std::string name)
 	for (int i = 0; i < sceneVector.size(); i++)
 	{		
 		 obj = sceneVector[i];
-		 if (obj->name->getCharArray == name)
+		 std::string tmp(obj->name->getCharArray());
+		 if (tmp.compare(name)==0)
 		 {
 			 return obj;
 		 }		
 	}
-	return obj;
+	SmartPointer<GameObject> nll;
+	return nll;
 }
