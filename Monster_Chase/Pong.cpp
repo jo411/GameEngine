@@ -329,15 +329,13 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		HighResolutionTimer gameTimer;
 
 		//loadAndSavePongScene(Scene);
-
-		loadPongSceneFromFile(Scene);
+		loadPongSceneFromFile(Scene);//load the scene file
 
 		if (bSuccess)
 		{
 			// IMPORTANT (if we want keypress info from GLib): Set a callback for notification of key presses
 			//(updateParams.getInput())			
 			GLib::SetKeyStateChangeCallback(InputManager::KeyCallback);
-
 			
 			bool bQuit = false;
 
