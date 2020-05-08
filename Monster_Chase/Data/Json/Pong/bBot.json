@@ -1,0 +1,1 @@
+{"AABB":{"CX":0.0,"CY":16.0,"EX":400.0,"EY":16.0},"Name":"BottomWall","Position":{"x":0.0,"y":-300.0},"RigidBody2d":{"canCollide":false,"drag":1.0,"mass":1.0,"minGroundingSpeed":10.0,"physicsType":0},"SpriteRenderer":{"FileName":"data\\barrier.dds"}}

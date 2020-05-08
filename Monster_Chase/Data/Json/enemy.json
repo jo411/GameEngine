@@ -1,1 +1,0 @@
-{"Name":"Enemy","Position":{"x":-19.0,"y":2.0},"RandomPosition":{"xRange":50,"yRange":50},"SpriteRenderer":{"FileName":"data\\flygon.dds"},"Walker":{"speed":1}}

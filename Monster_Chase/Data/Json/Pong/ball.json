@@ -1,0 +1,1 @@
+{"AABB":{"CX":0.0,"CY":32.0,"EX":32.0,"EY":32.0},"BallController":{"speedX":0.05000000074505806,"speedY":0.0010000000474974513},"Name":"Ball","Position":{"x":0.0,"y":0.0},"RigidBody2d":{"canCollide":true,"drag":0.20000000298023224,"mass":1.0,"minGroundingSpeed":0.009999999776482582,"physicsType":1},"SpriteRenderer":{"FileName":"data\\ball.dds"}}
