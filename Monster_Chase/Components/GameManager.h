@@ -14,7 +14,7 @@ public:
 
 	bool m_initialized = false;
 	bool m_matchIsRunning = false;
-	void onStart();
+	bool onStart();
 	void updateScore();
 	void stopMatch();
 	void startMatch();

@@ -17,9 +17,12 @@ void GameManager::update(UpdateParams * params)
 {
 	if (!m_initialized)
 	{
-		onStart();
-		m_initialized = true;
-		stopMatch();
+		if (onStart())
+		{
+			m_initialized = true;
+			stopMatch();
+		}
+	
 	}
 
 	if (m_matchIsRunning)
@@ -80,14 +83,14 @@ void GameManager::Serialize(json & j)
 	j["GameManager"] = { {"timeToReset",m_timeToReset},{"screenWidth",m_screenWidth} };
 }
 
-void GameManager::onStart()
+bool GameManager::onStart()
 {
 	DEBUG_PRINT("Initializing Game Manager\n");
 	ball = gameObject->scene->getGameObjectByName("Ball");
 	if (ball == nullptr)
 	{
 		DEBUG_PRINT("Initialization failed no ball found in scene\n");
-		return;
+		return false;
 	}
 
 
@@ -160,8 +163,7 @@ void GameManager::onStart()
 		}
 	}
 	
-	
-
+	return true;
 }
 
 void GameManager::updateScore()
@@ -190,6 +192,7 @@ void GameManager::updateScore()
 
 void GameManager::stopMatch()
 {
+
 	m_isResetting = false;
 	m_matchIsRunning = false;
 	splash->enabled = true;	
