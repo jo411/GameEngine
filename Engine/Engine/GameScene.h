@@ -6,6 +6,7 @@
 #include "WeakPointer.h"
 #include "Synchronization/Mutex.h"
 #include "Synchronization/ScopeLock.h"
+#include <string>
 
 //The game scene is where all the gameobjects live. It manages creation, removal, updating, and drawing of objects. It is the access point to the game.
 class GameScene
@@ -13,12 +14,8 @@ class GameScene
 	std::vector<SmartPointer<GameObject>> sceneVector;
 	std::vector<SmartPointer<GameObject>> addBufferVector;
 	std::vector<SmartPointer<GameObject>> removeBufferVector;
-	Engine::Mutex addBufferMutex;
+	Engine::Mutex addBufferMutex;	
 	
-	//ListPointer* scene;//A list to all the gameobjects in this scene
-	//ListPointer* addBuffer;//A list of gameobjects added during an update
-	//ListPointer* removeBuffer;//A list of gameobjects removed during an update
-
 	bool inUpdate=false;//Is this scene currently updating
 	void clearBuffers();//Add all objects in the addBuffer and removes all in removeBuffer after an update finishes
 	bool dirtyBuffer = false;//Have the buffers been modified during an update	
@@ -32,5 +29,6 @@ public:
 	void draw(UpdateParams* params);//Draws all the enabled gameobjects in this scene
 	void checkCollision(UpdateParams* params);//check for object collision
 	void Release();//Forces all game objects to destruct. This makes the scene unusable so only use on cleanup. 
+	SmartPointer<GameObject> getGameObjectByName(std::string name);
 };
 

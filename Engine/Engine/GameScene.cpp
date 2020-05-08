@@ -165,3 +165,17 @@ void GameScene::Release()
 	removeBufferVector.clear();
 
 }
+
+SmartPointer<GameObject> GameScene::getGameObjectByName(std::string name)
+{
+	SmartPointer<GameObject> obj;
+	for (int i = 0; i < sceneVector.size(); i++)
+	{		
+		 obj = sceneVector[i];
+		 if (obj->name->getCharArray == name)
+		 {
+			 return obj;
+		 }		
+	}
+	return obj;
+}
