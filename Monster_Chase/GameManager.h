@@ -12,11 +12,11 @@ public:
 	void onAddToObject();		
 	void Serialize(json & j);	
 	bool m_initialized = false;
-	bool m_roundIsRunning = false;
+	bool m_matchIsRunning = false;
 	void onStart();
 	void updateScore();
-	void stopRound();
-	void startRound();
+	void stopMatch();
+	void startMatch();
 	static const std::string tag;
 	virtual const std::string& getTag() { return tag; }	
 
@@ -30,6 +30,9 @@ public:
 private:
 	SmartPointer<GameObject> ball;
 	SmartPointer<GameObject> splash;
+	SmartPointer<GameObject> p1Help;
+	SmartPointer<GameObject> p2Help;
+
 	BallController* bc;
 	float m_resetTimer = 0;
 	bool m_isResetting = false;

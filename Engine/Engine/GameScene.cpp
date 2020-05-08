@@ -51,8 +51,7 @@ void GameScene::RemoveGameObject(SmartPointer<GameObject> gameObject)
 {
 	if (!inUpdate)
 	{
-		//scene->remove(gameObject);
-	
+		//scene->remove(gameObject);	
 		sceneVector.erase(std::remove(sceneVector.begin(), sceneVector.end(), gameObject), sceneVector.end());
 	}
 	else//if this scene is currently updating the object is added to the buffer for later

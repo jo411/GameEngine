@@ -19,16 +19,15 @@ void GameManager::update(UpdateParams * params)
 	{
 		onStart();
 		m_initialized = true;
-		stopRound();
+		stopMatch();
 	}
 
-	if (m_roundIsRunning)
+	if (m_matchIsRunning)
 	{
 		if (m_isResetting)
 		{
-			m_resetTimer += (float)params->deltaTime;
-			float timeLeft = m_timeToReset - m_resetTimer;
-			DEBUG_PRINT("Resetting ball in: %f\n", timeLeft);
+			m_resetTimer += (float)params->deltaTime;			
+			
 			if (m_resetTimer >= m_timeToReset)
 			{
 				m_resetTimer = 0;
@@ -42,12 +41,16 @@ void GameManager::update(UpdateParams * params)
 			m_p2Score += 1;
 			bc->reset();
 			m_isResetting = true;
+			DEBUG_PRINT("Point p2\n");
+			DEBUG_PRINT("Resetting round p2\n");
 		}
 		else if (ball->position.x > m_screenWidth)
 		{
 			m_p1Score += 1;
 			bc->reset();
 			m_isResetting = true;
+			DEBUG_PRINT("Point p1\n");
+			DEBUG_PRINT("Resetting round p2\n");
 		}
 
 		updateScore();
@@ -58,7 +61,7 @@ void GameManager::update(UpdateParams * params)
 
 		if (keyDown == InputManager::G)
 		{
-			startRound();
+			startMatch();
 		}
 	}	
 
@@ -81,7 +84,18 @@ void GameManager::onStart()
 	DEBUG_PRINT("Initializing Game Manager");
 	ball = gameObject->scene->getGameObjectByName("Ball");
 	splash = gameObject->scene->CreateGameObject();
+
+	p1Help = gameObject->scene->CreateGameObject();
+	p2Help = gameObject->scene->CreateGameObject();
+
+
+
 	splash->addComponent(new SpriteRenderer("data\\splash.dds"));
+	p1Help->addComponent(new SpriteRenderer("data\\p1help.dds"));
+	p2Help->addComponent(new SpriteRenderer("data\\p2help.dds"));
+
+	p1Help->position = Vector2(-200, -300);
+	p2Help->position = Vector2(200, -300);
 
 	bc = dynamic_cast<BallController*>(ball->getComponent(BallController::tag).getRawPointer());	
 	Vector2 p1Pos(-300, 200);
@@ -152,12 +166,12 @@ void GameManager::updateScore()
 	if (m_p1Score >= 4)
 	{
 		p1[4]->enabled = true;
-		stopRound();
+		stopMatch();
 	}
 	else if (m_p2Score >= 4)
 	{
 		p2[4]->enabled = true;
-		stopRound();
+		stopMatch();
 	}
 	else
 	{
@@ -166,18 +180,24 @@ void GameManager::updateScore()
 	}
 }
 
-void GameManager::stopRound()
+void GameManager::stopMatch()
 {
 	m_isResetting = false;
-	m_roundIsRunning = false;
+	m_matchIsRunning = false;
 	splash->enabled = true;	
+	p1Help->enabled = true;
+	p2Help->enabled = true;
+	DEBUG_PRINT("Ending Match\n");
 }
 
-void GameManager::startRound()
+void GameManager::startMatch()
 {
 	m_isResetting = true;
-	m_roundIsRunning = true;
+	m_matchIsRunning = true;
 	splash->enabled = false;
 	m_p1Score = 0;
 	m_p2Score = 0;
+	p1Help->enabled = false;
+	p2Help->enabled = false;
+	DEBUG_PRINT("Starting Match\n");
 }
