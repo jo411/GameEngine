@@ -1,3 +1,6 @@
+This repository holds the solution for a Game Engine I developed and a game made with it as part of a class in my Masters Degree.
+Below is a readme from the project that may give some brief context. 
+
 Josh Nelson Semester 2 Final Readme
 
 
